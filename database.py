@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 from utils.logger import logger
 
 
-# Global variables
 _client: Optional[MongoClient] = None
 _database: Optional[Database] = None
 
@@ -21,7 +20,6 @@ def connect_to_mongo() -> None:
 
     global _client, _database
 
-    # 1️⃣ Load environment variables
     load_dotenv()
 
     mongo_uri = os.getenv("MONGO_URI")
@@ -36,15 +34,9 @@ def connect_to_mongo() -> None:
         raise RuntimeError("DATABASE_NAME is not configured.")
 
     try:
-        # 2️⃣ Create MongoClient
         _client = MongoClient(mongo_uri)
-
-        # 3️⃣ Connect to database
         _database = _client[database_name]
-
-        # 4️⃣ Test connection with ping
         _client.admin.command("ping")
-
         logger.info("Successfully connected to MongoDB Atlas.")
 
     except Exception as e:
