@@ -29,7 +29,7 @@ def test_insert():
     repo = SkeletonRepository()
 
     test_document = {
-        "hash": "test_hash_123",
+        "hash": "test_hash_1234",
         "layouts": ["layoutA", "layoutB"],
         "file_path": "/fake/path/skeleton.pptx",
     }
