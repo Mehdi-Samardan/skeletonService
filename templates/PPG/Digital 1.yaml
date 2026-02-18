@@ -1,0 +1,64 @@
+Visuals:
+  - shape_index: 4
+    function: BarsCustomDistribution
+    arguments:
+      column: "Buying paint products online"
+      serie_based: True
+      num_format: "%"
+  - shape_index: 6
+    function: BarsCustomMultipleChoice
+    arguments:
+      identifier: "Prevents buying online multiple choice: "
+      serie_based: False
+      groups:
+        Other: Other
+        I am not confident about online stock availability: Stock uncertainty
+        It is easier for me to place an order directly with a sales rep: Ease of direct ordering
+        Higher prices than in store: Prices
+        It is harder to find the brand(s)/products I want online: Product findability
+        I have to wait some time for delivery or pick-up: Delivery time
+        The store is nearby: Store proximity
+        I prefer to order by phone: Prefer phone ordering
+        I have to pay for shipping: Shipping costs
+        I prefer personal contact in store (advice on choosing): Personal contact
+        I prefer to see and feel the products: Sensory shopping
+
+
+Texts:
+  buyonline:
+    English: << buyingonline >>
+  preventsbuyonline:
+    English: << preventsbuyonline >>
+  compname:
+    English: << company >>
+
+Metrics:
+  buyingonline:
+    function: get_count_of_column
+    arguments:
+      cc: calc
+      column: "Buying paint products online"
+  preventsbuyonline:
+    function: get_count_of_column
+    arguments:
+      cc: calc
+      column: "Prevents buying online multiple choice: .*"
+
+Formatting:
+  0: Page number (PPG)
+  1: Upper title (PPG)
+  2: Title (PPG)
+
+Requirements:
+  - Columns with data:
+      Results:
+        Buying paint products online: 1
+  - Columns with data:
+      Results:
+        "Prevents buying online multiple choice: .*": 1
+
+Contents:
+  - type: Delivery rate
+    over_time: false
+  - type: Multiple choice
+    over_time: false

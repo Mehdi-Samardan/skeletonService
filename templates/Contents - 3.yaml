@@ -1,0 +1,19 @@
+Texts:
+  titleone:
+    English: Reason, goal & methodology
+    Dutch: Aanleiding, doel & methodologie
+  titletwo:
+    English: Factbased insights
+    Dutch: Feitelijke inzichten
+  titlethree:
+    English: Concrete recommendations
+    Dutch: Concrete aanbevelingen
+  titlefour:
+    English: Implementation
+    Dutch: Implementatie 
+  titlefive:
+    English: Appendix
+    Dutch: Bijlagen
+
+Formatting:
+  0: Page number  

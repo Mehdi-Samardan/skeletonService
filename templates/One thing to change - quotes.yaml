@@ -1,0 +1,16 @@
+Texts:
+  title:
+    English: Quotes that provide insights.
+    Dutch: Quotes die extra inzicht geven.
+
+Formatting:
+  0: Upper title
+  1: Title
+  2: Main text (no coloring)
+  3: Page number
+
+
+Requirements:
+  - Columns with data:
+      Results:
+        One thing to change: 1

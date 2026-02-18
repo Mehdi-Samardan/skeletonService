@@ -1,0 +1,48 @@
+Visuals:
+  - shape_index: 1
+    function: ColumnClusteredDevelopmentMetricPerBusinessUnit
+    arguments:
+      level: children
+      metric: response_rates
+  - shape_index: 4
+    function: ColumnClusteredDevelopmentMetricPerBusinessUnit
+    arguments:
+      level: children
+      metric: nps
+  
+
+Requirements:
+  - Children
+  - Batch
+
+Texts:
+  uppertitle:
+    English: Development NPS & response rate business units
+    Dutch: Ontwikkeling NPS score & responspercentage business units
+  title:
+    English: << lvlname >> has an NPS score of << npsthisyear >>. The response rate is << responseratethisyear >>.
+    Dutch: << lvlname >> heeft een NPS score van << npsthisyear >>. Het responspercentage is << responseratethisyear >>.
+  titlevisualone:
+    English: Development NPS per BU
+    Dutch: Ontwikkeling NPS score
+  titlevisualtwo:
+    English: Development response rate
+    Dutch: Ontwikkeling responspercentage
+
+Metrics:
+  lvlname: calc.level.name
+  npsthisyear: calc.results.nps[-1].value
+  responseratethisyear: calc.results.response_rates[-1].value
+
+Formatting:
+  0: Page number
+  2: Upper title
+  3: Title
+
+
+Afterthought:
+  - shape_index: 3
+    function: CreateActionTitle
+    use_slides:
+      - NPS & response - development - lower level
+

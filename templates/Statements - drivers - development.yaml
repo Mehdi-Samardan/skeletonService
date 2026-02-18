@@ -1,0 +1,33 @@
+Visuals:
+  - shape_index: 4
+    function: ColumnClusteredDevelopmentDrivers
+
+Requirements:
+  - Analysis
+  - Waves
+  - Statements
+
+Formatting:
+  0: Page number
+  1: Upper title
+  2: Title
+  3: Main text
+
+Texts:
+  uppertitle:
+    English: Statements - Development 5 key drivers
+    Dutch: Statements – Ontwikkeling 5 belangrijkste drijfveren
+  titlevisualone:
+    English: Development key drivers
+    Dutch: Ontwikkeling belangrijkste drijfveren
+
+
+Afterthought:
+  - shape_index: 2
+    function: CreateActionTitle
+    use_slides:
+      - Statements - drivers - development
+
+Contents:
+  - type: Statement scores (Drivers)
+    over_time: true

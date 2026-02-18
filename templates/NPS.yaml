@@ -1,0 +1,76 @@
+Metrics:
+  responsn: calc.results.responses[-1].value
+  npsthisyear: calc.results.nps[-1].value
+  creaselogicnps:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.nps
+  creaselogicdet:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.detractors.share
+  creaselogicpas:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.passives.share
+  creaselogicpro:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.promoters.share
+  creaselogicresponses:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.responses
+  creaselogicresponserate:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.response_rates
+
+
+Visuals:
+  - shape_index: 3
+    function: HorizontalBarsNpsDistribution
+
+Formatting:
+  0: Main text
+  1: Upper title
+  2: Title
+  4: Page number
+
+Texts:
+  uppertitle:
+      English: NPS
+      Dutch: NPS
+  title:
+    English: The NPS score <<creaselogicnps>>.
+    Dutch: De NPS score <<creaselogicnps>>.
+  sentenceone:
+    English: <<company>> has an NPS score of <<npsthisyear>>. 
+    Dutch: <<company>> heeft een NPS score van <<npsthisyear>>. 
+  sentencetwo:
+    English: The percentage of promoters <<creaselogicpro>>. The percentage of passives <<creaselogicpas>>. The percentage detractors <<creaselogicdet>>.
+    Dutch: Het percentage promoters <<creaselogicpro>>. Het percentage passives <<creaselogicpas>>. Het percentage detractors <<creaselogicdet>>.
+  sentencethree:
+    Requirements:
+      - Batch
+    English: The response rate <<creaselogicresponserate>>.
+    Dutch: De response rate <<creaselogicresponserate>>.
+  sentencefour:
+    English: The number of responses <<creaselogicresponses>>.
+    Dutch: Het aantal respondenten <<creaselogicresponses>>.
+
+Notes: Report
+
+Contents:
+  - type: Detractors (not cohort)
+    over_time: false
+  - type: NPS (not cohort)
+    over_time: false
+  - type: Passives (not cohort)
+    over_time: false
+  - type: Promoters (not cohort)
+    over_time: false
+  - type: Response rate
+    over_time: false
+  - type: Number of responses
+    over_time: false

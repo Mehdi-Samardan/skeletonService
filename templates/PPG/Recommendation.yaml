@@ -1,0 +1,11 @@
+Visuals:
+  - shape_index: 2
+    function: TextReplaceRecommendations
+
+Formatting:
+  0: Page number (PPG)
+  1: Title (PPG)
+  3: Upper title (PPG)
+
+
+Contents: []

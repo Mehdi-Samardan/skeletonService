@@ -1,0 +1,72 @@
+Visuals:
+  - shape_index: 6
+    function: BarsCustomMultipleChoice
+    arguments:
+      identifier: "Most valuable environmental actions: "
+      serie_based: False
+      groups:
+        Other: Other
+        Waste paint/packaging recycling services: Recycling services
+        Offering energy-saving products (temperature regulation): Energy-saving products
+        Providing clear environmental impact data (EPDs): EPDs
+        Increasing eco-labeling/certifications: Eco-certification
+        Extending paint durability/lifespan: Paint lifespan
+        Using renewable/recycled materials to lower carbon footprint: Renewable materials
+        Reducing harmful chemicals in paints: Reduce chemicals
+        Recycled packaging: Recycled packaging
+
+  - shape_index: 3
+    function: BarsCustomDistribution
+    arguments:
+      column: "Importance environmentally friendly"
+      serie_based: True
+      num_format: "%"
+      groups:
+        0: "Strongly disagree"
+        20: "Disagree"
+        40: "Disagree to some extent"
+        60: "Agree to some extent"
+        80: "Agree"
+        100: "Strongly agree"
+
+
+Formatting:
+  0: Page number (PPG)
+  1: Upper title (PPG)
+  2: Title (PPG)
+
+Texts:
+  nimportantformybusiness:
+    English: << nimportantformybusiness >>
+  nwouldpaymore:
+    English: << nwouldpaymore >>
+  action:
+    English: << naction >>
+
+Metrics:
+  naction:
+    function: get_count_of_column
+    arguments:
+      cc: calc
+      column: "Most valuable environmental actions: .*"
+  nimportantformybusiness:
+    function: get_count_of_column
+    arguments:
+      cc: calc
+      column: "Importance environmentally friendly"
+  nwouldpaymore:
+    function: get_count_of_column
+    arguments:
+      cc: calc
+      column: "Pay more for environmentally friendly products"
+
+Requirements:
+  - Columns with data:
+      Results:
+        Importance environmentally friendly: 1
+        "Most valuable environmental actions: .*": 1
+
+
+Contents:
+  - type: Multiple choice
+    over_time: false

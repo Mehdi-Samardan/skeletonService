@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ application_name }}</title>
+    <link rel="stylesheet" href="/{{ application_name }}/static/styles.css">
+    <script type="text/javascript" src="/{{ application_name }}/static/scripts.js" defer></script>
+    <link rel="icon" type="icon" href="/{{ application_name }}/static/img/favicon-white.svg" sizes="32x32" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="icon" href="/{{ application_name }}/static/img/favicon-color.svg" sizes="32x32" media="(prefers-color-scheme: light)">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>
+</head>
+<body>
+    <div class="content">
+        <div class="new-task">
+            <h2>Create new report</h2>
+            <div class="block">
+                <form id="taskForm" method="post" enctype="multipart/form-data" action="/{{ application_name }}/api/task/create">
+                    <label for="task_name">Task Name:</label><br>
+                    <input type="text" id="task_name" name="task_name" placeholder="Enter a task name" required>
+                    <br>
+
+                    <label for="client">Client:</label><br>
+                    <select id="client" name="client" required>
+                        <option value="" disabled selected>Select a client</option>
+                        {% for client in clients %}
+                            <option value="{{ client }}">{{ client }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+
+                    <label for="full_name">Full Name:</label><br>
+                    <input type="text" id="full_name" name="full_name" placeholder="Enter full name" required>
+                    <br>
+
+                    <label for="reporting_periods">Reporting Periods:</label><br>
+                    <select id="reporting_periods" name="reporting_periods" required>
+                        <option value="" disabled selected>Select reporting periods</option>
+                        <option value="Waves">Waves</option>
+                        <option value="Month">Months</option>
+                        <!-- Add other WaveTypeHint options here -->
+                    </select>
+                    <br>
+
+                    <label for="tool">Tool:</label><br>
+                    <select id="tool" name="tool" required>
+                        <option value="" disabled selected>Select a tool</option>
+                        <option value="playground">Playground</option>
+                        <option value="dr">DR</option>
+                        <option value="surveys">Surveys</option>
+                        <option value="broadview">Broadview</option>
+                        <option value="ppg">PPG</option>
+                    </select>
+                    <br>
+
+                    <label for="language">Language:</label><br>
+                    <select id="language" name="language" required>
+                        <option value="" disabled selected>Select a language</option>
+                        <option value="English">English</option>
+                        <option value="Dutch">Dutch</option>
+                    </select>
+                    <br>
+
+                    <label for="max_level_to_determine_drivers">Max Level to Determine Drivers:</label><br>
+                    <input type="number" id="max_level_to_determine_drivers" name="max_level_to_determine_drivers" min="0" value="0" required>
+                    <br>
+
+                    <label for="report_on">Report On:</label><br>
+                    <select id="report_on" name="report_on" required>
+                        <option value="" disabled selected>Select report type</option>
+                        <option value="Report level -selection-">Selection of report levels</option>
+                        <option value="Report level">Report level</option>
+                        <option value="Representative">Representative</option>
+                        <option value="Custom key">Custom key</option>
+                    </select>
+                    <br>
+                    
+                    <div id="customKeyContainer" class="custom-key" style="display: none;">
+                        <label for="custom_key_on_which_to_determine_the_levels">Custom key column:</label><br>
+                        <input type="text" id="custom_key_on_which_to_determine_the_levels" name="custom_key_on_which_to_determine_the_levels" placeholder="Enter the column name used as custom key">
+                        <br>
+                    </div>
+
+                    <label for="template">Template:</label><br>
+                    <select id="template" name="template" required>
+                        <option value="" disabled selected>Select a template</option>
+                        {% for template in templates %}
+                            <option value="{{ template }}">{{ template }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+
+                    <label>Files to Output:</label><br>
+                    <input type="checkbox" id="output_xlsx" name="output_xlsx" value="true">
+                    <label for="output_xlsx">Excel (xlsx)</label>
+                    <input type="checkbox" id="output_pptx" name="output_pptx" value="true">
+                    <label for="output_pptx">PowerPoint (pptx)</label>
+                    <input type="checkbox" id="output_pdf" name="output_pdf" value="true">
+                    <label for="output_pdf">PDF (pdf)</label><br>
+
+                    <br>
+                    <div class="file-input-container">
+                        <label for="results_file" class="file-input-button">Choose Results File</label>
+                        <input type="file" id="results_file" name="results_file" accept=".xlsx" required>
+                        <div class="file-path-display" id="results_file_path">No file chosen</div>
+                    </div>
+
+                    <div class="file-input-container">
+                        <label for="batch_file" class="file-input-button">Choose Batch File</label>
+                        <input type="file" id="batch_file" name="batch_file" accept=".xlsx" required>
+                        <div class="file-path-display" id="batch_file_path">No file chosen</div>
+                    </div>
+
+                    <div class="file-input-container">
+                        <label for="analysis_file" class="file-input-button">Choose Analysis File</label>
+                        <input type="file" id="analysis_file" name="analysis_file" accept=".xlsx" required>
+                        <div class="file-path-display" id="analysis_file_path">No file chosen</div>
+                    </div>
+
+                    <div class="file-input-container">
+                        <label for="analysis2_file" class="file-input-button">Choose Analysis2 File</label>
+                        <input type="file" id="analysis2_file" name="analysis2_file" accept=".xlsx" required>
+                        <div class="file-path-display" id="analysis2_file_path">No file chosen</div>
+                    </div>
+
+                    <div class="file-input-container">
+                        <label for="text_file" class="file-input-button">Choose Text File</label>
+                        <input type="file" id="text_file" name="text_file" accept=".xlsx" required>
+                        <div class="file-path-display" id="text_file_path">No file chosen</div>
+                    </div>
+
+                    <div class="file-input-container">
+                        <label for="tool_activity_file" class="file-input-button">Choose Tool Activity File</label>
+                        <input type="file" id="tool_activity_file" name="tool_activity_file" accept=".xlsx" required>
+                        <div class="file-path-display" id="tool_activity_file_path">No file chosen</div>
+                    </div>
+
+                    <input type="hidden" id="selected_report_levels" name="selected_report_levels">
+
+                    <div style="display: flex; margin-top: 1em;">
+                        <button type="button" id="uploadButton">Submit</button>
+                        <button type="button" onclick="window.open('https://docs.google.com/spreadsheets/d/1U7kf6A2ZE9-_aaFE_yTVzMYYvBODhcuWuz661WjduR4/edit', '_blank')" style="margin-left: 0.5em;">Go to database</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="tasks">
+            <h2>All reports</h2>
+            <div id="inner-tasks">
+            {% for task in all_tasks %}
+                <div id="{{ task._id }}" class="task block">
+                    <div class="header">
+                        <div class="status-tooltip" title="{{ task.status|capitalize }}">
+                            <svg class="status" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="20px" height="20px" data-status="{{ task.status }}">
+                            {% if task.status == "completed" %}
+                                <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path fill="rgba(0, 204, 102, 1)" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+                            {% elif task.status == "processing" %}
+                                <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path fill="#FFD700" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"/>
+                            {% elif task.status == "pending" %}
+                                <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path fill="#808080" d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+                            {% elif task.status == "error" %}
+                                <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path fill="rgba(255, 87, 51, 1)" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
+                            {% endif %}
+                            </svg>
+                        </div>
+                        <h3>{{ task.task_name }} </h3>
+                        <div onclick="renameTask('{{ task._id }}')" title="Rename">
+                            <svg class="rename" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="14px" height="14px" fill="rgba(57, 54, 76, 1)">
+                                <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="time">{{ task._id.generation_time.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    <div class="actions">
+                            <div class="download" onclick="downloadFile('{{ task._id }}')" {% if task.status in ("pending", "processing") %} style="display: none;" {% endif %} title="Download">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24px" height="24px" fill="rgba(57, 54, 76, 1)">
+                                    <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                    <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+                                </svg>
+                            </div>
+                            <br>
+                            <div class="delete" onclick="deleteTask('{{ task._id }}')" title="Delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24px" height="24px" fill="rgba(255, 87, 51, 1)">
+                                    <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                    <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+                                </svg>
+                            </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div id="reportLevelsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Select Report Levels</h2>
+            <div id="reportLevelsTree" class="tree-container"></div>
+            <button id="confirmReportLevels">Confirm Selection</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+Texts:
+  uppertitle:
+    English: Weighted NPS score
+    Dutch: Gewogen NPS score
+  title:
+    English: The weighted NPS score << creaselogicnps >>.
+    Dutch: De gewogen NPS score << creaselogicnps >>.
+  sentenceone:
+    English: << company >> has a weighted NPS score of << npsthisyear >>.
+    Dutch: << company >> heeft een gewogen NPS score van << npsthisyear >>.
+  sentencetwo:
+    English: The percentage of promoters << creaselogicpro >>. The percentage of passives << creaselogicpas >>. The percentage detractors << creaselogicdet >>.
+    Dutch: Het percentage promoters << creaselogicpro >>. Het percentage passives << creaselogicpas >>. Het percentage detractors << creaselogicdet >>.
+  sentencethree:
+    English: The NPS of all respondents <<creaselogicregularnps>>.
+    Dutch: De NPS van alle respondenten <<creaselogicregularnps>>.
+
+Metrics:
+  lvlname: calc.level.name
+  npsthisyear: calc.results.revenue.nps[-1].value
+  responded_revenue: format_revenue(calc.results.revenue.responses[-1].value)
+  share_revenue_responded: calc.results.revenue.share[-1].value
+  creaselogicnps:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.revenue.nps
+  creaselogicregularnps:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.nps
+  creaselogicdet:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.revenue.detractors.share
+  creaselogicpas:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.revenue.passives.share
+  creaselogicpro:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.revenue.promoters.share
+
+
+Visuals:
+  - shape_index: 4
+    function: HorizontalBarsNpsDistributionComparison
+    arguments:
+      name: Weighted NPS
+      use: results.revenue
+
+Requirements:
+  - Revenue
+  - Results
+
+Formatting:
+  0: Main text
+  1: Page number
+  2: Upper title
+  3: Title
+
+

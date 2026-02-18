@@ -1,0 +1,91 @@
+Texts:
+  uppertitle:
+    English:  NPS - Cohort
+    Dutch: NPS - Cohort
+  sentenceone:
+    English: The same <<cohortsresponses>> respondents participated in both this year and last year.
+    Dutch: Dezelfde <<cohortsresponses>> respondenten hebben dit en vorig jaar deelgenomen.
+  sentencetwo:
+    English: The cohort NPS <<creaselogicnps>>.
+    Dutch: De cohort NPS <<creaselogicnps>>.
+  sentencethree:
+    English: The percentage promoters <<creaselogicpro>>. The percentage passives <<creaselogicpas>>. The percentage detractors <<creaselogicdet>>.
+    Dutch: Het percentage promoters <<creaselogicpro>>. Het percentage passives <<creaselogicpas>>. Het percentage detractors <<creaselogicdet>>.
+  sentencefour:
+    English: The NPS of all respondents <<creaselogicregularnps>>.
+    Dutch: De NPS van alle respondenten <<creaselogicregularnps>>.
+  titlevisualtwo:
+    English: Development NPS
+    Dutch: Ontwikkeling NPS
+  titlevisualone:
+    English: Development cohort NPS
+    Dutch: Ontwikkeling cohort NPS
+
+Metrics:
+  cohortsresponses: calc.cohort.results.responses[-1].value
+  npsthisyear: calc.cohort.results.nps[-1].value
+  creaselogicnps:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.cohort.results.nps
+  creaselogicregularnps:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.nps
+  creaselogicdet:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.cohort.results.detractors.share
+  creaselogicpas:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.cohort.results.passives.share
+  creaselogicpro:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.cohort.results.promoters.share
+  lvlname: calc.level.name
+
+
+Visuals:
+  - shape_index: 1
+    function: DualAxisNpsInclDistribution
+    arguments:
+      use: cohort.results
+  - shape_index: 0
+    function: DualAxisNpsInclDistribution
+    arguments:
+      limit: cohort.results
+
+
+Requirements:
+  - Waves
+  - Cohort
+  - Results
+
+Formatting:
+  2: Page number
+  3: Upper title
+  4: Title
+  5: Main text
+
+
+Afterthought:
+  - shape_index: 4
+    function: CreateActionTitle
+    use_slides:
+      - NPS - cohort - development
+
+Contents:
+  - type: Detractors (cohort)
+    over_time: true
+  - type: NPS (cohort)
+    over_time: true
+  - type: Passives (cohort)
+    over_time: true
+  - type: Promoters (cohort)
+    over_time: true
+  - type: NPS (not cohort)
+    over_time: true
+  - type: Number of responses
+    over_time: true

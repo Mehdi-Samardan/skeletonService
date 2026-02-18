@@ -1,0 +1,24 @@
+Texts:
+  sentenceone:
+    English: << ottc >> respondents gave a suggestion to change one thing.
+    Dutch: << ottc >> respondenten gaven een suggestie om één ding te veranderen.
+
+Metrics:
+  ottc: calc.dataframes[-1]["One thing to change"].count()
+
+
+Formatting:
+  0: Upper title
+  1: Title
+  2: Main text (no coloring)
+  3: Page number
+
+
+Requirements:
+  - Columns with data:
+      Results:
+        One thing to change: 1
+
+Contents:
+  - type: Text question
+    over_time: false

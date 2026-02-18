@@ -1,0 +1,57 @@
+Texts:
+  uppertitle:
+    English: Statements - 5 key drivers
+    Dutch: Statements – 5 belangrijkste drijfveren
+  title:
+    English: All statements combined explain <<explanatoryvalue>> of the willingness to recommend <<company>>.
+    Dutch: Alle statements verklaren samen <<explanatoryvalue>> van de bereidheid om <<company>> aan te bevelen.
+  sentenceone:
+    English: The key drivers have been identified using Generalized Structural Equation Modelling.
+    Dutch: De belangrijkste drijfveren zijn vastgesteld met Generalized Structural Equation Modelling.
+  sentencetwo:
+    English: All statements combined explain <<explanatoryvalue>> of the willingness to recommend <<company>> to others. 40% or higher is considered to be good.
+    Dutch: Alle statements verklaren voor <<explanatoryvalue>> de bereidheid om <<company>> aan te bevelen. Een verklaarde waarde van 40% of hoger wordt beschouwd als goed.
+  sentencethree:
+    English: The impact scores show how much the NPS increases when the score on the statement increases by one point (ceteris paribus).
+    Dutch: De impact score laat zien hoeveel de NPS stijgt wanneer de score op het statement met één punt stijgt (ceteris paribus).
+  topbox:
+    English: The percentage in the graph indicates how many percent of the respondents fully agree with the statement.
+    Dutch: Het percentage in de grafiek geeft aan hoeveel procent van de respondenten het volledig eens is met het statement.
+
+
+Metrics:
+  explanatoryvalue: calc.explanatory_value
+
+
+Visuals:
+  - shape_index: 4
+    function: HorizontalBars100StatementDistribution
+    arguments:
+      impact: True
+
+
+Formatting:
+  0: Main text
+  1: Page number
+  2: Upper title
+  3: Title
+
+
+Requirements:
+  - Analysis
+  - Statements
+
+
+Afterthought:
+  - shape_index: 3
+    function: CreateActionTitle
+    use_slides:
+      - Statements - drivers
+    arguments:
+      specific_instructions:
+        - Please create an one sentence title that tells the management something about on of the top drivers and how much potential there is to improve its score (the combination between a high impact score and a low statement score).
+        - Do not mention impact scores directly
+
+Contents:
+  - type: Statement scores (Drivers)
+    over_time: false

@@ -1,0 +1,34 @@
+Visuals:
+  - shape_index: 3
+    function: TableStatementsScoresMultipleWaves
+    arguments:
+      drivers: True
+      adjust_shape_height: True
+      difference: True
+      width: 2
+      color_header:
+        - 57
+        - 54
+        - 76
+
+Formatting:
+  0: Page number (PPG)
+  1: Upper title (PPG)
+  2: Title (PPG)
+
+Requirements:
+  - Waves
+
+
+Notes:
+  Custom:
+    top: 19.57
+    left: 4.59
+    width: 16.11
+    height: 0.77
+
+Contents:
+  - type: Statement scores (Drivers)
+    over_time: true
+  - type: Statement scores
+    over_time: true

@@ -1,0 +1,29 @@
+Texts:
+  uppertitle:
+    English: Appendix
+    Dutch: Bijlagen
+  title:
+    English: Overview number of contacts.
+    Dutch: Overzicht aantal contacten.
+
+Visuals:
+  - shape_index: 3
+    function: TableOverviewMetric
+    arguments:
+
+      metric: contacts
+
+Formatting:
+  0: Page number
+  1: Upper title
+  2: Title
+
+Repeats:
+  Spots: 15
+
+Requirements:
+  - Batch
+
+# Contents:
+#   - type: Contacts
+#     over_time: false

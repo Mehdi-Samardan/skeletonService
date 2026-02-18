@@ -1,0 +1,75 @@
+Texts:
+  uppertitle:
+    English: Development weighted NPS
+    Dutch: Ontwikkeling gewogen NPS
+  sentenceone:
+    English: The weighted NPS <<creaselogicnps>>.
+    Dutch: De gewogen NPS <<creaselogicnps>>.
+  sentencetwo:
+    English: The percentage promoters <<creaselogicpro>>. The percentage passives <<creaselogicpas>>. The percentage detractors <<creaselogicdet>>.
+    Dutch: Het percentage promoters <<creaselogicpro>>. Het percentage passives <<creaselogicpas>>. Het percentage detractors <<creaselogicdet>>.
+  sentencethree:
+    English: The NPS of all respondents <<creaselogicregularnps>>.
+    Dutch: De NPS van alle respondenten <<creaselogicregularnps>>.
+  titlevisualtwo:
+    English: Development NPS
+    Dutch: Ontwikkeling NPS
+  titlevisualone:
+    English: Development weighted NPS
+    Dutch: Ontwikkeling gewogen NPS
+
+Metrics:
+  lvlname: calc.level.name
+  npsthisyear: calc.results.revenue.nps[-1].value
+  creaselogicnps:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.revenue.nps
+  creaselogicregularnps:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.nps
+  creaselogicdet:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.revenue.detractors.share
+  creaselogicpas:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.revenue.passives.share
+  creaselogicpro:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.revenue.promoters.share
+
+Visuals:
+  - shape_index: 1
+    function: DualAxisNpsInclDistribution
+    arguments:
+      use: results.revenue
+      limit: results.revenue
+  - shape_index: 0
+    function: DualAxisNpsInclDistribution
+    arguments:
+      limit: results.revenue
+
+Requirements:
+  - Waves
+  - Revenue
+  - Results
+
+Formatting:
+  2: Page number
+  3: Upper title
+  4: Title
+  5: Main text
+
+Back-up: NPS - weighted
+
+Afterthought:
+  - shape_index: 4
+    function: CreateActionTitle
+    use_slides:
+      - NPS - weighted - development
+
+

@@ -1,0 +1,35 @@
+
+Texts:
+  uppertitle:
+    English: Summary
+    Dutch: Samenvatting
+  title:
+    English: Report Summary
+    Dutch: Rapport Samenvatting
+  sentenceone:
+      "*": < Say something about the trends >
+
+Formatting:
+  0: Main text (PPG)
+  1: Page number (PPG)
+  2: Upper title (PPG)
+  3: Title (PPG)
+
+Afterthought:
+  - shape_index: 0
+    function: CreateReportSummary
+    use_slides:
+      - PPG/Process results
+      - PPG/NPS - development
+      - PPG/NPS motivation
+      - PPG/Statements distribution
+      - PPG/Statements drivers
+      - PPG/Statements multiple waves
+      - PPG/One thing to change
+      - PPG/Competitors
+      - PPG/Sustainability 1 CS
+      - PPG/Sustainability 2
+      - PPG/Product categories
+      - PPG/Digital 1
+      - PPG/Digital 2
+      - PPG/Digital support

@@ -1,0 +1,44 @@
+Texts:
+  uppertitle:
+    English: Trends
+    Dutch: Trends
+  title:
+    "*": < Say something about the trends >
+  sentenceone:
+    English: << numberofrespondents >> respondents shared their view on which trends are most important for << company >>. These are the most mentioned
+    Dutch: << numberofrespondents >> respondenten deelden hun mening over welke trends het belangrijkst zijn voor << company >>. De volgende zijn het vaakst genoemd
+
+Metrics:
+  numberofrespondents: calc.dataframes[-1]["Trends"].count()
+
+Visuals:
+  - shape_index: 0
+    function: TextGptAnalysis
+    arguments:
+      analysis_type: trends
+      metric: Trends
+      placeholder: enumerationtrends
+
+Formatting:
+  0: Main text
+  1: Page number
+  2: Upper title
+  3: Title
+
+
+Requirements:
+  - Results
+  - Columns with data:
+      Results:
+        Trends: 1
+
+
+Afterthought:
+  - shape_index: 3
+    function: CreateActionTitle
+    use_slides:
+      - Trends
+
+Contents:
+  - type: Text question
+    over_time: false

@@ -1,0 +1,32 @@
+Visuals:
+  - shape_index: 1
+    function: TextReplaceImplementationSheet
+
+Requirements:
+  - Analysis
+  - Statements
+
+Formatting:
+  0: Page number
+  2: Upper title
+  3: Title
+
+Texts:
+  uppertitle:
+    "*": OGSM
+  title:
+    English: Implementation
+    Dutch: Implementatie
+  subtitleone:
+    English: Key drivers
+    Dutch: Belangrijkste drijfveren
+  subtitlethree:
+    English: Goal (numbers)
+    Dutch: Doel (nummers)
+  subtitlefour:
+    English: Your improvement strategies
+    Dutch: Jouw verbeteracties
+
+Contents:
+  - type: Statement scores (Drivers)
+    over_time: false

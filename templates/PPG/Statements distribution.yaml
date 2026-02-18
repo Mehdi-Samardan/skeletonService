@@ -1,0 +1,41 @@
+Metrics:
+  maxscore: calc.results.max_statement[-1].scores[-1].value
+  minscore: calc.results.min_statement[-1].scores[-1].value
+
+
+Texts:
+  compname:
+    English: << company >>
+  maxscore:
+    English: << maxscore >>
+  minscore:
+    English: << minscore >>
+  footnotedrivers: 
+    English: "*Bold statements are the key drivers"
+
+
+Visuals:
+  - shape_index: 0
+    function: HorizontalBars100StatementDistribution
+    arguments:
+      impact: False
+      
+
+Formatting:
+  1: Page number (PPG)
+  2: Upper title (PPG)
+  3: Title (PPG)
+
+
+Notes:
+  Custom:
+    top: 19.57
+    left: 4.59
+    width: 16.11
+    height: 0.77
+
+Contents:
+  - type: Statement scores (Drivers)
+    over_time: false
+  - type: Statement scores
+    over_time: false

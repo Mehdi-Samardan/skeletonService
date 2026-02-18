@@ -1,0 +1,41 @@
+Texts:
+  title:
+    Dutch: De scores op de stellingen variëren tussen << minscore >> en << maxscore >>.
+    English: The statements' scores vary between << minscore >> and << maxscore >>.
+  uppertitle:
+    Dutch: Statement scores
+    English: Statement scores
+  underlineddriverfootnote:
+    Requirements:
+      - Analysis
+    Dutch: Dikgedrukte stellingen zijn de belangrijkste drijfveren
+    English: Bold statements are the key drivers
+
+Metrics:
+  maxscore: calc.results.max_statement[-1].scores[-1].value
+  minscore: calc.results.min_statement[-1].scores[-1].value
+
+Visuals:
+  - shape_index: 13
+    function: HorizontalBars100StatementDistribution
+    arguments:
+      impact: False
+
+Formatting:
+  0: Page number
+  1: Upper title
+  2: Title
+
+Requirements:
+  - Results
+  - Statements
+
+Afterthought:
+  - shape_index: 2
+    function: CreateActionTitle
+    use_slides:
+      - Statements - distribution
+
+Contents:
+  - type: Statement scores
+    over_time: false

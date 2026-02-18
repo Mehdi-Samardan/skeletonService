@@ -1,0 +1,30 @@
+Metrics:
+  numberofrespondents: calc.dataframes[-1].filter(regex='Competitor').count()[0]
+  competitors: get_counts_competitors(calc.dataframes[-1], 10)
+
+Texts:
+  uppertitle:
+    English: Best competitor
+    Dutch: Beste concurrent
+  sentenceone:
+    English: <<numberofrespondents>> respondents shared who they see as the best competitor of <<company>>. Below are the most mentioned competitors with the main motivation why they have been chosen
+    Dutch: <<numberofrespondents>> respondenten deelden wie zij zien als de beste concurrent van <<company>>. Hieronder staan de meest genoemde concurrenten met de belangrijkste motivatie waarom ze zijn gekozen
+  competitorenumeration:
+    "*": <<competitors>>
+
+Formatting:
+    0: Upper title
+    1: Title
+    2: Main text
+    3: Page number
+
+Requirements:
+  - Results
+  - Columns with data:
+      Results:
+        Competitor: 1
+        Competitor clean: 1
+
+Contents:
+  - type: Text question
+    over_time: false

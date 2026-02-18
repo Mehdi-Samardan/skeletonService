@@ -1,0 +1,42 @@
+Formatting:
+  1: Page number (PPG)
+  2: Upper title (PPG)
+  3: Title (PPG)
+  4: Legend
+
+Metrics:
+  numberofmotivations: calc.dataframes[-1]["Recommendation (Motivation)"].count()
+  promotersnumberofmotivations: calc.dataframes[-1][calc.dataframes[-1]["Recommendation"] >= 90]["Recommendation (Motivation)"].count()
+  passivesnumberofmotivations: calc.dataframes[-1][(calc.dataframes[-1]["Recommendation"] >= 70) & (calc.dataframes[-1]["Recommendation"] < 90)]["Recommendation (Motivation)"].count()
+  detractorsnumberofmotivations: calc.dataframes[-1][calc.dataframes[-1]["Recommendation"] < 70]["Recommendation (Motivation)"].count()
+
+
+Visuals:
+  - function: TopicInsertion
+    shape_index: 0
+    arguments:
+      column: "Recommendation (Motivation)"
+
+Texts:
+  compname:
+    English: << company >>
+  promotersnumberofmotivations:
+    English: << promotersnumberofmotivations >>
+  passivesnumberofmotivations:
+    English: << passivesnumberofmotivations >>
+  detractorsnumberofmotivations:
+    English: << detractorsnumberofmotivations >>
+  numerofmotivations:
+    English: << numberofmotivations >>
+
+Contents:
+  - type: Detractors (not cohort)
+    over_time: false
+  - type: NPS (not cohort)
+    over_time: false
+  - type: Passives (not cohort)
+    over_time: false
+  - type: Promoters (not cohort)
+    over_time: false
+  - type: Text question
+    over_time: false

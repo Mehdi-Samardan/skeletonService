@@ -1,0 +1,44 @@
+Metrics:
+  verklwa: calc.explanatory_value
+  used_level: calc.level_used_name
+
+
+Texts:
+  sentenceone:
+    English: The key drivers are identified on the << used_level >> level.
+  verklwa: 
+    English: << verklwa >>
+  compname:
+    English: << company >>
+  
+
+Visuals:
+  - shape_index: 5
+    function: HorizontalBars100StatementDistribution
+    arguments:
+      impact: True
+
+
+Formatting:
+  0: Main text (PPG)
+  1: Page number (PPG)
+  2: Upper title (PPG)
+  3: Title (PPG)
+
+
+Requirements:
+  - Analysis
+
+
+Notes:
+  Custom:
+    top: 19.57
+    left: 4.59
+    width: 16.11
+    height: 0.77
+
+Contents:
+  - type: Statement scores (Drivers)
+    over_time: false
+  - type: Statement scores
+    over_time: false

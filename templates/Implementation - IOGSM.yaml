@@ -1,0 +1,23 @@
+Formatting:
+  1: Page number
+  2: Upper title
+  3: Title
+
+Texts:
+  uppertitle:
+    "*": OGSM
+  title:
+    English: Implementation
+    Dutch: Implementatie
+  subtitleone:
+    English: Insight
+    Dutch: Inzicht
+  subtitletwo:
+    English: Goal (words)
+    Dutch: Doel (woorden)
+  subtitlethree:
+    English: Goal (numbers)
+    Dutch: Doel (nummers)
+  subtitlefour:
+    English: Improvement strategies
+    Dutch: Verbeteracties

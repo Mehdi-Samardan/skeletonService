@@ -1,0 +1,57 @@
+Texts:
+  titleofthepager:
+    "English": CUSTOMER SATISFACTION TRACKING << title >>
+    "Dutch": KLANTTEVREDENHEIDSONDERZOEK << title >>
+  REV:
+    "*": << revenue >>
+  npstitle:
+    English: Weighted Net Promoter Score
+    Dutch: Gewogen Net Promoter Score
+  recommendation:
+    English: Recommendations
+    Dutch: Aanbevelingen
+  charttitle:
+    English: Revenue responded
+    Dutch: Omzet gereageerd
+  footnotevisittool:
+    English: To see all results and individual responses, visit << url >>
+    Dutch: Voor alle resultaten bezoek << url >>
+
+Metrics:
+  revenue:
+    function: donut_text_formatter
+    arguments:
+      a: calc.results.revenue.responses[-1]
+      b: calc.results.revenue.total[-1]
+      c: calc.results.revenue.share[-1]
+      only_percentage: True
+
+Visuals:
+  - shape_index: 8
+    function: TextReplaceRecommendations
+  - shape_index: 2
+    function: DonutCustomDistribution
+    arguments:
+      names:
+        Revenue: "calc.results.revenue.share[-1]"
+      data_labels: False
+  - shape_index: 3
+    function: nps_groups_weighted_on_revenue
+
+Back-up: "One pager - back"
+
+Requirements:
+  - Batch
+  - Revenue
+  - Statements
+  - Results
+  - Analysis
+Contents:
+  - type: NPS (not cohort)
+    over_time: false
+  - type: Promoters (not cohort)
+    over_time: false
+  - type: Number of responses
+    over_time: false
+  - type: Statement scores
+    over_time: false

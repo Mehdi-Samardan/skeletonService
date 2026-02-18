@@ -1,0 +1,19 @@
+Texts:
+  title:
+    English: We provide concrete, action-driven strategies on a one pager per market, along with interactive dashboards to drill deeper into the data.
+    Dutch: We bieden concrete, actiegerichte strategieën op one pagers per markt, samen met interactieve dashboards waarmee u dieper in de gegevens kunt duiken.
+  sentenceone:
+    English: We summarize the survey findings on a one pager per market. The one pager shows the NPS score by market, the statement scores and the indicated actions to improve.
+    Dutch: We vatten de onderzoeksresultaten samen op een one pager per markt. De one pager toont de NPS score per markt, de statement scores en de aangegeven acties ter verbetering.
+  sentencetwo:
+    English: Our interactive Power BI Dashboards give you all the details down to the unique respondents, while also allowing you to create your own cross sections.
+    Dutch: Onze interactieve Power BI Dashboards geven u alle details tot de unieke respondenten, terwijl u ook uw eigen doorsnedes kunt maken.
+  uppertitle:
+    English: Appendix
+    Dutch: Bijlagen
+
+Formatting:
+  0: Page number
+  1: Title
+  2: Main text
+  7: Upper title

@@ -1,0 +1,14 @@
+Formatting:
+  1: Page number (PPG)
+  2: Upper title (PPG)
+  3: Title (PPG)
+  4: Legend
+
+
+Texts:
+    compname:
+      English: << company >>
+
+Contents:
+  - type: Text question
+    over_time: false

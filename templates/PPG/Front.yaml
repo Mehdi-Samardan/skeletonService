@@ -1,0 +1,13 @@
+Texts:
+  titleofthepager:
+    English: << title >>
+  reportname:
+    English: << company >>
+  urltothetool:
+    English: << url >>
+  wavename:
+    English: << wave >>
+  waveperiod:
+    English: << wave_period >>
+
+Contents: []

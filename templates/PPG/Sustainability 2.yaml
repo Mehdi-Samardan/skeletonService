@@ -1,0 +1,68 @@
+Visuals:
+  - shape_index: 6
+    function: BarsCustomMultipleChoice
+    arguments:
+      identifier: "Importance environmental actions: "
+      serie_based: False
+      groups:
+        Other: Other
+        None of these: "$None"
+        Waste paint/packaging recycling services: Recycling services
+        Offering energy-saving products (temperature regulation): Energy-saving products
+        Providing clear environmental impact data (EPDs): EPDs
+        Increasing eco-labeling/certifications: Eco-certification
+        Extending paint durability/lifespan: Paint lifespan
+        Using renewable/recycled materials to lower carbon footprint: Renewable materials
+        Reducing harmful chemicals in paints: Reduce chemicals
+        Recycled packaging: Recycled packaging
+      # wave_index: -2
+  - shape_index: 4
+    function: BarsCustomMultipleChoice
+    arguments:
+      identifier: "Familiarity with environmental actions: "
+      serie_based: False
+      groups:
+        Other: Other
+        None of these: "$None"
+        Waste paint/packaging recycling services: Recycling services
+        Offering energy-saving products (temperature regulation): Energy-saving products
+        Providing clear environmental impact data (EPDs): EPDs
+        Increasing eco-labeling/certifications: Eco-certification
+        Extending paint durability/lifespan: Paint lifespan
+        Using renewable/recycled materials to lower carbon footprint: Renewable materials
+        Reducing harmful chemicals in paints: Reduce chemicals
+        Recycled packaging: Recycled packaging
+
+Formatting:
+  0: Page number (PPG)
+  1: Upper title (PPG)
+  2: Title (PPG)
+
+Texts:
+  familiaraction:
+    English: << nfamiliaraction >>
+  action:
+    English: << naction >>
+
+Metrics:
+  nfamiliaraction:
+    function: get_count_of_column
+    arguments:
+      cc: calc
+      column: "Familiarity with environmental actions: .*"   
+  naction:
+    function: get_count_of_column
+    arguments:
+      cc: calc
+      column: "Importance environmental actions: .*"
+      # wave_index: -2
+
+Requirements:
+  - Columns with data:
+      Results:
+        "Familiarity with environmental actions: .*": 1   
+        "Importance environmental actions: .*": 1
+
+Contents:
+  - type: Multiple choice
+    over_time: false

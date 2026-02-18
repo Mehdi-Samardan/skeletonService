@@ -1,0 +1,54 @@
+
+Texts:
+  uppertitle:
+    English: Summary
+    Dutch: Samenvatting
+  title:
+    English: Report Summary
+    Dutch: Rapport Samenvatting
+  sentenceone:
+      "*": < Say something about the trends >
+
+Formatting:
+  0: Main text
+  1: Page number
+  2: Upper title
+  3: Title
+
+Afterthought:
+  - shape_index: 0
+    function: CreateReportSummary
+    use_slides:
+      # NPS and Response Data
+      - "NPS"
+      - "NPS - weighted"
+      - "NPS - weighted - development"
+      - "NPS - cohort - development"
+      - "NPS & response - development"
+      - "NPS & response - development - lower level"
+      - "NPS & response - development - higher level"
+      - "NPS motivation"
+      - "NPS motivation - quotes"
+      
+      # Statements and Statement scores (Drivers)
+      - "Statements - drivers"
+      - "Statements - drivers - development"
+      - "Statements - distribution"
+      - "Statements - development"
+      - "Statements - table with impact"
+      
+      # Process and Engagement
+      - "Process results"
+      - "Engagement"
+      - "Engagement - activity"
+      
+      # Recommendations and Trends
+      - "Recommendations - process"
+      - "Recommendations - driver & specific"
+      - "Trends"
+      
+      # Additional Insights
+      - "Best competitor"
+      - "Product familiarity"
+      - "One thing to change"
+      - "One thing to change - quotes"

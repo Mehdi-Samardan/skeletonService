@@ -1,0 +1,42 @@
+Metrics:
+  titleofthepager:
+    function: title_formatter
+    arguments:
+      level: calc.level
+      wave: calc.waves[-1]
+
+Texts:
+  title:
+    "*": << title >>
+
+Visuals:
+  - shape_index: 2
+    function: DualAxisNpsInclDistribution
+    arguments:
+      data_labels: True
+  - shape_index: 6
+    function: TableStatementsScoresMultipleWaves
+    arguments:
+      width: 3.2
+      drivers: True
+  - shape_index: 8
+    function: GeneralVisual
+    arguments:
+      title: Response
+      serie: calc.results.responses
+  - shape_index: 11
+    function: LineNpsDevelopment
+    arguments:
+      incl_difference: False
+
+Requirements:
+  - Waves
+Contents:
+  - type: Statement scores (Drivers)
+    over_time: true
+  - type: NPS (not cohort)
+    over_time: true
+  - type: Number of responses
+    over_time: true
+  - type: Statement scores
+    over_time: true

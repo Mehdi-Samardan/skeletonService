@@ -1,0 +1,26 @@
+Texts:
+  uppertitle:
+    English: Appendix
+    Dutch: Bijlagen
+  title:
+    English: Overview statements with scores and relative importance.
+    Dutch: Overzicht statements met scores en relatieve belangrijkheid.
+  noimpact:
+    English: Statements without impact are not incorporated in the driver analysis.
+    Dutch: Statements zonder impact zijn niet meegenomen in de analyse.
+
+Visuals:
+  - shape_index: 3
+    function: TableOverviewStatements
+
+Formatting:
+  0: Page number
+  1: Upper title
+  2: Title
+
+Requirements:
+  - Analysis
+
+Contents:
+  - type: Statement scores
+    over_time: false

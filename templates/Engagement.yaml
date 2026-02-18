@@ -1,0 +1,44 @@
+Metrics:
+  closerate: calc.results.close_rates[-1]
+  closecount: calc.results.closed[-1]
+  creaselogicloop:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.close_rates
+
+Visuals:
+  - shape_index: 4
+    function: DonutCustomDistribution
+    arguments:
+      names:
+        Closed: calc.results.close_rates[-1]
+        Open: NoResult()
+      data_labels: True
+  
+
+Requirements:
+  - Activity
+
+Formatting:
+  0: Page number
+  1: Upper title
+  2: Title
+  3: Main text
+
+Texts:
+  title:
+    English: The loop is closed for <<closecount>> (<<closerate>>) respondents.
+    Dutch: De loop van <<closerate>> (<<closecount>>) van de respondenten is gesloten.
+  uppertitle: 
+    English: Engagement
+    Dutch: Betrokkenheid
+  sentenceone:
+    English: During the wave <<closecount>> respondents have their loop marked as closed in the tool. This <<creaselogicloop>>.
+    Dutch: Tijdens de wave heeft <<closecount>> respondenten hun loop gemarkeerd als gesloten in de tool. Dit <<creaselogicloop>>.
+  titlevisualone:
+    English: Close the loop
+    Dutch: Close the loop
+
+Contents:
+  - type: Close rate
+    over_time: false

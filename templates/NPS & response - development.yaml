@@ -1,0 +1,112 @@
+Texts:
+  uppertitle:
+    English: Development NPS & response
+    Dutch: Ontwikkeling NPS & respondenten
+  title:
+    English: << lvlname >> has an NPS score of <<npsthisyear>>. The response rate is <<responseratethisyear>>.
+    Dutch: <<lvlname>> heeft een NPS score van <<npsthisyear>>. De response rate is <<responseratethisyear>>.
+  sentenceone:
+    English: The NPS of <<lvlname>> <<creaselogicnps>>.
+    Dutch: <<lvlname>> heeft een NPS score van <<npsthisyear>>.
+  sentencetwo:
+    English: The percentage of promoters <<creaselogicpro>><< significantpromoters >>. The percentage of passives <<creaselogicpas>><< significantpassives >>. The percentage of detractors <<creaselogicdet>><< significantdetractors >>.
+    Dutch: Het percentage promoters <<creaselogicpro>><< significantpromoters >>. Het percentage passives <<creaselogicpas>><< significantpassives >>. Het percentage detractors <<creaselogicdet>><< significantdetractors >>.
+  sentencethree:
+    English: The response rate <<creaselogicresponserate>>.
+    Dutch: De response rate <<creaselogicresponserate>>.
+  sentencefour:
+    English: The number of responses <<creaselogicresponses>>.
+    Dutch: Het aantal respondenten <<creaselogicresponses>>.
+  titlevisualone:
+    English: Development NPS
+    Dutch: Ontwikkeling NPS
+  titlevisualtwo:
+    English: Development response rate
+    Dutch: Ontwikkeling response rate
+
+Metrics:
+  lvlname: calc.level.name
+  responsn: calc.results.responses[-1].value
+  npsthisyear: calc.results.nps[-1].value
+  responseratethisyear: calc.results.response_rates[-1].value
+  creaselogicnps:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.nps
+  creaselogicdet:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.detractors.share
+  creaselogicpas:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.passives.share
+  creaselogicpro:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.promoters.share
+  creaselogicresponses:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.responses
+  creaselogicresponserate:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.response_rates
+  significantpromoters:
+    function: nps_group_is_significant
+    arguments:
+      calculation: calc
+      group: promoters
+  significantpassives:
+    function: nps_group_is_significant
+    arguments:
+      calculation: calc
+      group: passives
+  significantdetractors:
+    function: nps_group_is_significant
+    arguments:
+      calculation: calc
+      group: detractors
+
+Visuals:
+  - shape_index: 3
+    function: DualAxisNpsInclDistribution
+  - shape_index: 4
+    function: DualAxisCountPercentage
+    arguments:
+      metric1: responses
+      metric1_name: "Responses"
+      metric2: response_rates
+      metric2_name: "Response rate"
+
+Formatting:
+  0: Page number
+  1: Upper title
+  2: Title
+  5: Main text
+
+Requirements:
+  - Waves
+  - Results
+  - Batch
+
+Back-up: NPS
+
+Afterthought:
+  - shape_index: 2
+    function: CreateActionTitle
+    use_slides:
+      - NPS & response - development
+
+Contents:
+  - type: Detractors (not cohort)
+    over_time: true
+  - type: NPS (not cohort)
+    over_time: true
+  - type: Passives (not cohort)
+    over_time: true
+  - type: Promoters (not cohort)
+    over_time: true
+  - type: Number of responses
+    over_time: true

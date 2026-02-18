@@ -1,0 +1,37 @@
+Metrics:
+  numberofinvited: calc.results.invited[-1].value
+  numberofresponses: calc.results.responses[-1].value
+
+Requirements:
+  - Batch
+
+Formatting:
+  0: Page number
+  4: Title
+
+Texts:
+  title:
+    English: Reason, goal & methodology.
+    Dutch: Aanleiding, doel & methodologie.
+  subtitleone:
+    Dutch: Onderzoeksperiode
+    English: Research period
+  maintextone: 
+    English: The research was conducted in <<wave_period>>. At that time, <<numberofinvited>> online surveys were sent. A reminder was sent after a week and a second reminder a week later. In the end, <<numberofresponses>> respondents completed the survey.
+    Dutch: Het onderzoek is uitgevoerd in <<wave_period>>. Op dat moment zijn er <<numberofinvited>> online enquêtes verstuurd. Een week later volgde een herinnering en een week later een tweede herinnering. Uiteindelijk hebben <<numberofresponses>> respondenten de enquête ingevuld.
+  subtitletwo:
+    English: Methodology
+    Dutch: Methodologie
+  maintexttwo:
+    English: The quantitative research was conducted via an online survey with an NPS® question, a motivation, statements on a six point scale, and a one-thing-to-change question. We also ask some additional questions for specific insights. By applying advanced statistical analyses, the most important drivers behind customers’ satisfaction levels are determined.
+    Dutch: Het kwantitatieve onderzoek is uitgevoerd door middel van een online enquête met een NPS vraag, een motivatie, statements op een zespuntsschaal en een één ding om te veranderen vraag. Daarnaast stellen we enkele aanvullende vragen voor specifieke inzichten. Door geavanceerde statistische analyses toe te passen, worden de belangrijkste drijfveren achter de klanttevredenheid bepaald.
+  maintextthree:
+    English: The questionnaire was developed based on interviews, expert knowledge and scientific research.
+    Dutch: De vragenlijst is ontwikkeld op basis van interviews, expertkennis en wetenschappelijk onderzoek.
+
+
+Contents:
+  - type: Number invited
+    over_time: false
+  - type: Number of responses
+    over_time: false

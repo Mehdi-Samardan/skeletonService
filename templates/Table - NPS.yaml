@@ -1,0 +1,31 @@
+Texts:
+  uppertitle:
+    English: Appendix
+    Dutch: Bijlagen
+  title:
+    English: Overview NPS scores.
+    Dutch: Overzicht NPS scores.
+
+
+Visuals:
+  - shape_index: 3
+    function: TableOverviewMetric
+    arguments:
+
+      metric: nps
+
+Formatting:
+  0: Page number
+  1: Upper title
+  2: Title
+
+Repeats:
+  Spots: 15
+
+
+Requirements:
+  - Results
+
+Contents:
+  - type: NPS (not cohort)
+    over_time: true

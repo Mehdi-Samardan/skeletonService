@@ -1,0 +1,70 @@
+Visuals:
+  - shape_index: 4
+      function: TextGptAnalysis
+      arguments:
+        analysis_type: summarize
+        metric: Recommendation (Motivation)
+        name:
+          Dutch: "motivatie aanbeveling"
+        placeholder: motivation
+  - shape_index: 18
+      function: TextGptAnalysis
+      arguments:
+        analysis_type: actionable_aspects
+        metric: If you could change one thing at Het Nationale Park De Hoge Veluwe, what would it be?
+        name:
+          Dutch: "one thing to change"
+        placeholder: ottc
+  - shape_index: 10
+        function: BarsCustomDistribution
+        arguments:
+          column: "Gender"
+          serie_based: False
+          groups:
+            Male: Man
+            Female: Vrouw
+            Other: Anders
+          num_format: "%"
+  - shape_index: 11
+        function: BarsCustomDistribution
+        arguments:
+          column: "Type of visitor"
+          serie_based: False
+          groups:
+            Annual ticket holder: Jaarkaarthouder
+            Day visitor: Dagbezoeker
+            Other: Anders
+          num_format: "%"
+  - shape_index: 12
+        function: BarsCustomDistribution
+        arguments:
+          column: "What is your age?"
+          serie_based: False
+          order:
+            - "$up to 12 years"
+            - "$13 - 17 years"
+            - "$18 - 30 years"
+            - "$31 - 49 years"
+            - "$50 - 64 years"
+            - "$65 +"
+          num_format: "%"
+   - shape_index: 13
+        function: BarsCustomMultipleChoice
+        arguments:
+          identifier: "Company:"
+          serie_based: False
+          groups:
+            Alone: Alleen
+            With partner: Partner
+            With friends: Vrienden
+            Family with children: Familie/kids
+            Alone with children: Alleen/kids
+            With family: Familie
+            With colleagues: Collega's
+            Other: Anders
+
+Contents:
+  - type: Multiple choice
+    over_time: false
+  - type: Text question
+    over_time: false

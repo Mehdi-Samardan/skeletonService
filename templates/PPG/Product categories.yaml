@@ -1,0 +1,47 @@
+
+
+Formatting:
+  0: Page number (PPG)
+  1: Upper title (PPG)
+  2: Title (PPG)
+
+
+# PHpcatc
+
+Texts:
+  pcatc:
+    English: << pcatc >>
+Visuals:
+  - shape_index: 3
+    function: BarsCustomMultipleChoice
+    arguments:
+      identifier: "Product categories: "
+      serie_based: False
+      groups:
+        Other: Other
+        "Product categories - PPG: Painting accessories (brushes, rollers, tapes etc.)" : Painting accessories (brushes, rollers, tapes etc.)
+        Interior wall paints: Interior wall paints
+        Paints for ceiling: Paints for ceiling
+        Varnishes and varnish stains: Varnishes and varnish stains
+        Trims paints (for wood and metal): Trims paints (for wood and metal)
+        Fillers: Fillers
+        Woodcare products (for exterior wood painting): Woodcare products (for exterior wood painting)
+        "Façade: Paints": "Façade: Paints"
+        "Façade: Plasters/Renders": "Façade: Plasters/Renders"
+        "Façade: ETICS/External Wall Insulation": "Façade: ETICS/External Wall Insulation"
+        Anti-corrosive metal paints: Anti-corrosive metal paints
+        Primers: Primers
+Metrics:
+  pcatc:
+    function: get_count_of_column # get_count_of_column (for single-answer questions) orcount_of_multiple_choice_column or similar (for multiple-answer questions, where each category is a column or a value in a multi-value column)
+    arguments:
+      cc: calc
+      column: "Product categories: .*"
+
+Requirements:
+  - Columns with data:
+      Results:
+        "Product categories: .*": 1
+Contents:
+  - type: Multiple choice
+    over_time: false

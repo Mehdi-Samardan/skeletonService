@@ -1,0 +1,86 @@
+Texts:
+  uppertitle:
+    English: Process results
+    Dutch: Proces statistieken
+  sentenceone: 
+    English: The number of invited contacts << creaselogicinvited >>.
+    Dutch: Het aantal contacten dat is uitgenodigd << creaselogicinvited >>.
+  sentencetwo: 
+    English: The number of responses << creaselogicresponse >>.
+    Dutch: Het aantal respondenten << creaselogicresponse >>.
+  sentencethree: 
+    English: The delivery rate << creaselogicdeliveryrate >>. 
+    Dutch: Het afleveringspercentage << creaselogicdeliveryrate >>.
+  sentencefour:
+    English: The response rate << creaselogicresrate >>.
+    Dutch: Het responspercentage << creaselogicresrate >>.
+  titlevisualtwo:
+    "*": Delivery rate
+  titlevisualthree:
+    "*": Response rate
+
+Metrics:
+  creaselogicinvited:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.invited
+  creaselogicresponse:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.responses
+  creaselogicdeliveryrate:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.delivery_rates
+  creaselogicresrate:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.response_rates
+
+Visuals:
+  - shape_index: 3
+    function: DonutCustomDistribution
+    arguments:
+      names:
+        Delivered: calc.results.delivery_rates[-1]
+        Not Delivered: 1 - calc.results.delivery_rates[-1]
+      data_labels: True
+  - shape_index: 4
+    function: DonutCustomDistribution
+    arguments:
+      names:
+        Responded: calc.results.response_rates[-1]
+        Not Responded: 1 - calc.results.response_rates[-1]
+      data_labels: True
+
+Formatting:
+  0: Main text
+  1: Page number
+  2: Upper title
+
+Requirements:
+  - Batch
+
+Afterthought:
+  - shape_index: 5
+    function: CreateActionTitle
+    use_slides:
+      - Process results - one wave
+    specific_instructions:
+      - "Consider the following criteria when creating the action title:"
+      - "Delivery rate above 90% is considered good"
+      - "Response rate above 30% is considered good"
+      - "Response rate below 15% is considered below expectations"
+      - "Please incorporate these thresholds in your assessment of the results"
+
+Contents:
+  # - type: Contacts
+  #   over_time: false
+  - type: Delivery rate
+    over_time: false
+  - type: Number invited
+    over_time: false
+  - type: Response rate
+    over_time: false
+  - type: Number of responses
+    over_time: false

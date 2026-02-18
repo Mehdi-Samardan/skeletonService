@@ -1,0 +1,46 @@
+Texts:
+  uppertitle:
+    English: Statement scores
+    Dutch: Statement scores
+  underlineddriverfootnote:
+    Requirements:
+      - Analysis
+    Dutch: Dikgedrukte stellingen zijn de belangrijkste drijfveren
+    English: Bold statements are the key drivers
+
+Metrics:
+  maxscore: calc.results.max_statement[-1].scores[-1].value
+  minscore: calc.results.min_statement[-1].scores[-1].value
+
+Visuals:
+  - shape_index: 2
+    function: TableStatementsScoresMultipleWaves
+    arguments:
+      drivers: True
+      adjust_shape_height: True
+      difference: True
+      width: 3.5
+      color_header:
+        - 57
+        - 54
+        - 76
+
+Requirements:
+  - Waves
+  - Statements
+  - Results
+
+Formatting:
+  0: Page number
+  1: Upper title
+  4: Title
+
+Afterthought:
+  - shape_index: 4
+    function: CreateActionTitle
+    use_slides:
+      - Statements - development
+
+Contents:
+  - type: Statement scores
+    over_time: true

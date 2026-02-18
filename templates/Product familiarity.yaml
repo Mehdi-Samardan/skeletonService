@@ -1,0 +1,52 @@
+Texts:
+  uppertitle:
+    English: Product familiarity
+    Dutch: Bekendheid met productportfolio
+  sentenceone:
+    English: << numberofresponses >> respondents shared which products they are familiar with.
+    Dutch: << numberofresponses >> respondenten gaven aan met welke producten ze bekend zijn.
+  sentencetwo:
+    English: << mostmentionedservice >> is the product most respondents are familiar with, while << leastmentionedservice >> is the least known.
+    Dutch: << mostmentionedservice >> is het product waarmee de meeste respondenten bekend zijn, terwijl << leastmentionedservice >> het minst bekend is.
+  titlevisualone:
+    English: Familiarity with product portfolio
+    Dutch: Bekendheid met productportfolio
+
+Metrics:
+  numberofresponses: 'len(calc.dataframes[-1].filter(regex="Product: (?=.+)").dropna(how="all").dropna(how="all", axis=1))'
+  mostmentionedservice: 'calc.dataframes[-1].filter(regex="Product: (?=.+)").dropna(how="all").dropna(how="all", axis=1).sum().idxmax().replace("Product: ", "")'
+  leastmentionedservice: 'calc.dataframes[-1].filter(regex="Product: (?=.+)").dropna(how="all").dropna(how="all", axis=1).sum().idxmin().replace("Product: ", "")'
+
+Visuals:
+- shape_index: 3
+  function: BarsCustomMultipleChoice
+  arguments:
+    identifier: 'Product: (?=.+)'
+    serie_based: False
+    sort_on_value: True
+    num_format: "%"
+
+Formatting:
+  0: Page number
+  1: Upper title
+  2: Title
+  4: Main text
+
+Requirements:
+  - Results
+  - Columns with data:
+      Results:
+        "Product: .*": 1
+
+
+Afterthought:
+  - shape_index: 2
+    function: CreateActionTitle
+    use_slides:
+      - Product familiarity
+
+Contents:
+  - type: Multiple choice
+    over_time: false
+  - type: Number of responses
+    over_time: false

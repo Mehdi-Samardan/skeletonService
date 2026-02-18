@@ -1,0 +1,67 @@
+Visuals:
+  - shape_index: 4
+    function: TextGptAnalysis
+    arguments:
+      analysis_type: summarize
+      metric: Recommendation (Motivation)
+      name:
+        Dutch: "motivatie aanbeveling"
+      placeholder: motivation
+  - shape_index: 10
+    function: BarsCustomDistribution
+    arguments:
+      column: "Geslacht"
+      serie_based: False
+      groups:
+        Man: Man
+        Vrouw: Vrouw
+        Other: Andere
+      num_format: "%"
+  - shape_index: 11
+    function: BarsCustomDistribution
+    arguments:
+      column: "Type bezoeker"
+      serie_based: False
+      groups:
+        Annual ticket holder: Abonnee
+        Day visitor: Dagbezoeker
+      num_format: "%"
+  - shape_index: 12
+    function: BarsCustomDistribution
+    arguments:
+      column: "Leeftijdscategorie"
+      serie_based: False
+      order:
+        - "$0-17"
+        - "$18-29"
+        - "$30-39"
+        - "$40-49"
+        - "$50-64"
+        - "$65+"
+      num_format: "%"
+  - shape_index: 13
+    function: BarsCustomDistribution
+    arguments:
+      column: "Gezelschap"
+      serie_based: False
+      groups:
+        Company with children under 13 years: Kids <13
+        Company with children between 13 and 17 years: Kids 13-17
+        Partner: Partner
+        Other family members: Familie
+        Friends: Vrienden
+        Alone: Alleen
+        Business: Zakelijk
+        School students: Scholieren
+  - shape_index: 18
+    function: TextGptAnalysis
+    arguments:
+      analysis_type: actionable_aspects
+      metric: Tip
+      name:
+        Dutch: "gegeven tips"
+      placeholder: ottc
+
+Texts:
+  title:
+    "*": << title >>

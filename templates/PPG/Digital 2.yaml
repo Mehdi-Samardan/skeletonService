@@ -1,0 +1,73 @@
+Visuals:
+  - shape_index: 3
+    function: BarsCustomDistribution
+    arguments:
+      column: "Share of online paint purchases"
+      serie_based: False
+      order:
+        - 91% - 100%
+        - 81% - 90%
+        - 71% - 80%
+        - 61% - 70%
+        - 51% - 60%
+        - 41% - 50%
+        - 31% - 40%
+        - 21% - 30%
+        - 11% - 20%
+        - 0% - 10%
+      num_format: "%"
+  - shape_index: 7
+    function: BarsCustomMultipleChoice
+    arguments:
+      identifier: "Main reasons buying online multiple choice: "
+      serie_based: False
+      groups:
+        Other: Other
+        It is helpful to check the customer ratings or reviews: Review availability
+        It is easier to have paint delivered than to go to the store: Delivery convenience
+        It is easier to compare products online: Product comparison
+        It is easier to review product information online: Information access
+        It saves me time / it is faster: Time efficiency
+        Greater variety of products online / more availability: Product availability
+        Online prices are better: Better prices
+
+Formatting:
+  0: Page number (PPG)
+  1: Upper title (PPG)
+  2: Title (PPG)
+
+
+Texts:
+    shareonline:
+        English: << nshareonline >>
+    mainreason:
+        English: << nmainreason >>
+    compname:
+        English: << company >>
+
+Metrics:
+    nshareonline:
+      function: get_count_of_column
+      arguments:
+        cc: calc
+        column: "Share of online paint purchases"
+    nmainreason:
+      function: get_count_of_column
+      arguments:
+        cc: calc
+        column: "Main reasons buying online multiple choice"
+
+
+Requirements:
+  - Columns with data:
+      Results:
+        Share of online paint purchases: 1
+  - Columns with data:
+      Results:
+        Main reasons buying online multiple choice: 1
+
+Contents:
+  - type: Delivery rate
+    over_time: false
+  - type: Multiple choice
+    over_time: false

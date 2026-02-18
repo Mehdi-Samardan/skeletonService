@@ -1,0 +1,37 @@
+Formatting:
+  1: Page number
+  2: Title
+
+Texts:
+  title:
+    English: Concrete recommendations.
+    Dutch: Concrete aanbevelingen.
+  headerone:
+    English: Process related recommendations
+    Dutch: Aanbevelingen voor het proces
+  sentenceone:
+    English: Stay in touch with all customers and make it clear that participating in the NPS survey is part of doing business with <<company>>.
+    Dutch: Blijf in contact met alle klanten en maak duidelijk dat jaarlijks deelnemen aan dit onderzoek een deel van het zakendoen is met <<company>>.
+  sentencetwo:
+    English: Communicate clearly what insights have emerged from the research and share the actions that follow with all the customers.
+    Dutch: Communiceer transparant welke inzichten en acties uit dit onderzoek naar voren zijn gekomen.
+  sentencethree:
+    English: Read through all open answers. This may lead to new ideas and gives insight in the tone of voice and vocabulary of your customers.
+    Dutch: Lees alle motivaties en antwoorden op de open vragen door.
+  sentencefour:
+    English: Close the loop with all respondents and determine together which next steps can be taken to improve collaboration.
+    Dutch: Close the loop met alle respondenten en bepaal samen welke stappen gezet worden kunnen om samenwerking te verbeteren.
+  sentencefive:
+    English: Share the results of with all employees and establish clear goals for the next year on country and team level. Motivate employees by introducing team-wide incentives for high performance in terms of customer satisfaction (response rate, close rate)
+    Dutch: Deel de resultaten met alle medewerkers en stel duidelijke doelen op land- en teamniveau voor het komende jaar. Motiveer medewerkers door teambrede incentives in te voeren voor hoge prestaties op het gebied van klanttevredenheid (response rate, close rate).
+
+Notes: Report
+
+
+Contents:
+  - type: Close rate
+    over_time: false
+  - type: NPS (not cohort)
+    over_time: false
+  - type: Response rate
+    over_time: false

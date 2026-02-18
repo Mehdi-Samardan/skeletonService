@@ -1,0 +1,69 @@
+Visuals:
+  - shape_index: 4
+    function: TextGptAnalysis
+    arguments:
+      analysis_type: summarize
+      metric: Recommendation (Motivation)
+      name:
+        Dutch: "motivatie aanbeveling"
+      placeholder: motivation
+  - shape_index: 18
+    function: TextGptAnalysis
+    arguments:
+      analysis_type: actionable_aspects
+      metric: One thing to change
+      name:
+        Dutch: "one thing to change"
+      placeholder: ottc
+  - shape_index: 10
+    function: BarsCustomDistribution
+    arguments:
+      column: "Geslacht"
+      serie_based: False
+      groups:
+        Male: Man
+        Female: Vrouw
+        Other: Anders
+      num_format: "%"
+  - shape_index: 11
+    function: BarsCustomDistribution
+    arguments:
+      column: Type bezoeker
+      serie_based: False
+      groups:
+        Friend of Apenheul: Vriend
+        Annual Pass holder: Abonnementhouder
+        Day visitor: Dagbezoeker
+      num_format: "%"
+  - shape_index: 12
+    function: BarsCustomDistribution
+    arguments:
+      column: "Leeftijdscategorie"
+      serie_based: False
+      order:
+        - "$0-17"
+        - "$18-29"
+        - "$30-39"
+        - "$40-49"
+        - "$50-64"
+        - "$65+"
+      num_format: "%"
+  - shape_index: 13
+    function: BarsCustomDistribution
+    arguments:
+      column: "Gezelschap"
+      serie_based: False
+      groups:
+        With my partner: "Partner"
+        With my partner and child(ren): "Partner/kind"
+        With my partner and grandchild(ren): "Partner/kleinkind"
+        Alone: "Aleen"
+        Alone with (my) child(ren): "Alleen/kind"
+        Alone with (my) grandchild(ren): "Alleen/kleinkind"
+        With a friend / friends: "Vrienden"
+        With the whole family (parents, children, grandparents): "Familie"
+        Other: "Anders"
+
+Texts:
+  title:
+    "*": << title >>

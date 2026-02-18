@@ -1,0 +1,18 @@
+Texts:
+  uppertitle:
+    English: NPS motivation
+    Dutch: NPS motivatie
+  sentenceone:
+    English: << numberofmotivations >> respondents motivated their recommendation score. Promoters motivate their high score and passives/detractors point out aspects to improve.
+    Dutch: Er is door << numberofmotivations >> respondenten een motivatie gegeven na de NPS vraag. Promoters motiveren hun hoge score en passives/detractors geven aan wat beter kan.
+
+
+Metrics:
+  numberofmotivations: calc.dataframes[-1]['Recommendation (Motivation)'].count()
+
+
+Formatting:
+  0: Upper title
+  1: Title
+  2: Main text (no coloring)
+  3: Page number

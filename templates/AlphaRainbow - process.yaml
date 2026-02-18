@@ -1,0 +1,34 @@
+Texts:
+  title:
+    English: AlphaRainbow gathers relevant customer insights, analyzes them smartly, and provides concrete strategies to improve your business.
+    Dutch: AlphaRainbow verzamelt relevante klantinzichten, analyseert ze intelligent en biedt concrete strategieën om uw bedrijf te verbeteren.
+  sentenceone:
+    English: We capture relevant customer insights with a short, few-minute survey using easy-to-use proprietary tools and efficient process management.
+    Dutch: We verzamelen relevante klantinzichten met een korte enquête met onze gebruiksvriendelijke eigen tooling en efficiënt procesbeheer.
+  sentencetwo:
+    English: Our state-of-the-art GSEM analysis focuses on identifying the key drivers of your business, allowing you to prioritize what matters most to your customers.
+    Dutch: Onze geavanceerde GSEM-analyse richt zich op het identificeren van de belangrijkste drijfveren van uw bedrijf, zodat u kunt prioriteren wat het belangrijkst is voor uw klanten.
+  sentencethree:
+    English: We provide concrete strategies on a one pager per market, along with interactive dashboards that allow you to drill deeper into the data.
+    Dutch: We bieden concrete strategieën op one pagers per markt, samen met interactieve dashboards waarmee u dieper in de gegevens kunt duiken.
+  sentencefour:
+    English: We work together with you to track the implementation of the plans in order to ensure the best return on your investment.
+    Dutch: We werken samen met u om de implementatie van de plannen te volgen om het beste rendement op uw investering te garanderen.
+  sentencefive:
+    English: Concrete activities follow from the improvement program and give you direct returns.
+    Dutch: Concrete activiteiten volgen uit het verbeterprogramma en geven u direct rendement.
+  tryout:
+    English: Try it for yourself
+    Dutch: Probeer het zelf
+  uppertitle:
+    English: Appendix
+    Dutch: Bijlagen
+
+Formatting:
+  0: Page number
+  1: Title
+  2: Upper title
+  12: Main text (no location)
+  13: Main text (no location)
+  14: Main text (no location)
+  15: Main text (no location)

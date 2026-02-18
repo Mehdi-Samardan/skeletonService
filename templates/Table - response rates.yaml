@@ -1,0 +1,29 @@
+Texts:
+  uppertitle:
+    English: Appendix
+    Dutch: Bijlagen
+  title:
+    English: Overview response rates.
+    Dutch: Overzicht responspercentages.
+
+Visuals:
+  - shape_index: 3
+    function: TableOverviewMetric
+    arguments:
+
+      metric: response_rates
+
+Formatting:
+  0: Page number
+  1: Upper title
+  2: Title
+
+Repeats:
+  Spots: 15
+
+Requirements:
+  - Batch
+
+Contents:
+  - type: Response rate
+    over_time: true

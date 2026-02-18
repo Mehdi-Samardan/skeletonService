@@ -1,0 +1,164 @@
+Texts:
+  titleofthepager:
+    English: CUSTOMER SATISFACTION TRACKING << title >>
+    Dutch: KLANTTEVREDENHEIDSONDERZOEK << title >>
+  footnotevisittool:
+    English: To see all results and individual responses, visit << url >>
+    Dutch: Voor alle resultaten bezoek << url >>
+  VXX:
+    "*": << responses >>
+  VXY:
+    "*": << invited >>
+  VXZ:
+    "*": << contacts >>
+  VYX:
+    "*": << customers >>
+  ZXX:
+    "*": << response_rate_formatted >>
+  ZXY:
+    "*": << gross_coverage_formatted >>
+  ZXZ:
+    "*": << net_coverage_formatted >>
+  ZYX:
+    "*": << delivery_rate_formatted >>
+  COHN:
+    "*": << cohort_responses >>
+
+# Metrics
+# This is a list of metrics that are used in the template.
+# It should reference to internal Python values or be a function reference.
+# When using a function reference, the function should be defined in a dictionary
+# containing function key with the function name and arguments key with a dictionary
+# These arguments should be references to internal Python values or plain values.
+#
+# Example of a function reference:
+# <placeholder that can be used in the Texts section>:
+#   function: <name of the function>
+#   arguments:
+#     <name of the argument>: <reference to internal Python value or plain value>
+#
+# When filled in:
+# title:
+#   function: title_formatter
+#   arguments:
+#     level: level
+#     wave: calc.waves[-1]
+#     year: options.last_wave_start.year
+#
+Metrics:
+  responses: calc.results.responses[-1]
+  invited: calc.results.invited[-1]
+  contacts: calc.results.contacts[-1]
+  customers: calc.results.customers[-1]
+  cohort_responses: calc.cohort.results.responses[-1]
+  response_rate_formatted:
+    function: donut_text_formatter
+    arguments:
+      a: calc.results.responses[-1]
+      b: calc.results.invited[-1]
+      c: calc.results.response_rates[-1]
+  gross_coverage_formatted:
+    function: donut_text_formatter
+    arguments:
+      a: calc.results.invited[-1]
+      b: calc.results.customers[-1]
+      c: calc.results.gross_coverages[-1]
+  net_coverage_formatted:
+    function: donut_text_formatter
+    arguments:
+      a: calc.results.unique_invited[-1]
+      b: calc.results.customers[-1]
+      c: calc.results.net_coverages[-1]
+  delivery_rate_formatted:
+    function: donut_text_formatter
+    arguments:
+      a: calc.results.invited[-1]
+      b: calc.results.contacts[-1]
+      c: calc.results.delivery_rates[-1]
+
+Visuals:
+  - shape_index: 2
+    function: DonutCustomDistribution
+    arguments:
+      names:
+        Response rate: calc.results.response_rates[-1]
+      data_labels: False
+  - shape_index: 6
+    function: DonutCustomDistribution
+    arguments:
+      names:
+        Gross coverage: calc.results.gross_coverages[-1]
+      data_labels: False
+  - shape_index: 8
+    function: DonutCustomDistribution
+    arguments:
+      names:
+        Net coverage: calc.results.net_coverages[-1]
+      data_labels: False
+  - shape_index: 10
+    function: DonutCustomDistribution
+    arguments:
+      names:
+        Delivery rate: calc.results.delivery_rates[-1]
+      data_labels: False
+  - shape_index: 15
+    function: BarsIndicators
+    arguments:
+      name: "response_rates"
+  - shape_index: 16
+    function: BarsIndicators
+    arguments:
+      name: "gross_coverages"
+  - shape_index: 17
+    function: BarsIndicators
+    arguments:
+      name: "net_coverages"
+  - shape_index: 18
+    function: BarsIndicators
+    arguments:
+      name: "delivery_rates"
+  - shape_index: 24
+    function: VerticalBars100NpsDistribution
+  - shape_index: 25
+    function: LineNpsDevelopment
+  - shape_index: 21
+    function: TableStatementsScoresMultipleWaves
+    arguments:
+      drivers: True
+      width: 3
+  - shape_index: 28
+    function: VerticalBars100NpsDistribution
+    arguments:
+      use_cohort: True
+  - shape_index: 29
+    function: LineNpsDevelopment
+    arguments:
+      use_cohort: True
+
+Back-up:
+  - "One pager - front - coverage"
+  - "One pager - front - cohort"
+  - "One pager - front"
+
+Requirements:
+  - Cohort
+  - Results
+  - Customers
+  - Statements
+Contents:
+  # - type: Contacts
+  #   over_time: true
+  - type: Delivery rate
+    over_time: true
+  - type: Statement scores (Drivers)
+    over_time: true
+  - type: Number invited
+    over_time: true
+  - type: NpsCohort
+    over_time: true
+  - type: Response rate
+    over_time: true
+  - type: Number of responses
+    over_time: true
+  - type: Statement scores
+    over_time: true

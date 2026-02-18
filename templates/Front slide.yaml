@@ -1,0 +1,17 @@
+Metrics:
+  reportname: options.full_name
+
+Texts:
+  title:
+    English: ""
+    Dutch: "" 
+  titlesecondline:
+    English: CUSTOMER INSIGHTS SURVEY
+    Dutch: KLANTINZICHTENSONDERZOEK
+  reportname:
+    "*": <<reportname>>
+  titleofthepager:
+    "*": <<title>>
+  waveperiod:
+    English: "Research: <<wave_period>>"
+    Dutch: "Onderzoek: <<wave_period>>"

@@ -1,0 +1,30 @@
+Texts:
+  uppertitle:
+    English: Appendix
+    Dutch: Bijlagen
+  title:
+    English: Overview delivery rate.
+    Dutch: Overzicht afleveringspercentage.
+
+Visuals:
+  - shape_index: 3
+    function: TableOverviewMetric
+    arguments:
+
+      metric: delivery_rates
+
+Formatting:
+  0: Page number
+  1: Upper title
+  2: Title
+
+Repeats:
+  Spots: 15
+
+Requirements:
+  - Batch
+
+
+Contents:
+  - type: Delivery rate
+    over_time: false

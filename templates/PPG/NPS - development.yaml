@@ -1,0 +1,90 @@
+Visuals:
+  - shape_index: 4
+    function: DualAxisNpsInclDistribution
+
+Formatting:
+  0: Page number (PPG)
+  1: Upper title (PPG)
+  2: Title (PPG)
+
+Texts:
+  responserate:
+    English: << responserate >>
+  npsscore:
+    English: << npsscore >>
+  numberofinvited:
+    English: << numberofinvited >>
+  numberofresponses:
+    English: << numberofresponses >>
+  deliveryrate:
+    English: << deliveryrate >>
+  promoterrate:
+    English: << promoterrate >>
+  promotercount:
+    English: << promotercount >>
+  passiverate:
+    English: << passiverate >>
+  passivecount:
+    English: << passivecount >>
+  detractorrate:
+    English: << detractorrate >>
+  detractorcount:
+    English: << detractorcount >>
+  wantstobecontacted:
+    English: << wantstobecontacted >>
+  titlevisualone:
+    English: Development NPS
+  npslogic:
+    English: << creaselogicnps >>
+
+Metrics:
+  responserate: calc.results.response_rates[-1]
+  npsscore: calc.results.nps[-1]
+  numberofinvited: calc.results.invited[-1]
+  numberofresponses: calc.results.responses[-1]
+  deliveryrate: calc.results.delivery_rates[-1]
+  promoterrate: calc.results.promoters.share[-1]
+  promotercount: calc.results.promoters.responses[-1]
+  passiverate: calc.results.passives.share[-1]
+  passivecount: calc.results.passives.responses[-1]
+  detractorrate: calc.results.detractors.share[-1]
+  detractorcount: calc.results.detractors.responses[-1]
+  creaselogicnps:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.nps
+
+  wantstobecontacted:
+    function: get_percentage_of_answer_in_column
+    arguments:
+      cc: calc
+      column: "Contactvraag"
+      value: 'Yes'
+
+Back-up: PPG\NPS
+
+Requirements:
+  - Waves
+
+Notes:
+  Custom:
+    top: 19.57
+    left: 4.59
+    width: 16.11
+    height: 0.77
+
+Contents:
+  - type: Delivery rate
+    over_time: true
+  - type: Detractors (not cohort)
+    over_time: true
+  - type: Number invited
+    over_time: true
+  - type: NPS (not cohort)
+    over_time: true
+  - type: Passives (not cohort)
+    over_time: true
+  - type: Promoters (not cohort)
+    over_time: true
+  - type: Number of responses
+    over_time: true

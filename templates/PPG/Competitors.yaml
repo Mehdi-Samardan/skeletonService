@@ -1,0 +1,40 @@
+Visuals:
+  - shape_index: 4
+    function: BarsCustomDistribution
+    arguments:
+      column: "Comparison other stores"
+      serie_based: True
+      num_format: "%"
+      groups:
+        "100.0": "Very satisfied"
+        "66.666666666667": "Somewhat satisfied"
+        "33.333333333333": "Somewhat dissatisfied"
+        "0.0": "Very dissatisfied"
+      
+Formatting:
+  1: Page number (PPG)
+  2: Upper title (PPG)
+  3: Title (PPG)
+
+
+Texts:
+  action:
+    English: << naction >>
+
+
+
+Metrics:
+  naction:
+    function: get_count_of_column
+    arguments:
+      cc: calc
+      column: "Comparison other stores"
+
+Back-up:
+  - PPG\Competitors - IR
+
+Requirements:
+  - Columns with data:
+      Results:
+        Comparison other stores: 1
+Contents: []

@@ -1,0 +1,24 @@
+Texts:
+  titleofthepager:
+    "English": CUSTOMER SATISFACTION TRACKING << title >>
+    "Dutch": KLANTTEVREDENHEIDSONDERZOEK << title >>
+  footnotevisittool:
+    English: To see all results and individual responses, visit << url >>
+    Dutch: Voor alle resultaten bezoek << url >>
+  recommendation:
+    English: Recommendations
+    Dutch: Aanbevelingen
+
+Visuals:
+  - shape_index: 1
+    function: TextReplaceRecommendations
+
+Requirements:
+  - Statements
+  - Results
+  - Analysis
+Contents:
+  - type: Number of responses
+    over_time: false
+  - type: Statement scores
+    over_time: false

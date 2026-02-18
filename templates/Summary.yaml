@@ -1,0 +1,68 @@
+Texts:
+  title:
+    English: Summary.
+    Dutch: Samenvatting.
+  sentenceone: 
+    English: The response rate << creaselogicresprate >>, and the number of invitations << creaselogicinvited >>.
+    Dutch: Het responspercentage << creaselogicresprate >>. Het aantal uitnodigingen << creaselogicinvited >>.
+  sentencetwo: 
+    English: << responsn >> contacts participated in << wavename >>. 
+    Dutch: << responsn >> contacten hebben deelgenomen in << wavename >>.
+  sentencethree:
+    English: The NPS score << creaselogicnps >>.
+    Dutch: De NPS score << creaselogicnps >>.
+  sentencefour: 
+    English: The statement scores vary between << minscore >> and << maxscore >>. '<< minstatement >>' is the lowest scoring statement and '<< maxstatement >>' is the highest scoring statement.
+    Dutch: De scores op de statements variëren tussen << minscore >> en << maxscore >>. '<< minstatement >>' is het laagst scorende statement en '<< maxstatement >>' is het hoogst scorende statement.
+  sentencefive:
+    English: The key drivers of customer satisfaction are
+    Dutch: De belangrijkste drijfveren van klanttevredenheid zijn
+
+Metrics:
+  maxscore: calc.results.max_statement[-1].scores[-1].value
+  minscore: calc.results.min_statement[-1].scores[-1].value
+  minstatement: calc.results.min_statement[-1].alias
+  maxstatement: calc.results.max_statement[-1].alias
+  creaselogicnps:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.nps
+  creaselogicresprate:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.response_rates
+  creaselogicinvited:
+    function: increase_decrease_formatter
+    arguments:
+      metric: calc.results.invited
+  responsn: calc.results.responses[-1].value
+  wavename: calc.waves[-1].lower()
+  numberofwaves: len(calc.waves)
+
+
+Visuals:
+  - shape_index: 0
+    function: TextReplaceDrivers
+
+Formatting:
+  1: Page number
+  2: Title
+
+Requirements:
+  - Analysis
+  - Results
+  - Statements
+  - Batch
+
+
+Notes: Report
+
+Contents:
+  - type: Statement scores (Drivers)
+    over_time: false
+  - type: Number invited
+    over_time: false
+  - type: NPS (not cohort)
+    over_time: false
+  - type: Number of responses
+    over_time: false
