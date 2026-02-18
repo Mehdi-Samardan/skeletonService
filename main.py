@@ -24,7 +24,6 @@ def shutdown_event():
 # @app.on_event("startup")
 # def startup_event():
 #     connect_to_mongo()
-
 #     repo = SkeletonRepository()
 #     logger.info(f"Collection name: {repo.collection.name}")
 
@@ -33,9 +32,7 @@ def shutdown_event():
 # @app.on_event("startup")
 # def startup_event():
 #     connect_to_mongo()
-
 #     repo = SkeletonRepository()
-
 #     test_hash = "test_hash_123"
 #     result = repo.get_by_hash(test_hash)
 
