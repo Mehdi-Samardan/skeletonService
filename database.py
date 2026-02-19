@@ -65,3 +65,25 @@ def close_mongo_connection() -> None:
     if _client:
         _client.close()
         logger.info("MongoDB connection closed.")
+
+
+def get_server_information() -> dict:
+    """
+    Retrieve MongoDB server information.
+    Useful for debugging connection issues.
+    """
+
+    if _client is None:
+        logger.warning("MongoDB client not initialized. Cannot get server info.")
+        return {}
+
+    try:
+        info = _client.server_info()
+        logger.info("MongoDB server information retrieved successfully.")
+        return info
+
+    except Exception as e:
+        logger.error(
+            f"Failed to retrieve MongoDB server information: {e}", exc_info=True
+        )
+        return {}
