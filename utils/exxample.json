@@ -1,0 +1,3520 @@
+{
+  "layouts": [
+    {
+      "name": "PPG IR report",
+      "content": [
+        "PPG/Front",
+        "PPG/Gpt summary",
+        "PPG/Process results",
+        "PPG/NPS - development",
+        "PPG/NPS motivation",
+        "PPG/Statements distribution",
+        "PPG/Statements drivers",
+        "PPG/Statements multiple waves",
+        "PPG/One thing to change",
+        "PPG/Competitors - IR",
+        "PPG/Sustainability 1",
+        "PPG/Sustainability 2",
+        "PPG/Product categories",
+        "PPG/Recommendation",
+        "PPG/Appendix 1",
+        "PPG/Appendix 2",
+        "Final sheet"
+      ]
+    },
+    {
+      "name": "One pager",
+      "content": [
+        "One pager - front - cohort - coverage",
+        "One pager - back - revenue"
+      ]
+    },
+    {
+      "name": "Full report",
+      "content": [
+        "Front slide",
+        "Summary",
+        "Contents - 1",
+        "Goal and motivation",
+        "Contents - 2",
+        "Process results",
+        "Engagement - activity",
+        "NPS & response - development",
+        "NPS & response - development - lower level",
+        "NPS & response - development - higher level",
+        "NPS - cohort - development",
+        "NPS - weighted - development",
+        "NPS motivation",
+        "NPS motivation - quotes",
+        "Statements - distribution",
+        "Statements - development",
+        "Statements - drivers",
+        "Statements - drivers - development",
+        "One thing to change",
+        "One thing to change - quotes",
+        "Best competitor",
+        "Product familiarity",
+        "Trends",
+        "Contents - 3",
+        "Recommendations - driver & specific",
+        "Recommendations - process",
+        "Contents - 4",
+        "Implementation - drivers",
+        "Implementation - IOGSM",
+        "Contents - 5",
+        "Statements - table with impact",
+        "Table - contacts",
+        "Table - invited",
+        "Table - delivery rate",
+        "Table - responses",
+        "Table - response rates",
+        "Table - NPS",
+        "AlphaRainbow - process",
+        "AlphaRainbow - tools",
+        "Gpt summary",
+        "Final sheet"
+      ]
+    },
+    {
+      "name": "PPG report",
+      "content": [
+        "PPG/Front",
+        "PPG/Gpt summary",
+        "PPG/Process results",
+        "PPG/NPS - development",
+        "PPG/NPS motivation",
+        "PPG/Statements distribution",
+        "PPG/Statements drivers",
+        "PPG/Statements multiple waves",
+        "PPG/One thing to change",
+        "PPG/Competitors",
+        "PPG/Sustainability 1 CS",
+        "PPG/Sustainability 2",
+        "PPG/Product categories",
+        "PPG/Digital 1",
+        "PPG/Digital 2",
+        "PPG/Digital support",
+        "PPG/Recommendation",
+        "PPG/Appendix 1",
+        "PPG/Appendix 2",
+        "Final sheet"
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "name": "Contents - 1",
+      "content": {
+        "Texts": {
+          "titleone": {
+            "English": "Reason, goal & methodology",
+            "Dutch": "Aanleiding, doel & methodologie"
+          },
+          "titletwo": {
+            "English": "Factbased insights",
+            "Dutch": "Feitelijke inzichten"
+          },
+          "titlethree": {
+            "English": "Concrete recommendations",
+            "Dutch": "Concrete aanbevelingen"
+          },
+          "titlefour": {
+            "English": "Implementation",
+            "Dutch": "Implementatie"
+          },
+          "titlefive": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          }
+        },
+        "Formatting": {
+          "0": "Page number"
+        }
+      }
+    },
+    {
+      "name": "Statements - table with impact",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          },
+          "title": {
+            "English": "Overview statements with scores and relative importance.",
+            "Dutch": "Overzicht statements met scores en relatieve belangrijkheid."
+          },
+          "noimpact": {
+            "English": "Statements without impact are not incorporated in the driver analysis.",
+            "Dutch": "Statements zonder impact zijn niet meegenomen in de analyse."
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "TableOverviewStatements"
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title"
+        },
+        "Requirements": [
+          "Analysis"
+        ],
+        "Contents": [
+          {
+            "type": "Statement scores",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "One pager - back - revenue",
+      "content": {
+        "Texts": {
+          "titleofthepager": {
+            "English": "CUSTOMER SATISFACTION TRACKING << title >>",
+            "Dutch": "KLANTTEVREDENHEIDSONDERZOEK << title >>"
+          },
+          "REV": {
+            "*": "<< revenue >>"
+          },
+          "npstitle": {
+            "English": "Weighted Net Promoter Score",
+            "Dutch": "Gewogen Net Promoter Score"
+          },
+          "recommendation": {
+            "English": "Recommendations",
+            "Dutch": "Aanbevelingen"
+          },
+          "charttitle": {
+            "English": "Revenue responded",
+            "Dutch": "Omzet gereageerd"
+          },
+          "footnotevisittool": {
+            "English": "To see all results and individual responses, visit << url >>",
+            "Dutch": "Voor alle resultaten bezoek << url >>"
+          }
+        },
+        "Metrics": {
+          "revenue": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.revenue.responses[-1]",
+              "b": "calc.results.revenue.total[-1]",
+              "c": "calc.results.revenue.share[-1]",
+              "only_percentage": true
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 8,
+            "function": "TextReplaceRecommendations"
+          },
+          {
+            "shape_index": 2,
+            "function": "DonutCustomDistribution",
+            "arguments": {
+              "names": {
+                "Revenue": "calc.results.revenue.share[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "shape_index": 3,
+            "function": "nps_groups_weighted_on_revenue"
+          }
+        ],
+        "Back-up": "One pager - back",
+        "Requirements": [
+          "Batch",
+          "Revenue",
+          "Statements",
+          "Results",
+          "Analysis"
+        ],
+        "Contents": [
+          {
+            "type": "NPS (not cohort)",
+            "over_time": false
+          },
+          {
+            "type": "Promoters (not cohort)",
+            "over_time": false
+          },
+          {
+            "type": "Number of responses",
+            "over_time": false
+          },
+          {
+            "type": "Statement scores",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "NPS motivation",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "NPS motivation",
+            "Dutch": "NPS motivatie"
+          },
+          "sentenceone": {
+            "English": "<< numberofmotivations >> respondents motivated their recommendation score. Promoters motivate their high score and passives/detractors point out aspects to improve.",
+            "Dutch": "Er is door << numberofmotivations >> respondenten een motivatie gegeven na de NPS vraag. Promoters motiveren hun hoge score en passives/detractors geven aan wat beter kan."
+          }
+        },
+        "Metrics": {
+          "numberofmotivations": "calc.dataframes[-1]['Recommendation (Motivation)'].count()"
+        },
+        "Formatting": {
+          "0": "Upper title",
+          "1": "Title",
+          "2": "Main text (no coloring)",
+          "3": "Page number"
+        }
+      }
+    },
+    {
+      "name": "NPS & response - development",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Development NPS & response",
+            "Dutch": "Ontwikkeling NPS & respondenten"
+          },
+          "title": {
+            "English": "<< lvlname >> has an NPS score of <<npsthisyear>>. The response rate is <<responseratethisyear>>.",
+            "Dutch": "<<lvlname>> heeft een NPS score van <<npsthisyear>>. De response rate is <<responseratethisyear>>."
+          },
+          "sentenceone": {
+            "English": "The NPS of <<lvlname>> <<creaselogicnps>>.",
+            "Dutch": "<<lvlname>> heeft een NPS score van <<npsthisyear>>."
+          },
+          "sentencetwo": {
+            "English": "The percentage of promoters <<creaselogicpro>><< significantpromoters >>. The percentage of passives <<creaselogicpas>><< significantpassives >>. The percentage of detractors <<creaselogicdet>><< significantdetractors >>.",
+            "Dutch": "Het percentage promoters <<creaselogicpro>><< significantpromoters >>. Het percentage passives <<creaselogicpas>><< significantpassives >>. Het percentage detractors <<creaselogicdet>><< significantdetractors >>."
+          },
+          "sentencethree": {
+            "English": "The response rate <<creaselogicresponserate>>.",
+            "Dutch": "De response rate <<creaselogicresponserate>>."
+          },
+          "sentencefour": {
+            "English": "The number of responses <<creaselogicresponses>>.",
+            "Dutch": "Het aantal respondenten <<creaselogicresponses>>."
+          },
+          "titlevisualone": {
+            "English": "Development NPS",
+            "Dutch": "Ontwikkeling NPS"
+          },
+          "titlevisualtwo": {
+            "English": "Development response rate",
+            "Dutch": "Ontwikkeling response rate"
+          }
+        },
+        "Metrics": {
+          "lvlname": "calc.level.name",
+          "responsn": "calc.results.responses[-1].value",
+          "npsthisyear": "calc.results.nps[-1].value",
+          "responseratethisyear": "calc.results.response_rates[-1].value",
+          "creaselogicnps": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.nps"
+            }
+          },
+          "creaselogicdet": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.detractors.share"
+            }
+          },
+          "creaselogicpas": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.passives.share"
+            }
+          },
+          "creaselogicpro": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.promoters.share"
+            }
+          },
+          "creaselogicresponses": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.responses"
+            }
+          },
+          "creaselogicresponserate": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.response_rates"
+            }
+          },
+          "significantpromoters": {
+            "function": "nps_group_is_significant",
+            "arguments": {
+              "calculation": "calc",
+              "group": "promoters"
+            }
+          },
+          "significantpassives": {
+            "function": "nps_group_is_significant",
+            "arguments": {
+              "calculation": "calc",
+              "group": "passives"
+            }
+          },
+          "significantdetractors": {
+            "function": "nps_group_is_significant",
+            "arguments": {
+              "calculation": "calc",
+              "group": "detractors"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "DualAxisNpsInclDistribution"
+          },
+          {
+            "shape_index": 4,
+            "function": "DualAxisCountPercentage",
+            "arguments": {
+              "metric1": "responses",
+              "metric1_name": "Responses",
+              "metric2": "response_rates",
+              "metric2_name": "Response rate"
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title",
+          "5": "Main text"
+        },
+        "Requirements": [
+          "Waves",
+          "Results",
+          "Batch"
+        ],
+        "Back-up": "NPS",
+        "Afterthought": [
+          {
+            "shape_index": 2,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "NPS & response - development"
+            ]
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Detractors (not cohort)",
+            "over_time": true
+          },
+          {
+            "type": "NPS (not cohort)",
+            "over_time": true
+          },
+          {
+            "type": "Passives (not cohort)",
+            "over_time": true
+          },
+          {
+            "type": "Promoters (not cohort)",
+            "over_time": true
+          },
+          {
+            "type": "Number of responses",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Front slide",
+      "content": {
+        "Metrics": {
+          "reportname": "options.full_name"
+        },
+        "Texts": {
+          "title": {
+            "English": "",
+            "Dutch": ""
+          },
+          "titlesecondline": {
+            "English": "CUSTOMER INSIGHTS SURVEY",
+            "Dutch": "KLANTINZICHTENSONDERZOEK"
+          },
+          "reportname": {
+            "*": "<<reportname>>"
+          },
+          "titleofthepager": {
+            "*": "<<title>>"
+          },
+          "waveperiod": {
+            "English": "Research: <<wave_period>>",
+            "Dutch": "Onderzoek: <<wave_period>>"
+          }
+        }
+      }
+    },
+    {
+      "name": "Goal and motivation",
+      "content": {
+        "Metrics": {
+          "numberofinvited": "calc.results.invited[-1].value",
+          "numberofresponses": "calc.results.responses[-1].value"
+        },
+        "Requirements": [
+          "Batch"
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "4": "Title"
+        },
+        "Texts": {
+          "title": {
+            "English": "Reason, goal & methodology.",
+            "Dutch": "Aanleiding, doel & methodologie."
+          },
+          "subtitleone": {
+            "Dutch": "Onderzoeksperiode",
+            "English": "Research period"
+          },
+          "maintextone": {
+            "English": "The research was conducted in <<wave_period>>. At that time, <<numberofinvited>> online surveys were sent. A reminder was sent after a week and a second reminder a week later. In the end, <<numberofresponses>> respondents completed the survey.",
+            "Dutch": "Het onderzoek is uitgevoerd in <<wave_period>>. Op dat moment zijn er <<numberofinvited>> online enquêtes verstuurd. Een week later volgde een herinnering en een week later een tweede herinnering. Uiteindelijk hebben <<numberofresponses>> respondenten de enquête ingevuld."
+          },
+          "subtitletwo": {
+            "English": "Methodology",
+            "Dutch": "Methodologie"
+          },
+          "maintexttwo": {
+            "English": "The quantitative research was conducted via an online survey with an NPS® question, a motivation, statements on a six point scale, and a one-thing-to-change question. We also ask some additional questions for specific insights. By applying advanced statistical analyses, the most important drivers behind customers’ satisfaction levels are determined.",
+            "Dutch": "Het kwantitatieve onderzoek is uitgevoerd door middel van een online enquête met een NPS vraag, een motivatie, statements op een zespuntsschaal en een één ding om te veranderen vraag. Daarnaast stellen we enkele aanvullende vragen voor specifieke inzichten. Door geavanceerde statistische analyses toe te passen, worden de belangrijkste drijfveren achter de klanttevredenheid bepaald."
+          },
+          "maintextthree": {
+            "English": "The questionnaire was developed based on interviews, expert knowledge and scientific research.",
+            "Dutch": "De vragenlijst is ontwikkeld op basis van interviews, expertkennis en wetenschappelijk onderzoek."
+          }
+        },
+        "Contents": [
+          {
+            "type": "Number invited",
+            "over_time": false
+          },
+          {
+            "type": "Number of responses",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Product familiarity",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Product familiarity",
+            "Dutch": "Bekendheid met productportfolio"
+          },
+          "sentenceone": {
+            "English": "<< numberofresponses >> respondents shared which products they are familiar with.",
+            "Dutch": "<< numberofresponses >> respondenten gaven aan met welke producten ze bekend zijn."
+          },
+          "sentencetwo": {
+            "English": "<< mostmentionedservice >> is the product most respondents are familiar with, while << leastmentionedservice >> is the least known.",
+            "Dutch": "<< mostmentionedservice >> is het product waarmee de meeste respondenten bekend zijn, terwijl << leastmentionedservice >> het minst bekend is."
+          },
+          "titlevisualone": {
+            "English": "Familiarity with product portfolio",
+            "Dutch": "Bekendheid met productportfolio"
+          }
+        },
+        "Metrics": {
+          "numberofresponses": "len(calc.dataframes[-1].filter(regex=\"Product: (?=.+)\").dropna(how=\"all\").dropna(how=\"all\", axis=1))",
+          "mostmentionedservice": "calc.dataframes[-1].filter(regex=\"Product: (?=.+)\").dropna(how=\"all\").dropna(how=\"all\", axis=1).sum().idxmax().replace(\"Product: \", \"\")",
+          "leastmentionedservice": "calc.dataframes[-1].filter(regex=\"Product: (?=.+)\").dropna(how=\"all\").dropna(how=\"all\", axis=1).sum().idxmin().replace(\"Product: \", \"\")"
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "BarsCustomMultipleChoice",
+            "arguments": {
+              "identifier": "Product: (?=.+)",
+              "serie_based": false,
+              "sort_on_value": true,
+              "num_format": "%"
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title",
+          "4": "Main text"
+        },
+        "Requirements": [
+          "Results",
+          {
+            "Columns with data": {
+              "Results": {
+                "Product: .*": 1
+              }
+            }
+          }
+        ],
+        "Afterthought": [
+          {
+            "shape_index": 2,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "Product familiarity"
+            ]
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Multiple choice",
+            "over_time": false
+          },
+          {
+            "type": "Number of responses",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Summary",
+      "content": {
+        "Texts": {
+          "title": {
+            "English": "Summary.",
+            "Dutch": "Samenvatting."
+          },
+          "sentenceone": {
+            "English": "The response rate << creaselogicresprate >>, and the number of invitations << creaselogicinvited >>.",
+            "Dutch": "Het responspercentage << creaselogicresprate >>. Het aantal uitnodigingen << creaselogicinvited >>."
+          },
+          "sentencetwo": {
+            "English": "<< responsn >> contacts participated in << wavename >>.",
+            "Dutch": "<< responsn >> contacten hebben deelgenomen in << wavename >>."
+          },
+          "sentencethree": {
+            "English": "The NPS score << creaselogicnps >>.",
+            "Dutch": "De NPS score << creaselogicnps >>."
+          },
+          "sentencefour": {
+            "English": "The statement scores vary between << minscore >> and << maxscore >>. '<< minstatement >>' is the lowest scoring statement and '<< maxstatement >>' is the highest scoring statement.",
+            "Dutch": "De scores op de statements variëren tussen << minscore >> en << maxscore >>. '<< minstatement >>' is het laagst scorende statement en '<< maxstatement >>' is het hoogst scorende statement."
+          },
+          "sentencefive": {
+            "English": "The key drivers of customer satisfaction are",
+            "Dutch": "De belangrijkste drijfveren van klanttevredenheid zijn"
+          }
+        },
+        "Metrics": {
+          "maxscore": "calc.results.max_statement[-1].scores[-1].value",
+          "minscore": "calc.results.min_statement[-1].scores[-1].value",
+          "minstatement": "calc.results.min_statement[-1].alias",
+          "maxstatement": "calc.results.max_statement[-1].alias",
+          "creaselogicnps": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.nps"
+            }
+          },
+          "creaselogicresprate": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.response_rates"
+            }
+          },
+          "creaselogicinvited": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.invited"
+            }
+          },
+          "responsn": "calc.results.responses[-1].value",
+          "wavename": "calc.waves[-1].lower()",
+          "numberofwaves": "len(calc.waves)"
+        },
+        "Visuals": [
+          {
+            "shape_index": 0,
+            "function": "TextReplaceDrivers"
+          }
+        ],
+        "Formatting": {
+          "1": "Page number",
+          "2": "Title"
+        },
+        "Requirements": [
+          "Analysis",
+          "Results",
+          "Statements",
+          "Batch"
+        ],
+        "Notes": "Report",
+        "Contents": [
+          {
+            "type": "Statement scores (Drivers)",
+            "over_time": false
+          },
+          {
+            "type": "Number invited",
+            "over_time": false
+          },
+          {
+            "type": "NPS (not cohort)",
+            "over_time": false
+          },
+          {
+            "type": "Number of responses",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "AlphaRainbow - process",
+      "content": {
+        "Texts": {
+          "title": {
+            "English": "AlphaRainbow gathers relevant customer insights, analyzes them smartly, and provides concrete strategies to improve your business.",
+            "Dutch": "AlphaRainbow verzamelt relevante klantinzichten, analyseert ze intelligent en biedt concrete strategieën om uw bedrijf te verbeteren."
+          },
+          "sentenceone": {
+            "English": "We capture relevant customer insights with a short, few-minute survey using easy-to-use proprietary tools and efficient process management.",
+            "Dutch": "We verzamelen relevante klantinzichten met een korte enquête met onze gebruiksvriendelijke eigen tooling en efficiënt procesbeheer."
+          },
+          "sentencetwo": {
+            "English": "Our state-of-the-art GSEM analysis focuses on identifying the key drivers of your business, allowing you to prioritize what matters most to your customers.",
+            "Dutch": "Onze geavanceerde GSEM-analyse richt zich op het identificeren van de belangrijkste drijfveren van uw bedrijf, zodat u kunt prioriteren wat het belangrijkst is voor uw klanten."
+          },
+          "sentencethree": {
+            "English": "We provide concrete strategies on a one pager per market, along with interactive dashboards that allow you to drill deeper into the data.",
+            "Dutch": "We bieden concrete strategieën op one pagers per markt, samen met interactieve dashboards waarmee u dieper in de gegevens kunt duiken."
+          },
+          "sentencefour": {
+            "English": "We work together with you to track the implementation of the plans in order to ensure the best return on your investment.",
+            "Dutch": "We werken samen met u om de implementatie van de plannen te volgen om het beste rendement op uw investering te garanderen."
+          },
+          "sentencefive": {
+            "English": "Concrete activities follow from the improvement program and give you direct returns.",
+            "Dutch": "Concrete activiteiten volgen uit het verbeterprogramma en geven u direct rendement."
+          },
+          "tryout": {
+            "English": "Try it for yourself",
+            "Dutch": "Probeer het zelf"
+          },
+          "uppertitle": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          }
+        },
+        "Formatting": {
+          "0": "Page number",
+          "1": "Title",
+          "2": "Upper title",
+          "12": "Main text (no location)",
+          "13": "Main text (no location)",
+          "14": "Main text (no location)",
+          "15": "Main text (no location)"
+        }
+      }
+    },
+    {
+      "name": "One pager - front - cohort",
+      "content": {
+        "Texts": {
+          "titleofthepager": {
+            "English": "CUSTOMER SATISFACTION TRACKING << title >>",
+            "Dutch": "KLANTTEVREDENHEIDSONDERZOEK << title >>"
+          },
+          "footnotevisittool": {
+            "English": "To see all results and individual responses, visit << url >>",
+            "Dutch": "Voor alle resultaten bezoek << url >>"
+          },
+          "VXX": {
+            "*": "<< responses >>"
+          },
+          "VXY": {
+            "*": "<< invited >>"
+          },
+          "VXZ": {
+            "*": "<< contacts >>"
+          },
+          "ZXX": {
+            "*": "<< response_rate_formatted >>"
+          },
+          "ZYX": {
+            "*": "<< delivery_rate_formatted >>"
+          },
+          "COHN": {
+            "*": "<< cohort_responses >>"
+          }
+        },
+        "Metrics": {
+          "responses": "calc.results.responses[-1]",
+          "invited": "calc.results.invited[-1]",
+          "contacts": "calc.results.contacts[-1]",
+          "cohort_responses": "calc.cohort.results.responses[-1]",
+          "response_rate_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.responses[-1]",
+              "b": "calc.results.invited[-1]",
+              "c": "calc.results.response_rates[-1]"
+            }
+          },
+          "delivery_rate_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.invited[-1]",
+              "b": "calc.results.contacts[-1]",
+              "c": "calc.results.delivery_rates[-1]"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "function": "DonutCustomDistribution",
+            "shape_index": 4,
+            "arguments": {
+              "names": {
+                "Response rate": "calc.results.response_rates[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "function": "DonutCustomDistribution",
+            "shape_index": 6,
+            "arguments": {
+              "names": {
+                "Delivery rate": "calc.results.delivery_rates[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "function": "BarsIndicators",
+            "shape_index": 12,
+            "arguments": {
+              "name": "response_rates"
+            }
+          },
+          {
+            "function": "BarsIndicators",
+            "shape_index": 13,
+            "arguments": {
+              "name": "delivery_rates"
+            }
+          },
+          {
+            "function": "VerticalBars100NpsDistribution",
+            "shape_index": 9
+          },
+          {
+            "function": "LineNpsDevelopment",
+            "shape_index": 11
+          },
+          {
+            "function": "TableStatementsScoresMultipleWaves",
+            "shape_index": 17,
+            "arguments": {
+              "drivers": true,
+              "width": 3
+            }
+          },
+          {
+            "shape_index": 23,
+            "function": "VerticalBars100NpsDistribution",
+            "arguments": {
+              "use_cohort": true
+            }
+          },
+          {
+            "shape_index": 24,
+            "function": "LineNpsDevelopment",
+            "arguments": {
+              "use_cohort": true
+            }
+          }
+        ],
+        "Requirements": [
+          "Results",
+          "Batch",
+          "Cohort",
+          "Statements"
+        ],
+        "Back-up": [
+          "One pager - front"
+        ],
+        "Contents": [
+          {
+            "type": "Delivery rate",
+            "over_time": true
+          },
+          {
+            "type": "Statement scores (Drivers)",
+            "over_time": true
+          },
+          {
+            "type": "Number invited",
+            "over_time": true
+          },
+          {
+            "type": "NpsCohort",
+            "over_time": true
+          },
+          {
+            "type": "Response rate",
+            "over_time": true
+          },
+          {
+            "type": "Number of responses",
+            "over_time": true
+          },
+          {
+            "type": "Statement scores",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "NPS motivation - quotes",
+      "content": {
+        "Texts": {
+          "title": {
+            "English": "Quotes that provide insights.",
+            "Dutch": "Quotes die extra inzicht bieden."
+          },
+          "uppertitle": {
+            "English": "NPS motivation – Quotes",
+            "Dutch": "NPS motivatie – Quotes"
+          }
+        },
+        "Formatting": {
+          "0": "Upper title",
+          "1": "Title",
+          "2": "Main text (no coloring)",
+          "3": "Page number"
+        }
+      }
+    },
+    {
+      "name": "Statements - drivers",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Statements - 5 key drivers",
+            "Dutch": "Statements – 5 belangrijkste drijfveren"
+          },
+          "title": {
+            "English": "All statements combined explain <<explanatoryvalue>> of the willingness to recommend <<company>>.",
+            "Dutch": "Alle statements verklaren samen <<explanatoryvalue>> van de bereidheid om <<company>> aan te bevelen."
+          },
+          "sentenceone": {
+            "English": "The key drivers have been identified using Generalized Structural Equation Modelling.",
+            "Dutch": "De belangrijkste drijfveren zijn vastgesteld met Generalized Structural Equation Modelling."
+          },
+          "sentencetwo": {
+            "English": "All statements combined explain <<explanatoryvalue>> of the willingness to recommend <<company>> to others. 40% or higher is considered to be good.",
+            "Dutch": "Alle statements verklaren voor <<explanatoryvalue>> de bereidheid om <<company>> aan te bevelen. Een verklaarde waarde van 40% of hoger wordt beschouwd als goed."
+          },
+          "sentencethree": {
+            "English": "The impact scores show how much the NPS increases when the score on the statement increases by one point (ceteris paribus).",
+            "Dutch": "De impact score laat zien hoeveel de NPS stijgt wanneer de score op het statement met één punt stijgt (ceteris paribus)."
+          },
+          "topbox": {
+            "English": "The percentage in the graph indicates how many percent of the respondents fully agree with the statement.",
+            "Dutch": "Het percentage in de grafiek geeft aan hoeveel procent van de respondenten het volledig eens is met het statement."
+          }
+        },
+        "Metrics": {
+          "explanatoryvalue": "calc.explanatory_value"
+        },
+        "Visuals": [
+          {
+            "shape_index": 4,
+            "function": "HorizontalBars100StatementDistribution",
+            "arguments": {
+              "impact": true
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Main text",
+          "1": "Page number",
+          "2": "Upper title",
+          "3": "Title"
+        },
+        "Requirements": [
+          "Analysis",
+          "Statements"
+        ],
+        "Afterthought": [
+          {
+            "shape_index": 3,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "Statements - drivers"
+            ],
+            "arguments": {
+              "specific_instructions": [
+                "Please create an one sentence title that tells the management something about on of the top drivers and how much potential there is to improve its score (the combination between a high impact score and a low statement score).",
+                "Do not mention impact scores directly"
+              ]
+            }
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Statement scores (Drivers)",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Best competitor",
+      "content": {
+        "Metrics": {
+          "numberofrespondents": "calc.dataframes[-1].filter(regex='Competitor').count()[0]",
+          "competitors": "get_counts_competitors(calc.dataframes[-1], 10)"
+        },
+        "Texts": {
+          "uppertitle": {
+            "English": "Best competitor",
+            "Dutch": "Beste concurrent"
+          },
+          "sentenceone": {
+            "English": "<<numberofrespondents>> respondents shared who they see as the best competitor of <<company>>. Below are the most mentioned competitors with the main motivation why they have been chosen",
+            "Dutch": "<<numberofrespondents>> respondenten deelden wie zij zien als de beste concurrent van <<company>>. Hieronder staan de meest genoemde concurrenten met de belangrijkste motivatie waarom ze zijn gekozen"
+          },
+          "competitorenumeration": {
+            "*": "<<competitors>>"
+          }
+        },
+        "Formatting": {
+          "0": "Upper title",
+          "1": "Title",
+          "2": "Main text",
+          "3": "Page number"
+        },
+        "Requirements": [
+          "Results",
+          {
+            "Columns with data": {
+              "Results": {
+                "Competitor": 1,
+                "Competitor clean": 1
+              }
+            }
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Text question",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Engagement - activity",
+      "content": {
+        "Metrics": {
+          "activitycount": "calc.results.activity_counts.during[-1]",
+          "closerate": "calc.results.close_rates[-1]",
+          "closecount": "calc.results.closed[-1]",
+          "creaselogicloop": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.close_rates"
+            }
+          },
+          "creaselogicactivity": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.activity_counts.during"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 5,
+            "function": "DonutCustomDistribution",
+            "arguments": {
+              "names": {
+                "Closed": "calc.results.close_rates[-1]",
+                "Open": "NoResult()"
+              },
+              "data_labels": true
+            }
+          },
+          {
+            "shape_index": 3,
+            "function": "DonutCustomDistribution",
+            "arguments": {
+              "names": {
+                "Logged in": "calc.results.activity_rates[-1]",
+                "Not logged in": "NoResult()"
+              },
+              "data_labels": true
+            }
+          }
+        ],
+        "Requirements": [
+          "Activity"
+        ],
+        "Back-up": "Engagement",
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title",
+          "4": "Main text"
+        },
+        "Texts": {
+          "title": {
+            "English": "The loop is closed for <<closecount>> (<<closerate>>) respondents.",
+            "Dutch": "De loop van <<closerate>> (<<closecount>>) van de respondenten is gesloten."
+          },
+          "uppertitle": {
+            "English": "Engagement",
+            "Dutch": "Betrokkenheid"
+          },
+          "sentenceone": {
+            "English": "During the wave <<closecount>> respondents have their loop marked as closed in the tool. This <<creaselogicloop>>.",
+            "Dutch": "Tijdens de wave heeft <<closecount>> respondenten hun loop gemarkeerd als gesloten in de tool. Dit <<creaselogicloop>>."
+          },
+          "sentencetwo": {
+            "English": "During the wave <<activitycount>> account managers have logged into the tool. This means that this group was able to actively check its non-respondents and read the feedback from respondents. This <<creaselogicactivity>>.",
+            "Dutch": "Tijdens de wave hebben <<activitycount>> accountmanagers ingelogd in de tool. Dit betekent dat deze groep actief hun non-respondenten kon checken en de feedback van respondenten kon lezen. Dit <<creaselogicactivity>>."
+          },
+          "titlevisualone": {
+            "English": "Close the loop",
+            "Dutch": "Close the loop"
+          },
+          "titlevisualtwo": {
+            "English": "Use of tool",
+            "Dutch": "Gebruik van de tool"
+          }
+        },
+        "Contents": [
+          {
+            "type": "Close rate",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Table - responses",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          },
+          "title": {
+            "English": "Overview number of responses.",
+            "Dutch": "Overzicht aantal responses."
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "TableOverviewMetric",
+            "arguments": {
+              "metric": "responses"
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title"
+        },
+        "Repeats": {
+          "Spots": 15
+        },
+        "Requirements": [
+          "Results"
+        ],
+        "Contents": [
+          {
+            "type": "Number of responses",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "One pager - front - cohort - coverage",
+      "content": {
+        "Texts": {
+          "titleofthepager": {
+            "English": "CUSTOMER SATISFACTION TRACKING << title >>",
+            "Dutch": "KLANTTEVREDENHEIDSONDERZOEK << title >>"
+          },
+          "footnotevisittool": {
+            "English": "To see all results and individual responses, visit << url >>",
+            "Dutch": "Voor alle resultaten bezoek << url >>"
+          },
+          "VXX": {
+            "*": "<< responses >>"
+          },
+          "VXY": {
+            "*": "<< invited >>"
+          },
+          "VXZ": {
+            "*": "<< contacts >>"
+          },
+          "VYX": {
+            "*": "<< customers >>"
+          },
+          "ZXX": {
+            "*": "<< response_rate_formatted >>"
+          },
+          "ZXY": {
+            "*": "<< gross_coverage_formatted >>"
+          },
+          "ZXZ": {
+            "*": "<< net_coverage_formatted >>"
+          },
+          "ZYX": {
+            "*": "<< delivery_rate_formatted >>"
+          },
+          "COHN": {
+            "*": "<< cohort_responses >>"
+          }
+        },
+        "Metrics": {
+          "responses": "calc.results.responses[-1]",
+          "invited": "calc.results.invited[-1]",
+          "contacts": "calc.results.contacts[-1]",
+          "customers": "calc.results.customers[-1]",
+          "cohort_responses": "calc.cohort.results.responses[-1]",
+          "response_rate_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.responses[-1]",
+              "b": "calc.results.invited[-1]",
+              "c": "calc.results.response_rates[-1]"
+            }
+          },
+          "gross_coverage_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.invited[-1]",
+              "b": "calc.results.customers[-1]",
+              "c": "calc.results.gross_coverages[-1]"
+            }
+          },
+          "net_coverage_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.unique_invited[-1]",
+              "b": "calc.results.customers[-1]",
+              "c": "calc.results.net_coverages[-1]"
+            }
+          },
+          "delivery_rate_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.invited[-1]",
+              "b": "calc.results.contacts[-1]",
+              "c": "calc.results.delivery_rates[-1]"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 2,
+            "function": "DonutCustomDistribution",
+            "arguments": {
+              "names": {
+                "Response rate": "calc.results.response_rates[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "shape_index": 6,
+            "function": "DonutCustomDistribution",
+            "arguments": {
+              "names": {
+                "Gross coverage": "calc.results.gross_coverages[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "shape_index": 8,
+            "function": "DonutCustomDistribution",
+            "arguments": {
+              "names": {
+                "Net coverage": "calc.results.net_coverages[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "shape_index": 10,
+            "function": "DonutCustomDistribution",
+            "arguments": {
+              "names": {
+                "Delivery rate": "calc.results.delivery_rates[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "shape_index": 15,
+            "function": "BarsIndicators",
+            "arguments": {
+              "name": "response_rates"
+            }
+          },
+          {
+            "shape_index": 16,
+            "function": "BarsIndicators",
+            "arguments": {
+              "name": "gross_coverages"
+            }
+          },
+          {
+            "shape_index": 17,
+            "function": "BarsIndicators",
+            "arguments": {
+              "name": "net_coverages"
+            }
+          },
+          {
+            "shape_index": 18,
+            "function": "BarsIndicators",
+            "arguments": {
+              "name": "delivery_rates"
+            }
+          },
+          {
+            "shape_index": 24,
+            "function": "VerticalBars100NpsDistribution"
+          },
+          {
+            "shape_index": 25,
+            "function": "LineNpsDevelopment"
+          },
+          {
+            "shape_index": 21,
+            "function": "TableStatementsScoresMultipleWaves",
+            "arguments": {
+              "drivers": true,
+              "width": 3
+            }
+          },
+          {
+            "shape_index": 28,
+            "function": "VerticalBars100NpsDistribution",
+            "arguments": {
+              "use_cohort": true
+            }
+          },
+          {
+            "shape_index": 29,
+            "function": "LineNpsDevelopment",
+            "arguments": {
+              "use_cohort": true
+            }
+          }
+        ],
+        "Back-up": [
+          "One pager - front - coverage",
+          "One pager - front - cohort",
+          "One pager - front"
+        ],
+        "Requirements": [
+          "Cohort",
+          "Results",
+          "Customers",
+          "Statements"
+        ],
+        "Contents": [
+          {
+            "type": "Delivery rate",
+            "over_time": true
+          },
+          {
+            "type": "Statement scores (Drivers)",
+            "over_time": true
+          },
+          {
+            "type": "Number invited",
+            "over_time": true
+          },
+          {
+            "type": "NpsCohort",
+            "over_time": true
+          },
+          {
+            "type": "Response rate",
+            "over_time": true
+          },
+          {
+            "type": "Number of responses",
+            "over_time": true
+          },
+          {
+            "type": "Statement scores",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "NPS",
+      "content": {
+        "Metrics": {
+          "responsn": "calc.results.responses[-1].value",
+          "npsthisyear": "calc.results.nps[-1].value",
+          "creaselogicnps": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.nps"
+            }
+          },
+          "creaselogicdet": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.detractors.share"
+            }
+          },
+          "creaselogicpas": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.passives.share"
+            }
+          },
+          "creaselogicpro": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.promoters.share"
+            }
+          },
+          "creaselogicresponses": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.responses"
+            }
+          },
+          "creaselogicresponserate": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.response_rates"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "HorizontalBarsNpsDistribution"
+          }
+        ],
+        "Formatting": {
+          "0": "Main text",
+          "1": "Upper title",
+          "2": "Title",
+          "4": "Page number"
+        },
+        "Texts": {
+          "uppertitle": {
+            "English": "NPS",
+            "Dutch": "NPS"
+          },
+          "title": {
+            "English": "The NPS score <<creaselogicnps>>.",
+            "Dutch": "De NPS score <<creaselogicnps>>."
+          },
+          "sentenceone": {
+            "English": "<<company>> has an NPS score of <<npsthisyear>>.",
+            "Dutch": "<<company>> heeft een NPS score van <<npsthisyear>>."
+          },
+          "sentencetwo": {
+            "English": "The percentage of promoters <<creaselogicpro>>. The percentage of passives <<creaselogicpas>>. The percentage detractors <<creaselogicdet>>.",
+            "Dutch": "Het percentage promoters <<creaselogicpro>>. Het percentage passives <<creaselogicpas>>. Het percentage detractors <<creaselogicdet>>."
+          },
+          "sentencethree": {
+            "Requirements": [
+              "Batch"
+            ],
+            "English": "The response rate <<creaselogicresponserate>>.",
+            "Dutch": "De response rate <<creaselogicresponserate>>."
+          },
+          "sentencefour": {
+            "English": "The number of responses <<creaselogicresponses>>.",
+            "Dutch": "Het aantal respondenten <<creaselogicresponses>>."
+          }
+        },
+        "Notes": "Report",
+        "Contents": [
+          {
+            "type": "Detractors (not cohort)",
+            "over_time": false
+          },
+          {
+            "type": "NPS (not cohort)",
+            "over_time": false
+          },
+          {
+            "type": "Passives (not cohort)",
+            "over_time": false
+          },
+          {
+            "type": "Promoters (not cohort)",
+            "over_time": false
+          },
+          {
+            "type": "Response rate",
+            "over_time": false
+          },
+          {
+            "type": "Number of responses",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Table - response rates",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          },
+          "title": {
+            "English": "Overview response rates.",
+            "Dutch": "Overzicht responspercentages."
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "TableOverviewMetric",
+            "arguments": {
+              "metric": "response_rates"
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title"
+        },
+        "Repeats": {
+          "Spots": 15
+        },
+        "Requirements": [
+          "Batch"
+        ],
+        "Contents": [
+          {
+            "type": "Response rate",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Statements - drivers - development",
+      "content": {
+        "Visuals": [
+          {
+            "shape_index": 4,
+            "function": "ColumnClusteredDevelopmentDrivers"
+          }
+        ],
+        "Requirements": [
+          "Analysis",
+          "Waves",
+          "Statements"
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title",
+          "3": "Main text"
+        },
+        "Texts": {
+          "uppertitle": {
+            "English": "Statements - Development 5 key drivers",
+            "Dutch": "Statements – Ontwikkeling 5 belangrijkste drijfveren"
+          },
+          "titlevisualone": {
+            "English": "Development key drivers",
+            "Dutch": "Ontwikkeling belangrijkste drijfveren"
+          }
+        },
+        "Afterthought": [
+          {
+            "shape_index": 2,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "Statements - drivers - development"
+            ]
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Statement scores (Drivers)",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "NPS & response - development - lower level",
+      "content": {
+        "Visuals": [
+          {
+            "shape_index": 1,
+            "function": "ColumnClusteredDevelopmentMetricPerBusinessUnit",
+            "arguments": {
+              "level": "children",
+              "metric": "response_rates"
+            }
+          },
+          {
+            "shape_index": 4,
+            "function": "ColumnClusteredDevelopmentMetricPerBusinessUnit",
+            "arguments": {
+              "level": "children",
+              "metric": "nps"
+            }
+          }
+        ],
+        "Requirements": [
+          "Children",
+          "Batch"
+        ],
+        "Texts": {
+          "uppertitle": {
+            "English": "Development NPS & response rate business units",
+            "Dutch": "Ontwikkeling NPS score & responspercentage business units"
+          },
+          "title": {
+            "English": "<< lvlname >> has an NPS score of << npsthisyear >>. The response rate is << responseratethisyear >>.",
+            "Dutch": "<< lvlname >> heeft een NPS score van << npsthisyear >>. Het responspercentage is << responseratethisyear >>."
+          },
+          "titlevisualone": {
+            "English": "Development NPS per BU",
+            "Dutch": "Ontwikkeling NPS score"
+          },
+          "titlevisualtwo": {
+            "English": "Development response rate",
+            "Dutch": "Ontwikkeling responspercentage"
+          }
+        },
+        "Metrics": {
+          "lvlname": "calc.level.name",
+          "npsthisyear": "calc.results.nps[-1].value",
+          "responseratethisyear": "calc.results.response_rates[-1].value"
+        },
+        "Formatting": {
+          "0": "Page number",
+          "2": "Upper title",
+          "3": "Title"
+        },
+        "Afterthought": [
+          {
+            "shape_index": 3,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "NPS & response - development - lower level"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "One pager - back",
+      "content": {
+        "Texts": {
+          "titleofthepager": {
+            "English": "CUSTOMER SATISFACTION TRACKING << title >>",
+            "Dutch": "KLANTTEVREDENHEIDSONDERZOEK << title >>"
+          },
+          "footnotevisittool": {
+            "English": "To see all results and individual responses, visit << url >>",
+            "Dutch": "Voor alle resultaten bezoek << url >>"
+          },
+          "recommendation": {
+            "English": "Recommendations",
+            "Dutch": "Aanbevelingen"
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 1,
+            "function": "TextReplaceRecommendations"
+          }
+        ],
+        "Requirements": [
+          "Statements",
+          "Results",
+          "Analysis"
+        ],
+        "Contents": [
+          {
+            "type": "Number of responses",
+            "over_time": false
+          },
+          {
+            "type": "Statement scores",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Statements - distribution",
+      "content": {
+        "Texts": {
+          "title": {
+            "Dutch": "De scores op de stellingen variëren tussen << minscore >> en << maxscore >>.",
+            "English": "The statements' scores vary between << minscore >> and << maxscore >>."
+          },
+          "uppertitle": {
+            "Dutch": "Statement scores",
+            "English": "Statement scores"
+          },
+          "underlineddriverfootnote": {
+            "Requirements": [
+              "Analysis"
+            ],
+            "Dutch": "Dikgedrukte stellingen zijn de belangrijkste drijfveren",
+            "English": "Bold statements are the key drivers"
+          }
+        },
+        "Metrics": {
+          "maxscore": "calc.results.max_statement[-1].scores[-1].value",
+          "minscore": "calc.results.min_statement[-1].scores[-1].value"
+        },
+        "Visuals": [
+          {
+            "shape_index": 13,
+            "function": "HorizontalBars100StatementDistribution",
+            "arguments": {
+              "impact": false
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title"
+        },
+        "Requirements": [
+          "Results",
+          "Statements"
+        ],
+        "Afterthought": [
+          {
+            "shape_index": 2,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "Statements - distribution"
+            ]
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Statement scores",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Table - NPS",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          },
+          "title": {
+            "English": "Overview NPS scores.",
+            "Dutch": "Overzicht NPS scores."
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "TableOverviewMetric",
+            "arguments": {
+              "metric": "nps"
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title"
+        },
+        "Repeats": {
+          "Spots": 15
+        },
+        "Requirements": [
+          "Results"
+        ],
+        "Contents": [
+          {
+            "type": "NPS (not cohort)",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Engagement",
+      "content": {
+        "Metrics": {
+          "closerate": "calc.results.close_rates[-1]",
+          "closecount": "calc.results.closed[-1]",
+          "creaselogicloop": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.close_rates"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 4,
+            "function": "DonutCustomDistribution",
+            "arguments": {
+              "names": {
+                "Closed": "calc.results.close_rates[-1]",
+                "Open": "NoResult()"
+              },
+              "data_labels": true
+            }
+          }
+        ],
+        "Requirements": [
+          "Activity"
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title",
+          "3": "Main text"
+        },
+        "Texts": {
+          "title": {
+            "English": "The loop is closed for <<closecount>> (<<closerate>>) respondents.",
+            "Dutch": "De loop van <<closerate>> (<<closecount>>) van de respondenten is gesloten."
+          },
+          "uppertitle": {
+            "English": "Engagement",
+            "Dutch": "Betrokkenheid"
+          },
+          "sentenceone": {
+            "English": "During the wave <<closecount>> respondents have their loop marked as closed in the tool. This <<creaselogicloop>>.",
+            "Dutch": "Tijdens de wave heeft <<closecount>> respondenten hun loop gemarkeerd als gesloten in de tool. Dit <<creaselogicloop>>."
+          },
+          "titlevisualone": {
+            "English": "Close the loop",
+            "Dutch": "Close the loop"
+          }
+        },
+        "Contents": [
+          {
+            "type": "Close rate",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "One pager - front",
+      "content": {
+        "Texts": {
+          "titleofthepager": {
+            "English": "CUSTOMER SATISFACTION TRACKING << title >>",
+            "Dutch": "KLANTTEVREDENHEIDSONDERZOEK << title >>"
+          },
+          "footnotevisittool": {
+            "English": "To see all results and individual responses, visit << url >>",
+            "Dutch": "Voor alle resultaten bezoek << url >>"
+          },
+          "VXX": {
+            "*": "<< responses >>"
+          },
+          "VXY": {
+            "*": "<< invited >>"
+          },
+          "VXZ": {
+            "*": "<< contacts >>"
+          },
+          "ZXX": {
+            "*": "<< response_rate_formatted >>"
+          },
+          "ZYX": {
+            "*": "<< delivery_rate_formatted >>"
+          }
+        },
+        "Metrics": {
+          "responses": "calc.results.responses[-1]",
+          "invited": "calc.results.invited[-1]",
+          "contacts": "calc.results.contacts[-1]",
+          "response_rate_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.responses[-1]",
+              "b": "calc.results.invited[-1]",
+              "c": "calc.results.response_rates[-1]"
+            }
+          },
+          "delivery_rate_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.invited[-1]",
+              "b": "calc.results.contacts[-1]",
+              "c": "calc.results.delivery_rates[-1]"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "function": "DonutCustomDistribution",
+            "shape_index": 4,
+            "arguments": {
+              "names": {
+                "Response rate": "calc.results.response_rates[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "function": "DonutCustomDistribution",
+            "shape_index": 6,
+            "arguments": {
+              "names": {
+                "Delivery rate": "calc.results.delivery_rates[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "function": "BarsIndicators",
+            "shape_index": 12,
+            "arguments": {
+              "name": "response_rates"
+            }
+          },
+          {
+            "function": "BarsIndicators",
+            "shape_index": 13,
+            "arguments": {
+              "name": "delivery_rates"
+            }
+          },
+          {
+            "function": "VerticalBars100NpsDistribution",
+            "shape_index": 9
+          },
+          {
+            "function": "LineNpsDevelopment",
+            "shape_index": 11
+          },
+          {
+            "function": "TableStatementsScoresMultipleWaves",
+            "shape_index": 17,
+            "arguments": {
+              "drivers": true,
+              "width": 3
+            }
+          }
+        ],
+        "Requirements": [
+          "Results",
+          "Batch",
+          "Statements"
+        ],
+        "Contents": [
+          {
+            "type": "Delivery rate",
+            "over_time": true
+          },
+          {
+            "type": "Statement scores (Drivers)",
+            "over_time": true
+          },
+          {
+            "type": "Number invited",
+            "over_time": true
+          },
+          {
+            "type": "NPS (not cohort)",
+            "over_time": true
+          },
+          {
+            "type": "Response rate",
+            "over_time": true
+          },
+          {
+            "type": "Number of responses",
+            "over_time": true
+          },
+          {
+            "type": "Statement scores",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Table - delivery rate",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          },
+          "title": {
+            "English": "Overview delivery rate.",
+            "Dutch": "Overzicht afleveringspercentage."
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "TableOverviewMetric",
+            "arguments": {
+              "metric": "delivery_rates"
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title"
+        },
+        "Repeats": {
+          "Spots": 15
+        },
+        "Requirements": [
+          "Batch"
+        ],
+        "Contents": [
+          {
+            "type": "Delivery rate",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Gpt summary",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Summary",
+            "Dutch": "Samenvatting"
+          },
+          "title": {
+            "English": "Report Summary",
+            "Dutch": "Rapport Samenvatting"
+          },
+          "sentenceone": {
+            "*": "< Say something about the trends >"
+          }
+        },
+        "Formatting": {
+          "0": "Main text",
+          "1": "Page number",
+          "2": "Upper title",
+          "3": "Title"
+        },
+        "Afterthought": [
+          {
+            "shape_index": 0,
+            "function": "CreateReportSummary",
+            "use_slides": [
+              "NPS",
+              "NPS - weighted",
+              "NPS - weighted - development",
+              "NPS - cohort - development",
+              "NPS & response - development",
+              "NPS & response - development - lower level",
+              "NPS & response - development - higher level",
+              "NPS motivation",
+              "NPS motivation - quotes",
+              "Statements - drivers",
+              "Statements - drivers - development",
+              "Statements - distribution",
+              "Statements - development",
+              "Statements - table with impact",
+              "Process results",
+              "Engagement",
+              "Engagement - activity",
+              "Recommendations - process",
+              "Recommendations - driver & specific",
+              "Trends",
+              "Best competitor",
+              "Product familiarity",
+              "One thing to change",
+              "One thing to change - quotes"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Statements - development",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Statement scores",
+            "Dutch": "Statement scores"
+          },
+          "underlineddriverfootnote": {
+            "Requirements": [
+              "Analysis"
+            ],
+            "Dutch": "Dikgedrukte stellingen zijn de belangrijkste drijfveren",
+            "English": "Bold statements are the key drivers"
+          }
+        },
+        "Metrics": {
+          "maxscore": "calc.results.max_statement[-1].scores[-1].value",
+          "minscore": "calc.results.min_statement[-1].scores[-1].value"
+        },
+        "Visuals": [
+          {
+            "shape_index": 2,
+            "function": "TableStatementsScoresMultipleWaves",
+            "arguments": {
+              "drivers": true,
+              "adjust_shape_height": true,
+              "difference": true,
+              "width": 3.5,
+              "color_header": [
+                57,
+                54,
+                76
+              ]
+            }
+          }
+        ],
+        "Requirements": [
+          "Waves",
+          "Statements",
+          "Results"
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "4": "Title"
+        },
+        "Afterthought": [
+          {
+            "shape_index": 4,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "Statements - development"
+            ]
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Statement scores",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Table - contacts",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          },
+          "title": {
+            "English": "Overview number of contacts.",
+            "Dutch": "Overzicht aantal contacten."
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "TableOverviewMetric",
+            "arguments": {
+              "metric": "contacts"
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title"
+        },
+        "Repeats": {
+          "Spots": 15
+        },
+        "Requirements": [
+          "Batch"
+        ]
+      }
+    },
+    {
+      "name": "NPS - weighted",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Weighted NPS score",
+            "Dutch": "Gewogen NPS score"
+          },
+          "title": {
+            "English": "The weighted NPS score << creaselogicnps >>.",
+            "Dutch": "De gewogen NPS score << creaselogicnps >>."
+          },
+          "sentenceone": {
+            "English": "<< company >> has a weighted NPS score of << npsthisyear >>.",
+            "Dutch": "<< company >> heeft een gewogen NPS score van << npsthisyear >>."
+          },
+          "sentencetwo": {
+            "English": "The percentage of promoters << creaselogicpro >>. The percentage of passives << creaselogicpas >>. The percentage detractors << creaselogicdet >>.",
+            "Dutch": "Het percentage promoters << creaselogicpro >>. Het percentage passives << creaselogicpas >>. Het percentage detractors << creaselogicdet >>."
+          },
+          "sentencethree": {
+            "English": "The NPS of all respondents <<creaselogicregularnps>>.",
+            "Dutch": "De NPS van alle respondenten <<creaselogicregularnps>>."
+          }
+        },
+        "Metrics": {
+          "lvlname": "calc.level.name",
+          "npsthisyear": "calc.results.revenue.nps[-1].value",
+          "responded_revenue": "format_revenue(calc.results.revenue.responses[-1].value)",
+          "share_revenue_responded": "calc.results.revenue.share[-1].value",
+          "creaselogicnps": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.revenue.nps"
+            }
+          },
+          "creaselogicregularnps": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.nps"
+            }
+          },
+          "creaselogicdet": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.revenue.detractors.share"
+            }
+          },
+          "creaselogicpas": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.revenue.passives.share"
+            }
+          },
+          "creaselogicpro": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.revenue.promoters.share"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 4,
+            "function": "HorizontalBarsNpsDistributionComparison",
+            "arguments": {
+              "name": "Weighted NPS",
+              "use": "results.revenue"
+            }
+          }
+        ],
+        "Requirements": [
+          "Revenue",
+          "Results"
+        ],
+        "Formatting": {
+          "0": "Main text",
+          "1": "Page number",
+          "2": "Upper title",
+          "3": "Title"
+        }
+      }
+    },
+    {
+      "name": "Contents - 5",
+      "content": {
+        "Texts": {
+          "titleone": {
+            "English": "Reason, goal & methodology",
+            "Dutch": "Aanleiding, doel & methodologie"
+          },
+          "titletwo": {
+            "English": "Factbased insights",
+            "Dutch": "Feitelijke inzichten"
+          },
+          "titlethree": {
+            "English": "Concrete recommendations",
+            "Dutch": "Concrete aanbevelingen"
+          },
+          "titlefour": {
+            "English": "Implementation",
+            "Dutch": "Implementatie"
+          },
+          "titlefive": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          }
+        },
+        "Formatting": {
+          "0": "Page number"
+        }
+      }
+    },
+    {
+      "name": "Contents - 4",
+      "content": {
+        "Texts": {
+          "titleone": {
+            "English": "Reason, goal & methodology",
+            "Dutch": "Aanleiding, doel & methodologie"
+          },
+          "titletwo": {
+            "English": "Factbased insights",
+            "Dutch": "Feitelijke inzichten"
+          },
+          "titlethree": {
+            "English": "Concrete recommendations",
+            "Dutch": "Concrete aanbevelingen"
+          },
+          "titlefour": {
+            "English": "Implementation",
+            "Dutch": "Implementatie"
+          },
+          "titlefive": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          }
+        },
+        "Formatting": {
+          "0": "Page number"
+        }
+      }
+    },
+    {
+      "name": "Process results",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Process statistics",
+            "Dutch": "Proces statistieken"
+          },
+          "title": {
+            "*": "- Action title goes here -"
+          },
+          "sentenceone": {
+            "English": "The number of invited contacts << creaselogicinvited >>.",
+            "Dutch": "Het aantal contacten dat is uitgenodigd << creaselogicinvited >>."
+          },
+          "sentencetwo": {
+            "English": "The number of responses << creaselogicresponse >>.",
+            "Dutch": "Het aantal respondenten << creaselogicresponse >>."
+          },
+          "sentencethree": {
+            "English": "The delivery rate << creaselogicdeliveryrate >>.",
+            "Dutch": "Het afleveringspercentage << creaselogicdeliveryrate >>."
+          },
+          "sentencefour": {
+            "English": "The response rate << creaselogicresrate >>.",
+            "Dutch": "Het responspercentage << creaselogicresrate >>."
+          },
+          "titlevisualone": {
+            "*": "Invites & responses"
+          },
+          "titlevisualtwo": {
+            "*": "Delivery rate"
+          },
+          "titlevisualthree": {
+            "*": "Response rate"
+          }
+        },
+        "Metrics": {
+          "creaselogicinvited": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.invited"
+            }
+          },
+          "creaselogicresponse": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.responses"
+            }
+          },
+          "creaselogicdeliveryrate": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.delivery_rates"
+            }
+          },
+          "creaselogicresrate": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.response_rates"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 1,
+            "function": "GeneralVisual",
+            "arguments": {
+              "title": [
+                "Invited",
+                "Responses"
+              ],
+              "serie": [
+                "calc.results.invited",
+                "calc.results.responses"
+              ],
+              "add_data_labels": false
+            }
+          },
+          {
+            "shape_index": 1,
+            "function": "GeneralVisual",
+            "arguments": {
+              "title": "Delivery rate",
+              "serie": "calc.results.delivery_rates",
+              "target": "Delivery rate",
+              "num_format": "%"
+            }
+          },
+          {
+            "shape_index": 2,
+            "function": "GeneralVisual",
+            "arguments": {
+              "title": "Response rate",
+              "serie": "calc.results.response_rates",
+              "target": "Response rate",
+              "num_format": "%"
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "4": "Main text",
+          "5": "Upper title",
+          "6": "Title"
+        },
+        "Requirements": [
+          "Batch",
+          "Waves"
+        ],
+        "Back-up": "Process results - one wave",
+        "Afterthought": [
+          {
+            "shape_index": 6,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "Process results"
+            ]
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Delivery rate",
+            "over_time": true
+          },
+          {
+            "type": "Number invited",
+            "over_time": true
+          },
+          {
+            "type": "Response rate",
+            "over_time": true
+          },
+          {
+            "type": "Number of responses",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Implementation - drivers",
+      "content": {
+        "Visuals": [
+          {
+            "shape_index": 1,
+            "function": "TextReplaceImplementationSheet"
+          }
+        ],
+        "Requirements": [
+          "Analysis",
+          "Statements"
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "2": "Upper title",
+          "3": "Title"
+        },
+        "Texts": {
+          "uppertitle": {
+            "*": "OGSM"
+          },
+          "title": {
+            "English": "Implementation",
+            "Dutch": "Implementatie"
+          },
+          "subtitleone": {
+            "English": "Key drivers",
+            "Dutch": "Belangrijkste drijfveren"
+          },
+          "subtitlethree": {
+            "English": "Goal (numbers)",
+            "Dutch": "Doel (nummers)"
+          },
+          "subtitlefour": {
+            "English": "Your improvement strategies",
+            "Dutch": "Jouw verbeteracties"
+          }
+        },
+        "Contents": [
+          {
+            "type": "Statement scores (Drivers)",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "One pager - front - coverage",
+      "content": {
+        "Texts": {
+          "titleofthepager": {
+            "English": "CUSTOMER SATISFACTION TRACKING << title >>",
+            "Dutch": "KLANTTEVREDENHEIDSONDERZOEK << title >>"
+          },
+          "footnotevisittool": {
+            "English": "To see all results and individual responses, visit << url >>",
+            "Dutch": "Voor alle resultaten bezoek << url >>"
+          },
+          "VXX": {
+            "*": "<< responses >>"
+          },
+          "VXY": {
+            "*": "<< invited >>"
+          },
+          "VXZ": {
+            "*": "<< contacts >>"
+          },
+          "VYX": {
+            "*": "<< customers >>"
+          },
+          "ZXX": {
+            "*": "<< response_rate_formatted >>"
+          },
+          "ZXY": {
+            "*": "<< gross_coverage_formatted >>"
+          },
+          "ZXZ": {
+            "*": "<< net_coverage_formatted >>"
+          },
+          "ZYX": {
+            "*": "<< delivery_rate_formatted >>"
+          }
+        },
+        "Metrics": {
+          "responses": "calc.results.responses[-1]",
+          "invited": "calc.results.invited[-1]",
+          "contacts": "calc.results.contacts[-1]",
+          "customers": "calc.results.customers[-1]",
+          "response_rate_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.responses[-1]",
+              "b": "calc.results.invited[-1]",
+              "c": "calc.results.response_rates[-1]"
+            }
+          },
+          "gross_coverage_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.invited[-1]",
+              "b": "calc.results.customers[-1]",
+              "c": "calc.results.gross_coverages[-1]"
+            }
+          },
+          "net_coverage_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.unique_invited[-1]",
+              "b": "calc.results.customers[-1]",
+              "c": "calc.results.net_coverages[-1]"
+            }
+          },
+          "delivery_rate_formatted": {
+            "function": "donut_text_formatter",
+            "arguments": {
+              "a": "calc.results.invited[-1]",
+              "b": "calc.results.contacts[-1]",
+              "c": "calc.results.delivery_rates[-1]"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "function": "DonutCustomDistribution",
+            "shape_index": 2,
+            "arguments": {
+              "names": {
+                "Response rate": "calc.results.response_rates[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "function": "DonutCustomDistribution",
+            "shape_index": 6,
+            "arguments": {
+              "names": {
+                "Gross coverage": "calc.results.gross_coverages[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "function": "DonutCustomDistribution",
+            "shape_index": 8,
+            "arguments": {
+              "names": {
+                "Net coverage": "calc.results.net_coverages[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "function": "DonutCustomDistribution",
+            "shape_index": 10,
+            "arguments": {
+              "names": {
+                "Delivery rate": "calc.results.delivery_rates[-1]"
+              },
+              "data_labels": false
+            }
+          },
+          {
+            "function": "BarsIndicators",
+            "shape_index": 17,
+            "arguments": {
+              "name": "response_rates"
+            }
+          },
+          {
+            "function": "BarsIndicators",
+            "shape_index": 18,
+            "arguments": {
+              "name": "gross_coverages"
+            }
+          },
+          {
+            "function": "BarsIndicators",
+            "shape_index": 19,
+            "arguments": {
+              "name": "net_coverages"
+            }
+          },
+          {
+            "function": "BarsIndicators",
+            "shape_index": 20,
+            "arguments": {
+              "name": "delivery_rates"
+            }
+          },
+          {
+            "function": "VerticalBars100NpsDistribution",
+            "shape_index": 14
+          },
+          {
+            "function": "LineNpsDevelopment",
+            "shape_index": 16
+          },
+          {
+            "function": "TableStatementsScoresMultipleWaves",
+            "shape_index": 24,
+            "arguments": {
+              "drivers": true,
+              "width": 3
+            }
+          }
+        ],
+        "Back-up": "One pager - front",
+        "Requirements": [
+          "Results",
+          "Batch",
+          "Customers",
+          "Statements"
+        ],
+        "Contents": [
+          {
+            "type": "Delivery rate",
+            "over_time": true
+          },
+          {
+            "type": "Statement scores (Drivers)",
+            "over_time": true
+          },
+          {
+            "type": "Number invited",
+            "over_time": true
+          },
+          {
+            "type": "NPS (not cohort)",
+            "over_time": true
+          },
+          {
+            "type": "Response rate",
+            "over_time": true
+          },
+          {
+            "type": "Number of responses",
+            "over_time": true
+          },
+          {
+            "type": "Statement scores",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "NPS & response - development - higher level",
+      "content": {
+        "Metrics": {
+          "lvlname": "calc.level.name",
+          "npsthisyear": "calc.results.nps[-1].value",
+          "responseratethisyear": "calc.results.response_rates[-1].value"
+        },
+        "Visuals": [
+          {
+            "shape_index": 1,
+            "function": "ColumnClusteredDevelopmentMetricPerBusinessUnit",
+            "arguments": {
+              "level": "parents",
+              "metric": "response_rates"
+            }
+          },
+          {
+            "shape_index": 4,
+            "function": "ColumnClusteredDevelopmentMetricPerBusinessUnit",
+            "arguments": {
+              "level": "parents",
+              "metric": "nps"
+            }
+          }
+        ],
+        "Requirements": [
+          "Parents",
+          "Results",
+          "Batch"
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "2": "Upper title",
+          "3": "Title"
+        },
+        "Texts": {
+          "title": {
+            "English": "<<lvlname>> has an NPS score of <<npsthisyear>>. The response rate is <<responseratethisyear>>.",
+            "Dutch": "<<lvlname>> heeft een NPS score van <<npsthisyear>>. Het responspercentage is <<responseratethisyear>>."
+          },
+          "uppertitle": {
+            "English": "Development NPS & response rate vs. upper business units",
+            "Dutch": "Ontwikkeling NPS score & responspercentage vs. hoger gelegen business units"
+          },
+          "titlevisualone": {
+            "English": "Development NPS score",
+            "Dutch": "Ontwikkeling NPS score"
+          },
+          "titlevisualtwo": {
+            "English": "Development response rate",
+            "Dutch": "Ontwikkeling responspercentage"
+          }
+        },
+        "Afterthought": [
+          {
+            "shape_index": 3,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "NPS & response - development - higher level"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "One thing to change - quotes",
+      "content": {
+        "Texts": {
+          "title": {
+            "English": "Quotes that provide insights.",
+            "Dutch": "Quotes die extra inzicht geven."
+          }
+        },
+        "Formatting": {
+          "0": "Upper title",
+          "1": "Title",
+          "2": "Main text (no coloring)",
+          "3": "Page number"
+        },
+        "Requirements": [
+          {
+            "Columns with data": {
+              "Results": {
+                "One thing to change": 1
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Process results - one wave",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Process results",
+            "Dutch": "Proces statistieken"
+          },
+          "sentenceone": {
+            "English": "The number of invited contacts << creaselogicinvited >>.",
+            "Dutch": "Het aantal contacten dat is uitgenodigd << creaselogicinvited >>."
+          },
+          "sentencetwo": {
+            "English": "The number of responses << creaselogicresponse >>.",
+            "Dutch": "Het aantal respondenten << creaselogicresponse >>."
+          },
+          "sentencethree": {
+            "English": "The delivery rate << creaselogicdeliveryrate >>.",
+            "Dutch": "Het afleveringspercentage << creaselogicdeliveryrate >>."
+          },
+          "sentencefour": {
+            "English": "The response rate << creaselogicresrate >>.",
+            "Dutch": "Het responspercentage << creaselogicresrate >>."
+          },
+          "titlevisualtwo": {
+            "*": "Delivery rate"
+          },
+          "titlevisualthree": {
+            "*": "Response rate"
+          }
+        },
+        "Metrics": {
+          "creaselogicinvited": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.invited"
+            }
+          },
+          "creaselogicresponse": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.responses"
+            }
+          },
+          "creaselogicdeliveryrate": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.delivery_rates"
+            }
+          },
+          "creaselogicresrate": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.response_rates"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "DonutCustomDistribution",
+            "arguments": {
+              "names": {
+                "Delivered": "calc.results.delivery_rates[-1]",
+                "Not Delivered": "1 - calc.results.delivery_rates[-1]"
+              },
+              "data_labels": true
+            }
+          },
+          {
+            "shape_index": 4,
+            "function": "DonutCustomDistribution",
+            "arguments": {
+              "names": {
+                "Responded": "calc.results.response_rates[-1]",
+                "Not Responded": "1 - calc.results.response_rates[-1]"
+              },
+              "data_labels": true
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Main text",
+          "1": "Page number",
+          "2": "Upper title"
+        },
+        "Requirements": [
+          "Batch"
+        ],
+        "Afterthought": [
+          {
+            "shape_index": 5,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "Process results - one wave"
+            ],
+            "specific_instructions": [
+              "Consider the following criteria when creating the action title:",
+              "Delivery rate above 90% is considered good",
+              "Response rate above 30% is considered good",
+              "Response rate below 15% is considered below expectations",
+              "Please incorporate these thresholds in your assessment of the results"
+            ]
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Delivery rate",
+            "over_time": false
+          },
+          {
+            "type": "Number invited",
+            "over_time": false
+          },
+          {
+            "type": "Response rate",
+            "over_time": false
+          },
+          {
+            "type": "Number of responses",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Contents - 3",
+      "content": {
+        "Texts": {
+          "titleone": {
+            "English": "Reason, goal & methodology",
+            "Dutch": "Aanleiding, doel & methodologie"
+          },
+          "titletwo": {
+            "English": "Factbased insights",
+            "Dutch": "Feitelijke inzichten"
+          },
+          "titlethree": {
+            "English": "Concrete recommendations",
+            "Dutch": "Concrete aanbevelingen"
+          },
+          "titlefour": {
+            "English": "Implementation",
+            "Dutch": "Implementatie"
+          },
+          "titlefive": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          }
+        },
+        "Formatting": {
+          "0": "Page number"
+        }
+      }
+    },
+    {
+      "name": "Final sheet",
+      "content": {}
+    },
+    {
+      "name": "Recommendations - driver & specific",
+      "content": {
+        "Formatting": {
+          "1": "Page number",
+          "2": "Title"
+        },
+        "Texts": {
+          "title": {
+            "English": "Concrete recommendations.",
+            "Dutch": "Concrete aanbevelingen."
+          },
+          "headerone": {
+            "English": "Key driver related recommendations",
+            "Dutch": "Aanbevelingen voor de belangrijkste drijfveren"
+          },
+          "headertwo": {
+            "English": "Specific recommendations",
+            "Dutch": "Specifieke aanbevelingen"
+          }
+        },
+        "Notes": "Report"
+      }
+    },
+    {
+      "name": "NPS - cohort - development",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "NPS - Cohort",
+            "Dutch": "NPS - Cohort"
+          },
+          "sentenceone": {
+            "English": "The same <<cohortsresponses>> respondents participated in both this year and last year.",
+            "Dutch": "Dezelfde <<cohortsresponses>> respondenten hebben dit en vorig jaar deelgenomen."
+          },
+          "sentencetwo": {
+            "English": "The cohort NPS <<creaselogicnps>>.",
+            "Dutch": "De cohort NPS <<creaselogicnps>>."
+          },
+          "sentencethree": {
+            "English": "The percentage promoters <<creaselogicpro>>. The percentage passives <<creaselogicpas>>. The percentage detractors <<creaselogicdet>>.",
+            "Dutch": "Het percentage promoters <<creaselogicpro>>. Het percentage passives <<creaselogicpas>>. Het percentage detractors <<creaselogicdet>>."
+          },
+          "sentencefour": {
+            "English": "The NPS of all respondents <<creaselogicregularnps>>.",
+            "Dutch": "De NPS van alle respondenten <<creaselogicregularnps>>."
+          },
+          "titlevisualtwo": {
+            "English": "Development NPS",
+            "Dutch": "Ontwikkeling NPS"
+          },
+          "titlevisualone": {
+            "English": "Development cohort NPS",
+            "Dutch": "Ontwikkeling cohort NPS"
+          }
+        },
+        "Metrics": {
+          "cohortsresponses": "calc.cohort.results.responses[-1].value",
+          "npsthisyear": "calc.cohort.results.nps[-1].value",
+          "creaselogicnps": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.cohort.results.nps"
+            }
+          },
+          "creaselogicregularnps": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.nps"
+            }
+          },
+          "creaselogicdet": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.cohort.results.detractors.share"
+            }
+          },
+          "creaselogicpas": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.cohort.results.passives.share"
+            }
+          },
+          "creaselogicpro": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.cohort.results.promoters.share"
+            }
+          },
+          "lvlname": "calc.level.name"
+        },
+        "Visuals": [
+          {
+            "shape_index": 1,
+            "function": "DualAxisNpsInclDistribution",
+            "arguments": {
+              "use": "cohort.results"
+            }
+          },
+          {
+            "shape_index": 0,
+            "function": "DualAxisNpsInclDistribution",
+            "arguments": {
+              "limit": "cohort.results"
+            }
+          }
+        ],
+        "Requirements": [
+          "Waves",
+          "Cohort",
+          "Results"
+        ],
+        "Formatting": {
+          "2": "Page number",
+          "3": "Upper title",
+          "4": "Title",
+          "5": "Main text"
+        },
+        "Afterthought": [
+          {
+            "shape_index": 4,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "NPS - cohort - development"
+            ]
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Detractors (cohort)",
+            "over_time": true
+          },
+          {
+            "type": "NPS (cohort)",
+            "over_time": true
+          },
+          {
+            "type": "Passives (cohort)",
+            "over_time": true
+          },
+          {
+            "type": "Promoters (cohort)",
+            "over_time": true
+          },
+          {
+            "type": "NPS (not cohort)",
+            "over_time": true
+          },
+          {
+            "type": "Number of responses",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Recommendations - process",
+      "content": {
+        "Formatting": {
+          "1": "Page number",
+          "2": "Title"
+        },
+        "Texts": {
+          "title": {
+            "English": "Concrete recommendations.",
+            "Dutch": "Concrete aanbevelingen."
+          },
+          "headerone": {
+            "English": "Process related recommendations",
+            "Dutch": "Aanbevelingen voor het proces"
+          },
+          "sentenceone": {
+            "English": "Stay in touch with all customers and make it clear that participating in the NPS survey is part of doing business with <<company>>.",
+            "Dutch": "Blijf in contact met alle klanten en maak duidelijk dat jaarlijks deelnemen aan dit onderzoek een deel van het zakendoen is met <<company>>."
+          },
+          "sentencetwo": {
+            "English": "Communicate clearly what insights have emerged from the research and share the actions that follow with all the customers.",
+            "Dutch": "Communiceer transparant welke inzichten en acties uit dit onderzoek naar voren zijn gekomen."
+          },
+          "sentencethree": {
+            "English": "Read through all open answers. This may lead to new ideas and gives insight in the tone of voice and vocabulary of your customers.",
+            "Dutch": "Lees alle motivaties en antwoorden op de open vragen door."
+          },
+          "sentencefour": {
+            "English": "Close the loop with all respondents and determine together which next steps can be taken to improve collaboration.",
+            "Dutch": "Close the loop met alle respondenten en bepaal samen welke stappen gezet worden kunnen om samenwerking te verbeteren."
+          },
+          "sentencefive": {
+            "English": "Share the results of with all employees and establish clear goals for the next year on country and team level. Motivate employees by introducing team-wide incentives for high performance in terms of customer satisfaction (response rate, close rate)",
+            "Dutch": "Deel de resultaten met alle medewerkers en stel duidelijke doelen op land- en teamniveau voor het komende jaar. Motiveer medewerkers door teambrede incentives in te voeren voor hoge prestaties op het gebied van klanttevredenheid (response rate, close rate)."
+          }
+        },
+        "Notes": "Report",
+        "Contents": [
+          {
+            "type": "Close rate",
+            "over_time": false
+          },
+          {
+            "type": "NPS (not cohort)",
+            "over_time": false
+          },
+          {
+            "type": "Response rate",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Implementation - IOGSM",
+      "content": {
+        "Formatting": {
+          "1": "Page number",
+          "2": "Upper title",
+          "3": "Title"
+        },
+        "Texts": {
+          "uppertitle": {
+            "*": "OGSM"
+          },
+          "title": {
+            "English": "Implementation",
+            "Dutch": "Implementatie"
+          },
+          "subtitleone": {
+            "English": "Insight",
+            "Dutch": "Inzicht"
+          },
+          "subtitletwo": {
+            "English": "Goal (words)",
+            "Dutch": "Doel (woorden)"
+          },
+          "subtitlethree": {
+            "English": "Goal (numbers)",
+            "Dutch": "Doel (nummers)"
+          },
+          "subtitlefour": {
+            "English": "Improvement strategies",
+            "Dutch": "Verbeteracties"
+          }
+        }
+      }
+    },
+    {
+      "name": "Trends",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Trends",
+            "Dutch": "Trends"
+          },
+          "title": {
+            "*": "< Say something about the trends >"
+          },
+          "sentenceone": {
+            "English": "<< numberofrespondents >> respondents shared their view on which trends are most important for << company >>. These are the most mentioned",
+            "Dutch": "<< numberofrespondents >> respondenten deelden hun mening over welke trends het belangrijkst zijn voor << company >>. De volgende zijn het vaakst genoemd"
+          }
+        },
+        "Metrics": {
+          "numberofrespondents": "calc.dataframes[-1][\"Trends\"].count()"
+        },
+        "Visuals": [
+          {
+            "shape_index": 0,
+            "function": "TextGptAnalysis",
+            "arguments": {
+              "analysis_type": "trends",
+              "metric": "Trends",
+              "placeholder": "enumerationtrends"
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Main text",
+          "1": "Page number",
+          "2": "Upper title",
+          "3": "Title"
+        },
+        "Requirements": [
+          "Results",
+          {
+            "Columns with data": {
+              "Results": {
+                "Trends": 1
+              }
+            }
+          }
+        ],
+        "Afterthought": [
+          {
+            "shape_index": 3,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "Trends"
+            ]
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Text question",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Contents - 2",
+      "content": {
+        "Texts": {
+          "titleone": {
+            "English": "Reason, goal & methodology",
+            "Dutch": "Aanleiding, doel & methodologie"
+          },
+          "titletwo": {
+            "English": "Factbased insights",
+            "Dutch": "Feitelijke inzichten"
+          },
+          "titlethree": {
+            "English": "Concrete recommendations",
+            "Dutch": "Concrete aanbevelingen"
+          },
+          "titlefour": {
+            "English": "Implementation",
+            "Dutch": "Implementatie"
+          },
+          "titlefive": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          }
+        },
+        "Formatting": {
+          "0": "Page number"
+        }
+      }
+    },
+    {
+      "name": "Table - invited",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          },
+          "title": {
+            "English": "Overview number of invited contacts.",
+            "Dutch": "Overzicht aantal uitnodigingen."
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 3,
+            "function": "TableOverviewMetric",
+            "arguments": {
+              "metric": "invited"
+            }
+          }
+        ],
+        "Formatting": {
+          "0": "Page number",
+          "1": "Upper title",
+          "2": "Title"
+        },
+        "Repeats": {
+          "Spots": 15
+        },
+        "Requirements": [
+          "Batch"
+        ],
+        "Contents": [
+          {
+            "type": "Number invited",
+            "over_time": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "AlphaRainbow - tools",
+      "content": {
+        "Texts": {
+          "title": {
+            "English": "We provide concrete, action-driven strategies on a one pager per market, along with interactive dashboards to drill deeper into the data.",
+            "Dutch": "We bieden concrete, actiegerichte strategieën op one pagers per markt, samen met interactieve dashboards waarmee u dieper in de gegevens kunt duiken."
+          },
+          "sentenceone": {
+            "English": "We summarize the survey findings on a one pager per market. The one pager shows the NPS score by market, the statement scores and the indicated actions to improve.",
+            "Dutch": "We vatten de onderzoeksresultaten samen op een one pager per markt. De one pager toont de NPS score per markt, de statement scores en de aangegeven acties ter verbetering."
+          },
+          "sentencetwo": {
+            "English": "Our interactive Power BI Dashboards give you all the details down to the unique respondents, while also allowing you to create your own cross sections.",
+            "Dutch": "Onze interactieve Power BI Dashboards geven u alle details tot de unieke respondenten, terwijl u ook uw eigen doorsnedes kunt maken."
+          },
+          "uppertitle": {
+            "English": "Appendix",
+            "Dutch": "Bijlagen"
+          }
+        },
+        "Formatting": {
+          "0": "Page number",
+          "1": "Title",
+          "2": "Main text",
+          "7": "Upper title"
+        }
+      }
+    },
+    {
+      "name": "One thing to change",
+      "content": {
+        "Texts": {
+          "sentenceone": {
+            "English": "<< ottc >> respondents gave a suggestion to change one thing.",
+            "Dutch": "<< ottc >> respondenten gaven een suggestie om één ding te veranderen."
+          }
+        },
+        "Metrics": {
+          "ottc": "calc.dataframes[-1][\"One thing to change\"].count()"
+        },
+        "Formatting": {
+          "0": "Upper title",
+          "1": "Title",
+          "2": "Main text (no coloring)",
+          "3": "Page number"
+        },
+        "Requirements": [
+          {
+            "Columns with data": {
+              "Results": {
+                "One thing to change": 1
+              }
+            }
+          }
+        ],
+        "Contents": [
+          {
+            "type": "Text question",
+            "over_time": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "NPS - weighted - development",
+      "content": {
+        "Texts": {
+          "uppertitle": {
+            "English": "Development weighted NPS",
+            "Dutch": "Ontwikkeling gewogen NPS"
+          },
+          "sentenceone": {
+            "English": "The weighted NPS <<creaselogicnps>>.",
+            "Dutch": "De gewogen NPS <<creaselogicnps>>."
+          },
+          "sentencetwo": {
+            "English": "The percentage promoters <<creaselogicpro>>. The percentage passives <<creaselogicpas>>. The percentage detractors <<creaselogicdet>>.",
+            "Dutch": "Het percentage promoters <<creaselogicpro>>. Het percentage passives <<creaselogicpas>>. Het percentage detractors <<creaselogicdet>>."
+          },
+          "sentencethree": {
+            "English": "The NPS of all respondents <<creaselogicregularnps>>.",
+            "Dutch": "De NPS van alle respondenten <<creaselogicregularnps>>."
+          },
+          "titlevisualtwo": {
+            "English": "Development NPS",
+            "Dutch": "Ontwikkeling NPS"
+          },
+          "titlevisualone": {
+            "English": "Development weighted NPS",
+            "Dutch": "Ontwikkeling gewogen NPS"
+          }
+        },
+        "Metrics": {
+          "lvlname": "calc.level.name",
+          "npsthisyear": "calc.results.revenue.nps[-1].value",
+          "creaselogicnps": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.revenue.nps"
+            }
+          },
+          "creaselogicregularnps": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.nps"
+            }
+          },
+          "creaselogicdet": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.revenue.detractors.share"
+            }
+          },
+          "creaselogicpas": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.revenue.passives.share"
+            }
+          },
+          "creaselogicpro": {
+            "function": "increase_decrease_formatter",
+            "arguments": {
+              "metric": "calc.results.revenue.promoters.share"
+            }
+          }
+        },
+        "Visuals": [
+          {
+            "shape_index": 1,
+            "function": "DualAxisNpsInclDistribution",
+            "arguments": {
+              "use": "results.revenue",
+              "limit": "results.revenue"
+            }
+          },
+          {
+            "shape_index": 0,
+            "function": "DualAxisNpsInclDistribution",
+            "arguments": {
+              "limit": "results.revenue"
+            }
+          }
+        ],
+        "Requirements": [
+          "Waves",
+          "Revenue",
+          "Results"
+        ],
+        "Formatting": {
+          "2": "Page number",
+          "3": "Upper title",
+          "4": "Title",
+          "5": "Main text"
+        },
+        "Back-up": "NPS - weighted",
+        "Afterthought": [
+          {
+            "shape_index": 4,
+            "function": "CreateActionTitle",
+            "use_slides": [
+              "NPS - weighted - development"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
