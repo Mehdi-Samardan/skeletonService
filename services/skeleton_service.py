@@ -1,44 +1,72 @@
-# services/skeleton_service.py
-
 from utils.hashing import generate_input_hash
 from utils.logger import logger
+from utils.yaml_loader import load_yaml_file
+from datetime import datetime
+from utils.local_storage import save_skeleton_locally
+from services.pptx_builder import build_pptx_from_skeleton
 
 
 class SkeletonService:
     def __init__(self, repository):
         self.repository = repository
 
-    def generate(self, layouts: list[str], templates: list[str]) -> dict:
+    # -----------------------------
+    # Build skeleton from layout YAML
+    # -----------------------------
+    def build_skeleton(self, layout_content: list) -> dict:
         """
-        Main orchestration method for skeleton generation.
+        Converts layout YAML (list of slide names)
+        into structured skeleton JSON.
         """
 
-        if not layouts:
-            raise ValueError("Layouts list cannot be empty.")
+        if not isinstance(layout_content, list):
+            raise ValueError("Layout YAML must be a list of slide names.")
 
-        # 1️⃣ Input Hash üret
-        input_hash = generate_input_hash(layouts, templates)
+        slides = []
 
-        logger.info(f"Generated input hash: {input_hash}")
+        for index, slide_name in enumerate(layout_content, start=1):
+            slides.append(
+                {
+                    "order": index,
+                    "slide_name": slide_name,
+                    "template": None,  # template mapping next phase
+                }
+            )
 
-        # 2️⃣ Cache kontrol
-        existing = self.repository.get_by_hash(input_hash)
+        return {"slides": slides}
 
+    # -----------------------------
+    # Main generation method
+    # -----------------------------
+    def generate(self, layout_name: str) -> dict:
+        """
+        Main orchestration method.
+        """
+
+        layout_data = load_yaml_file(f"storage/layouts/saved/{layout_name}.yaml")
+
+        skeleton = self.build_skeleton(layout_data)
+
+        skeleton_hash = generate_input_hash(skeleton)
+
+        logger.info(f"Generated skeleton hash: {skeleton_hash}")
+
+        existing = self.repository.get_by_hash(skeleton_hash)
         if existing:
             logger.info("Skeleton found in cache.")
             return {"cached": True, "data": existing}
 
-        # 3️⃣ Skeleton üretim (şimdilik stub)
-        file_path = f"/generated/{input_hash}.pptx"
+        pptx_path = build_pptx_from_skeleton(skeleton_hash, skeleton)
 
         metadata = {
-            "hash": input_hash,
-            "layouts": layouts,
-            "templates": templates,
-            "file_path": file_path,
+            "hash": skeleton_hash,
+            "layout_name": layout_name,
+            "file_path": pptx_path,
+            "skeleton": skeleton,
+            "created_at": datetime.utcnow().isoformat(),
         }
 
-        # 4️⃣ Mongo’ya kaydet
+        # 6️⃣ Save to Mongo
         saved = self.repository.insert_layout(metadata)
 
         logger.info("New skeleton generated and stored.")
