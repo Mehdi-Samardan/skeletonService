@@ -1,25 +1,46 @@
+from pathlib import Path
 from pptx import Presentation
-from pptx.util import Inches
+import hashlib
+import uuid
+
+TEMPLATE_DIR = Path("storage/templates")
+GENERATED_DIR = Path("generated")
+GENERATED_DIR.mkdir(exist_ok=True)
 
 
-def build_pptx_from_skeleton(hash_value: str, skeleton: dict) -> str:
+def merge_pptx(slide_names: list[str]) -> tuple[str, str]:
     """
-    Builds a PowerPoint file from skeleton structure.
+    Merge template pptx files based on slide order.
+    Returns (file_path, binary_hash)
     """
 
-    prs = Presentation()
+    first_template = TEMPLATE_DIR / f"{slide_names[0]}.pptx"
 
-    for slide_data in skeleton["slides"]:
-        slide_layout = prs.slide_layouts[1]  # Title + Content
-        slide = prs.slides.add_slide(slide_layout)
+    if not first_template.exists():
+        raise FileNotFoundError(f"{first_template} not found.")
 
-        title = slide.shapes.title
-        content = slide.placeholders[1]
+    # İlk dosyayı base alıyoruz
+    final_prs = Presentation(str(first_template))
 
-        title.text = slide_data["slide_name"]
-        content.text = f"Auto-generated slide #{slide_data['order']}"
+    for slide_name in slide_names[1:]:
+        template_path = TEMPLATE_DIR / f"{slide_name}.pptx"
 
-    file_path = f"generated/{hash_value}.pptx"
-    prs.save(file_path)
+        if not template_path.exists():
+            raise FileNotFoundError(f"{template_path} not found.")
 
-    return file_path
+        temp_prs = Presentation(str(template_path))
+
+        for slide in temp_prs.slides:
+            final_prs.slides.add_slide(slide.slide_layout)
+
+    temp_output = GENERATED_DIR / f"{uuid.uuid4()}.pptx"
+    final_prs.save(temp_output)
+
+    # Binary hash
+    with open(temp_output, "rb") as f:
+        file_hash = hashlib.sha256(f.read()).hexdigest()
+
+    final_path = GENERATED_DIR / f"{file_hash}.pptx"
+    temp_output.rename(final_path)
+
+    return str(final_path), file_hash
