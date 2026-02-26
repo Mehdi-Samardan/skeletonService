@@ -2,11 +2,12 @@ import hashlib
 import json
 
 
-def hash_template(template: dict) -> str:
-    raw = json.dumps(template, sort_keys=True)
-    return hashlib.sha256(raw.encode()).hexdigest()
+def hash_layout(layout_name: str, slide_names: list[str]) -> str:
+    """
+    Produce a deterministic SHA-256 hash from a layout name and its
+    ordered list of slide names.
 
-
-def hash_skeleton(layout_name: str, template_hashes: list[str]) -> str:
-    combined = layout_name + "".join(template_hashes)
-    return hashlib.sha256(combined.encode()).hexdigest()
+    Using JSON encoding preserves order, so ["A","B"] != ["B","A"].
+    """
+    payload = json.dumps({"layout": layout_name, "slides": slide_names}, ensure_ascii=False)
+    return hashlib.sha256(payload.encode()).hexdigest()

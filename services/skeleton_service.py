@@ -1,47 +1,66 @@
-from services.storage_loader import StorageLoader
-from services.hash_service import hash_template, hash_skeleton
+from datetime import datetime, timezone
+
+from exceptions.custom_exceptions import LayoutNotFoundError, TemplateNotFoundError
+from services.hash_service import hash_layout
 from services.ppt_service import generate_ppt
-from repositories.skeleton_repository import SkeletonRepository
+from services.storage_loader import StorageLoader
+from utils.logger import logger
+from utils.validators import validate_slide_names
 
 
 class SkeletonService:
-    def __init__(self):
+    def __init__(self) -> None:
         self.loader = StorageLoader()
-        self.repo = SkeletonRepository()
 
-    def generate(self, layout_name: str):
+    def generate(self, layout_name: str, repository) -> dict:
+        """
+        Generate (or retrieve from cache) a skeleton PPTX.
+
+        Flow:
+          1. Load slide list from the saved layout YAML.
+          2. Validate slide names.
+          3. Compute deterministic hash from layout name + slide names.
+          4. Check MongoDB — cache hit → return existing record.
+          5. Cache miss → merge PPTX templates, save file, persist metadata.
+
+        Args:
+            layout_name: Name of a saved layout (without .yaml extension).
+            repository:  SkeletonRepository instance for DB access.
+
+        Returns:
+            {"cached": bool, "data": {...skeleton metadata...}}
+        """
+        logger.info(f"[SkeletonService] generate → layout='{layout_name}'")
 
         layout = self.loader.get_layout(layout_name)
         if not layout:
-            raise ValueError("Layout not found")
+            raise LayoutNotFoundError(layout_name)
 
-        slide_names = layout.get("content", [])
+        slide_names: list[str] = layout.get("content", [])
+        validate_slide_names(slide_names, layout_name)
 
-        template_hashes = []
+        skeleton_hash = hash_layout(layout_name, slide_names)
+        logger.info(f"[SkeletonService] hash={skeleton_hash[:16]}…")
 
-        for slide_name in slide_names:
-            template = self.loader.get_template(slide_name)
-
-            if not template:
-                continue
-
-            template_hashes.append(hash_template(template))
-
-        skeleton_hash = hash_skeleton(layout_name, template_hashes)
-
-        existing = self.repo.find_by_hash(skeleton_hash)
+        existing = repository.find_by_hash(skeleton_hash)
         if existing:
+            logger.info("[SkeletonService] cache hit — returning existing skeleton.")
             return {"cached": True, "data": existing}
 
-        file_path = generate_ppt(skeleton_hash, slide_names)
+        try:
+            file_path = generate_ppt(skeleton_hash, slide_names)
+        except FileNotFoundError as exc:
+            raise TemplateNotFoundError(str(exc)) from exc
 
-        data = {
+        metadata = {
             "skeleton_hash": skeleton_hash,
             "layout_name": layout_name,
-            "template_hashes": template_hashes,
+            "slides": slide_names,
             "file_path": file_path,
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
-        saved = self.repo.insert(data)
+        saved = repository.insert(metadata)
+        logger.info(f"[SkeletonService] new skeleton stored → {file_path}")
 
         return {"cached": False, "data": saved}

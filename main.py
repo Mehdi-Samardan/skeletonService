@@ -1,15 +1,18 @@
-# main.py
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+
 from api.routes import router
-from database import connect_to_mongo
-
-app = FastAPI()
+from database import close_mongo_connection, connect_to_mongo
 
 
-@app.on_event("startup")
-def startup():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     connect_to_mongo()
+    yield
+    close_mongo_connection()
 
+
+app = FastAPI(title="Skeleton Service", version="1.0.0", lifespan=lifespan)
 
 app.include_router(router)
