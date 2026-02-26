@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import yaml
+from yaml import YAMLError
 
 
 def load_yaml_file(file_path: str) -> object:
@@ -36,7 +37,11 @@ def load_all_yaml_from_directory(directory_path: str, recursive: bool = False) -
 
     results = []
     for file_path in yaml_files:
-        data = load_yaml_file(str(file_path))
+        try:
+            data = load_yaml_file(str(file_path))
+        except yaml.YAMLError:
+            # Skip malformed YAML files silently (broken source templates).
+            continue
 
         if recursive:
             relative = file_path.relative_to(directory)
