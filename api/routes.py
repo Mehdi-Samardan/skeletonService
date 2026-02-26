@@ -1,27 +1,21 @@
-from fastapi import APIRouter, Depends
-from repositories.skeleton_repository import SkeletonRepository
-from services.skeleton_service import SkeletonService
-from utils.yaml_loader import load_all_yaml_from_directory
+# api/routes.py
+
+from fastapi import APIRouter
+from services.storage_loader import StorageLoader
 
 router = APIRouter()
-
-
-def get_service() -> SkeletonService:
-    repo = SkeletonRepository()
-    return SkeletonService(repo)
-
-
-@router.post("/generate-skeleton/{layout_name}")
-def generate_skeleton(
-    layout_name: str,
-    service: SkeletonService = Depends(get_service),
-):
-    return service.generate(layout_name)
+loader = StorageLoader()
 
 
 @router.get("/saved_layouts")
-def get_saved_layouts():
-    layouts = load_all_yaml_from_directory("storage/layouts/saved")
-    templates = load_all_yaml_from_directory("storage/templates")
+def list_saved_layouts():
+    layouts = loader.list_saved_layouts()
 
-    return {"layouts": layouts, "templates": templates}
+    return {"layouts": [{"name": layout["name"]} for layout in layouts]}
+
+
+@router.get("/saved_layouts/{template_name}")
+def get_template(template_name: str):
+    data = loader.load_template_yaml(template_name)
+
+    return {"name": template_name, "content": data}

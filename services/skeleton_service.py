@@ -1,36 +1,47 @@
-from utils.yaml_loader import load_yaml_file
-from services.pptx_builder import merge_pptx
-from utils.logger import logger
+from services.storage_loader import StorageLoader
+from services.hash_service import hash_template, hash_skeleton
+from services.ppt_service import generate_ppt
+from repositories.skeleton_repository import SkeletonRepository
 
 
 class SkeletonService:
-    def __init__(self, repository):
-        self.repository = repository
+    def __init__(self):
+        self.loader = StorageLoader()
+        self.repo = SkeletonRepository()
 
-    def generate(self, layout_name: str) -> dict:
+    def generate(self, layout_name: str):
 
-        logger.info(f"Generating skeleton for: {layout_name}")
+        layout = self.loader.get_layout(layout_name)
+        if not layout:
+            raise ValueError("Layout not found")
 
-        layout_path = f"storage/layouts/saved/{layout_name}.yaml"
-        slide_names = load_yaml_file(layout_path)
+        slide_names = layout.get("content", [])
 
-        if not isinstance(slide_names, list):
-            raise ValueError("Layout YAML must be a list.")
+        template_hashes = []
 
-        # Merge
-        file_path, file_hash = merge_pptx(slide_names)
+        for slide_name in slide_names:
+            template = self.loader.get_template(slide_name)
 
-        # Cache kontrol
-        existing = self.repository.get_by_hash(file_hash)
+            if not template:
+                continue
+
+            template_hashes.append(hash_template(template))
+
+        skeleton_hash = hash_skeleton(layout_name, template_hashes)
+
+        existing = self.repo.find_by_hash(skeleton_hash)
         if existing:
             return {"cached": True, "data": existing}
 
-        metadata = {
-            "hash": file_hash,
+        file_path = generate_ppt(skeleton_hash, slide_names)
+
+        data = {
+            "skeleton_hash": skeleton_hash,
             "layout_name": layout_name,
+            "template_hashes": template_hashes,
             "file_path": file_path,
         }
 
-        saved = self.repository.insert_layout(metadata)
+        saved = self.repo.insert(data)
 
         return {"cached": False, "data": saved}
