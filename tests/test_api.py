@@ -206,22 +206,12 @@ class TestDownloadSkeleton:
         skeleton_file = tmp_path / f"{skeleton_hash}.pptx"
         skeleton_file.write_bytes(b"PK fake pptx content")
 
-        with patch("api.routes.Path") as mock_path_cls:
-            mock_path = MagicMock()
-            mock_path.exists.return_value = True
-            mock_path.__str__ = lambda s: str(skeleton_file)
-            mock_path_cls.return_value.__truediv__ = lambda s, x: mock_path
-            mock_path_cls.return_value = mock_path
-
-            # Use the real file path for FileResponse
-            with patch("api.routes.Path", side_effect=lambda *a: Path(*a)):
-                # Create the skeleton in the actual skeletons dir path the route expects
-                skeletons_dir = Path("storage/layouts/skeletons")
-                skeletons_dir.mkdir(parents=True, exist_ok=True)
-                real_skeleton = skeletons_dir / f"{skeleton_hash}.pptx"
-                real_skeleton.write_bytes(b"PK fake pptx content")
-                response = client.get(f"/skeletons/{skeleton_hash}")
-                real_skeleton.unlink(missing_ok=True)
+        generated_dir = Path("generated")
+        generated_dir.mkdir(parents=True, exist_ok=True)
+        real_skeleton = generated_dir / f"{skeleton_hash}.pptx"
+        real_skeleton.write_bytes(b"PK fake pptx content")
+        response = client.get(f"/skeletons/{skeleton_hash}")
+        real_skeleton.unlink(missing_ok=True)
 
         assert response.status_code == 200
 
@@ -231,9 +221,9 @@ class TestDownloadSkeleton:
 
     def test_response_content_type_is_pptx(self, tmp_path):
         skeleton_hash = "deadbeef01"
-        skeletons_dir = Path("storage/layouts/skeletons")
-        skeletons_dir.mkdir(parents=True, exist_ok=True)
-        real_skeleton = skeletons_dir / f"{skeleton_hash}.pptx"
+        generated_dir = Path("generated")
+        generated_dir.mkdir(parents=True, exist_ok=True)
+        real_skeleton = generated_dir / f"{skeleton_hash}.pptx"
         real_skeleton.write_bytes(b"PK fake pptx content")
 
         response = client.get(f"/skeletons/{skeleton_hash}")

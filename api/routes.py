@@ -84,7 +84,7 @@ def download_skeleton(skeleton_hash: str) -> FileResponse:
     Returns:
         The .pptx file as a binary download.
     """
-    skeleton_path = Path("storage/layouts/skeletons") / f"{skeleton_hash}.pptx"
+    skeleton_path = Path("generated") / f"{skeleton_hash}.pptx"
 
     if not skeleton_path.exists():
         raise HTTPException(
