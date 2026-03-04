@@ -5,6 +5,7 @@ from utils.yaml_loader import load_all_yaml_from_directory, load_yaml_file
 
 
 class StorageLoader:
+    # Global constants for storage paths
     LAYOUTS_DIR = Path("storage/layouts/saved")
     TEMPLATES_DIR = Path("storage/templates")
 

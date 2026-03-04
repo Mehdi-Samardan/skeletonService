@@ -1,6 +1,10 @@
 from datetime import datetime, timezone
 
-from exceptions.custom_exceptions import InvalidLayoutError, LayoutNotFoundError, TemplateNotFoundError
+from exceptions.custom_exceptions import (
+    InvalidLayoutError,
+    LayoutNotFoundError,
+    TemplateNotFoundError,
+)
 from services.hash_service import hash_layout
 from services.ppt_service import generate_ppt
 from services.storage_loader import StorageLoader
@@ -43,7 +47,9 @@ class SkeletonService:
             )
         else:
             if not layout_name:
-                raise InvalidLayoutError("Either 'layout_name' or 'slides' must be provided.")
+                raise InvalidLayoutError(
+                    "Either 'layout_name' or 'slides' must be provided."
+                )
 
             layout = self.loader.get_layout(layout_name)
             if not layout:
@@ -70,6 +76,7 @@ class SkeletonService:
         except FileNotFoundError as exc:
             raise TemplateNotFoundError(str(exc)) from exc
 
+        # --- Persist metadata --- (adding more ?)
         metadata = {
             "skeleton_hash": skeleton_hash,
             "layout_name": resolved_layout_name,
