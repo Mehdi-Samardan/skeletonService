@@ -1,13 +1,12 @@
 import hashlib
-import json
 
 
-def hash_layout(layout_name: str, slide_names: list[str]) -> str:
+def hash_pptx_content(file_path: str) -> str:
     """
-    Produce a deterministic SHA-256 hash from a layout name and its
-    ordered list of slide names.
+    Produce a deterministic SHA-256 hash from the binary content of a merged PPTX file.
 
-    Using JSON encoding preserves order, so ["A","B"] != ["B","A"].
+    Hashing the actual file content means identical skeletons (regardless of
+    how they were requested) always resolve to the same cache key.
     """
-    payload = json.dumps({"layout": layout_name, "slides": slide_names}, ensure_ascii=False)
-    return hashlib.sha256(payload.encode()).hexdigest()
+    with open(file_path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()

@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.129.0",
+    "groupdocs-conversion-cloud>=25.3",
+    "groupdocs-merger-cloud>=25.3",
     "pymongo>=4.16.0",
     "python-dotenv>=1.2.1",
     "python-pptx>=1.0.2",

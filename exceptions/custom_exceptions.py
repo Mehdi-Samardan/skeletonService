@@ -22,3 +22,17 @@ class InvalidLayoutError(SkeletonServiceError):
 
     def __init__(self, detail: str) -> None:
         super().__init__(detail)
+
+
+class MissingEnvironmentVariableError(SkeletonServiceError):
+    """Raised when a required environment variable is not set."""
+
+    def __init__(self, detail: str) -> None:
+        super().__init__(detail)
+
+
+class PptxMergeError(SkeletonServiceError):
+    """Raised when the GroupDocs merge or upload/download operation fails."""
+
+    def __init__(self, detail: str) -> None:
+        super().__init__(detail)

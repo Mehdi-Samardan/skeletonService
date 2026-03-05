@@ -1,91 +1,73 @@
+import os
 from datetime import datetime, timezone
+from pathlib import Path
 
 from exceptions.custom_exceptions import (
     InvalidLayoutError,
-    LayoutNotFoundError,
     TemplateNotFoundError,
 )
-from services.hash_service import hash_layout
+from services.hash_service import hash_pptx_content
 from services.ppt_service import generate_ppt
-from services.storage_loader import StorageLoader
 from utils.logger import logger
 from utils.validators import validate_slide_names
 
 
 class SkeletonService:
-    def __init__(self) -> None:
-        self.loader = StorageLoader()
-
     def generate(
         self,
         repository,
-        layout_name: str | None = None,
-        slides: list[str] | None = None,
+        slides: list[str],
     ) -> dict:
         """Generate (or retrieve from cache) a skeleton PPTX.
 
-        Resolution order:
-          1. If 'slides' is provided, use it directly.
-          2. Else load the slide list from the saved layout YAML for 'layout_name'.
-          3. Hash the combination → check MongoDB cache.
-          4. Cache miss → merge PPTX templates, persist metadata, return result.
+        Flow:
+          1. Validate the slide list.
+          2. Merge PPTX templates into a temporary file via GroupDocs.
+          3. Hash the binary content of the merged file.
+          4. Check MongoDB cache by content hash.
+          5. Cache hit  → delete temp file, return existing record.
+          6. Cache miss → move temp file to generated/{hash}.pptx, persist metadata.
 
         Args:
-            repository:  SkeletonRepository instance for DB access.
-            layout_name: Name of a saved layout (without .yaml extension). Optional.
-            slides:      Explicit ordered list of slide names. Optional.
+            repository: SkeletonRepository instance for DB access.
+            slides:     Ordered list of slide names to merge.
 
         Returns:
             {"cached": bool, "data": {...skeleton metadata...}}
         """
-        # --- Resolve slide list ---
-        if slides:
-            resolved_slides = slides
-            resolved_layout_name = layout_name or "custom"
-            logger.info(
-                f"[SkeletonService] generate → custom slides ({len(resolved_slides)} slides)"
-            )
-        else:
-            if not layout_name:
-                raise InvalidLayoutError(
-                    "Either 'layout_name' or 'slides' must be provided."
-                )
+        validate_slide_names(slides)
+        logger.info(f"[SkeletonService] generate → {len(slides)} slides")
 
-            layout = self.loader.get_layout(layout_name)
-            if not layout:
-                raise LayoutNotFoundError(layout_name)
-
-            resolved_slides = layout.get("content", [])
-            resolved_layout_name = layout_name
-            logger.info(f"[SkeletonService] generate → layout='{layout_name}'")
-
-        validate_slide_names(resolved_slides, resolved_layout_name)
-
-        # --- Hash + cache check ---
-        skeleton_hash = hash_layout(resolved_layout_name, resolved_slides)
-        logger.info(f"[SkeletonService] hash={skeleton_hash[:16]}…")
-
-        existing = repository.find_by_hash(skeleton_hash)
-        if existing:
-            logger.info("[SkeletonService] cache hit — returning existing skeleton.")
-            return {"cached": True, "data": existing}
-
-        # --- Generate new skeleton ---
+        # --- Generate merged PPTX to a temp location ---
         try:
-            file_path = generate_ppt(skeleton_hash, resolved_slides)
+            temp_path = generate_ppt(slides)
         except FileNotFoundError as exc:
             raise TemplateNotFoundError(str(exc)) from exc
 
-        # --- Persist metadata --- (adding more ?)
+        # --- Hash the binary content of the merged skeleton ---
+        skeleton_hash = hash_pptx_content(temp_path)
+        logger.info(f"[SkeletonService] content_hash={skeleton_hash[:16]}…")
+
+        # --- Cache check ---
+        existing = repository.find_by_hash(skeleton_hash)
+        if existing:
+            logger.info("[SkeletonService] cache hit — returning existing skeleton.")
+            os.remove(temp_path)
+            return {"cached": True, "data": existing}
+
+        # --- Move temp file to final hash-named location ---
+        final_path = Path("generated") / f"{skeleton_hash}.pptx"
+        Path(temp_path).rename(final_path)
+
+        # --- Persist metadata ---
         metadata = {
             "skeleton_hash": skeleton_hash,
-            "layout_name": resolved_layout_name,
-            "slides": resolved_slides,
-            "file_path": file_path,
+            "slides": slides,
+            "file_path": str(final_path),
             "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
         saved = repository.insert(metadata)
-        logger.info(f"[SkeletonService] new skeleton stored → {file_path}")
+        logger.info(f"[SkeletonService] new skeleton stored → {final_path}")
 
         return {"cached": False, "data": saved}
