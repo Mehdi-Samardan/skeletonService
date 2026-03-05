@@ -2,28 +2,15 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
-import yaml
 
-from exceptions.custom_exceptions import InvalidLayoutError, LayoutNotFoundError, TemplateNotFoundError
+from exceptions.custom_exceptions import InvalidLayoutError, TemplateNotFoundError
 from services.skeleton_service import SkeletonService
 
 
 @pytest.fixture()
 def tmp_storage(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     """Minimal storage structure for SkeletonService tests."""
-    layouts_dir = tmp_path / "storage" / "layouts" / "saved"
-    skeletons_dir = tmp_path / "storage" / "layouts" / "skeletons"
-    templates_dir = tmp_path / "storage" / "templates"
-    layouts_dir.mkdir(parents=True)
-    skeletons_dir.mkdir(parents=True)
-    templates_dir.mkdir(parents=True)
-
-    (layouts_dir / "One pager.yaml").write_text(
-        yaml.dump(["One pager - front - cohort - coverage", "One pager - back - revenue"]),
-        encoding="utf-8",
-    )
-
-    # Minimal PPTX stubs — pptx library needs valid files; we patch generate_ppt instead.
+    (tmp_path / "generated").mkdir(parents=True)
     monkeypatch.chdir(tmp_path)
     return tmp_path
 
@@ -41,90 +28,106 @@ def mock_repo() -> MagicMock:
     return repo
 
 
-class TestGenerateWithLayoutName:
-    def test_cache_hit_returns_cached(self, service, mock_repo):
+def _make_temp_pptx(tmp_path: Path, content: bytes = b"PK fake pptx") -> str:
+    """Create a fake temp PPTX file and return its path string."""
+    import uuid
+    p = tmp_path / "generated" / f"{uuid.uuid4()}.pptx"
+    p.write_bytes(content)
+    return str(p)
+
+
+class TestGenerateWithCustomSlides:
+    def test_cache_hit_returns_cached(self, service, mock_repo, tmp_storage):
         cached_doc = {
             "skeleton_hash": "aabbcc",
-            "layout_name": "One pager",
-            "slides": ["One pager - front - cohort - coverage", "One pager - back - revenue"],
-            "file_path": "storage/layouts/skeletons/aabbcc.pptx",
+            "slides": ["Front slide", "Summary"],
+            "file_path": "generated/aabbcc.pptx",
             "created_at": "2026-01-01T00:00:00+00:00",
         }
         mock_repo.find_by_hash.return_value = cached_doc
 
-        with patch("services.skeleton_service.generate_ppt") as mock_gen:
-            result = service.generate(repository=mock_repo, layout_name="One pager")
+        temp_file = _make_temp_pptx(tmp_storage)
+        with (
+            patch("services.skeleton_service.generate_ppt", return_value=temp_file),
+            patch("services.skeleton_service.hash_pptx_content", return_value="aabbcc"),
+        ):
+            result = service.generate(repository=mock_repo, slides=["Front slide", "Summary"])
 
         assert result["cached"] is True
         assert result["data"] == cached_doc
-        mock_gen.assert_not_called()
 
-    def test_cache_miss_generates_new_skeleton(self, service, mock_repo):
-        with patch("services.skeleton_service.generate_ppt", return_value="storage/layouts/skeletons/xyz.pptx"):
-            result = service.generate(repository=mock_repo, layout_name="One pager")
+    def test_cache_miss_generates_new_skeleton(self, service, mock_repo, tmp_storage):
+        temp_file = _make_temp_pptx(tmp_storage)
+        content_hash = "deadbeef" * 8
+
+        with (
+            patch("services.skeleton_service.generate_ppt", return_value=temp_file),
+            patch("services.skeleton_service.hash_pptx_content", return_value=content_hash),
+        ):
+            result = service.generate(repository=mock_repo, slides=["Front slide", "Summary"])
 
         assert result["cached"] is False
-        assert result["data"]["layout_name"] == "One pager"
-        assert "skeleton_hash" in result["data"]
+        assert result["data"]["skeleton_hash"] == content_hash
+        assert result["data"]["slides"] == ["Front slide", "Summary"]
         assert "file_path" in result["data"]
         assert "created_at" in result["data"]
 
-    def test_missing_layout_raises(self, service, mock_repo):
-        with pytest.raises(LayoutNotFoundError, match="nonexistent"):
-            service.generate(repository=mock_repo, layout_name="nonexistent")
-
     def test_template_not_found_raises(self, service, mock_repo):
-        with patch("services.skeleton_service.generate_ppt", side_effect=FileNotFoundError("missing.pptx")):
+        with (
+            patch("services.skeleton_service.generate_ppt", side_effect=FileNotFoundError("missing.pptx")),
+        ):
             with pytest.raises(TemplateNotFoundError):
-                service.generate(repository=mock_repo, layout_name="One pager")
-
-
-class TestGenerateWithCustomSlides:
-    def test_custom_slides_used_directly(self, service, mock_repo):
-        slides = ["Front slide", "Summary"]
-        with patch("services.skeleton_service.generate_ppt", return_value="storage/layouts/skeletons/abc.pptx"):
-            result = service.generate(repository=mock_repo, slides=slides)
-
-        assert result["cached"] is False
-        assert result["data"]["slides"] == slides
-        assert result["data"]["layout_name"] == "custom"
-
-    def test_custom_slides_with_layout_name(self, service, mock_repo):
-        """When both are provided, slides take priority but layout_name is preserved."""
-        slides = ["Front slide"]
-        with patch("services.skeleton_service.generate_ppt", return_value="storage/layouts/skeletons/abc.pptx"):
-            result = service.generate(
-                repository=mock_repo,
-                layout_name="One pager",
-                slides=slides,
-            )
-
-        assert result["data"]["layout_name"] == "One pager"
-        assert result["data"]["slides"] == slides
+                service.generate(repository=mock_repo, slides=["missing"])
 
     def test_invalid_slide_entry_raises(self, service, mock_repo):
         with pytest.raises(InvalidLayoutError):
             service.generate(repository=mock_repo, slides=["  "])
 
-    def test_no_args_raises(self, service, mock_repo):
-        with pytest.raises(InvalidLayoutError, match="Either"):
-            service.generate(repository=mock_repo)
-
-    def test_hash_is_deterministic(self, service, mock_repo):
+    def test_hash_is_deterministic(self, service, mock_repo, tmp_storage):
+        """Same slide content → same content hash → same cache key."""
         slides = ["Front slide", "Summary"]
-        call_hashes = []
+        content_hash = "cafebabe" * 8
+        captured_hashes = []
 
         def capture_insert(data):
-            call_hashes.append(data["skeleton_hash"])
+            captured_hashes.append(data["skeleton_hash"])
             return {**data, "_id": "abc123"}
 
         mock_repo.insert.side_effect = capture_insert
 
-        with patch("services.skeleton_service.generate_ppt", return_value="path.pptx"):
+        temp1 = _make_temp_pptx(tmp_storage, b"same content")
+        with (
+            patch("services.skeleton_service.generate_ppt", return_value=temp1),
+            patch("services.skeleton_service.hash_pptx_content", return_value=content_hash),
+        ):
             service.generate(repository=mock_repo, slides=slides)
 
         mock_repo.find_by_hash.return_value = None
-        with patch("services.skeleton_service.generate_ppt", return_value="path.pptx"):
+        temp2 = _make_temp_pptx(tmp_storage, b"same content")
+        with (
+            patch("services.skeleton_service.generate_ppt", return_value=temp2),
+            patch("services.skeleton_service.hash_pptx_content", return_value=content_hash),
+        ):
             service.generate(repository=mock_repo, slides=slides)
 
-        assert call_hashes[0] == call_hashes[1]
+        assert captured_hashes[0] == captured_hashes[1]
+
+    def test_cache_hit_deletes_temp_file(self, service, mock_repo, tmp_storage):
+        """On cache hit the temp file must be deleted."""
+        cached_doc = {
+            "skeleton_hash": "aabbcc",
+            "slides": ["Front slide"],
+            "file_path": "generated/aabbcc.pptx",
+            "created_at": "2026-01-01T00:00:00+00:00",
+        }
+        mock_repo.find_by_hash.return_value = cached_doc
+
+        temp_file = _make_temp_pptx(tmp_storage)
+        with (
+            patch("services.skeleton_service.generate_ppt", return_value=temp_file),
+            patch("services.skeleton_service.hash_pptx_content", return_value="aabbcc"),
+        ):
+            service.generate(repository=mock_repo, slides=["Front slide"])
+
+        from pathlib import Path
+        assert not Path(temp_file).exists()

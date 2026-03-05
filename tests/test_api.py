@@ -26,9 +26,8 @@ def _mock_repo(cached_doc=None, insert_result=None):
     if insert_result is None:
         insert_result = {
             "skeleton_hash": "abc123def456",
-            "layout_name": "One pager",
-            "slides": ["One pager - front - cohort - coverage", "One pager - back - revenue"],
-            "file_path": "storage/layouts/skeletons/abc123def456.pptx",
+            "slides": ["Front slide", "Summary"],
+            "file_path": "generated/abc123def456.pptx",
             "created_at": "2026-01-01T00:00:00+00:00",
             "_id": "507f1f77bcf86cd799439011",
         }
@@ -86,12 +85,11 @@ class TestGetSavedLayouts:
 # ---------------------------------------------------------------------------
 
 class TestGenerateSkeleton:
-    def test_with_layout_name_returns_200(self):
+    def test_with_slides_returns_200(self):
         doc = {
             "skeleton_hash": "aabbccdd",
-            "layout_name": "One pager",
-            "slides": ["slide1"],
-            "file_path": "storage/layouts/skeletons/aabbccdd.pptx",
+            "slides": ["Front slide", "Summary"],
+            "file_path": "generated/aabbccdd.pptx",
             "created_at": "2026-01-01T00:00:00+00:00",
             "_id": "id1",
         }
@@ -100,16 +98,42 @@ class TestGenerateSkeleton:
             patch("api.routes.SkeletonRepository"),
         ):
             mock_svc.generate.return_value = {"cached": False, "data": doc}
-            response = client.post("/generate-skeleton", json={"layout_name": "One pager"})
+            response = client.post(
+                "/generate-skeleton",
+                json={"slides": ["Front slide", "Summary"]},
+            )
 
         assert response.status_code == 200
 
-    def test_with_custom_slides_returns_200(self):
+    def test_response_has_cached_and_data_fields(self):
+        doc = {"skeleton_hash": "h", "slides": ["s"], "file_path": "f", "created_at": "d", "_id": "i"}
+        with (
+            patch("api.routes._service") as mock_svc,
+            patch("api.routes.SkeletonRepository"),
+        ):
+            mock_svc.generate.return_value = {"cached": True, "data": doc}
+            response = client.post("/generate-skeleton", json={"slides": ["Front slide"]})
+
+        body = response.json()
+        assert "cached" in body
+        assert "data" in body
+
+    def test_cache_hit_returns_cached_true(self):
+        doc = {"skeleton_hash": "h", "slides": ["s"], "file_path": "f", "created_at": "d", "_id": "i"}
+        with (
+            patch("api.routes._service") as mock_svc,
+            patch("api.routes.SkeletonRepository"),
+        ):
+            mock_svc.generate.return_value = {"cached": True, "data": doc}
+            response = client.post("/generate-skeleton", json={"slides": ["Front slide"]})
+
+        assert response.json()["cached"] is True
+
+    def test_slides_in_response(self):
         doc = {
             "skeleton_hash": "xxyyzz",
-            "layout_name": "custom",
             "slides": ["Front slide", "Summary"],
-            "file_path": "storage/layouts/skeletons/xxyyzz.pptx",
+            "file_path": "generated/xxyyzz.pptx",
             "created_at": "2026-01-01T00:00:00+00:00",
             "_id": "id2",
         }
@@ -124,55 +148,15 @@ class TestGenerateSkeleton:
             )
 
         assert response.status_code == 200
-        body = response.json()
-        assert body["data"]["slides"] == ["Front slide", "Summary"]
-
-    def test_response_has_cached_and_data_fields(self):
-        doc = {"skeleton_hash": "h", "layout_name": "l", "slides": [], "file_path": "f", "created_at": "d", "_id": "i"}
-        with (
-            patch("api.routes._service") as mock_svc,
-            patch("api.routes.SkeletonRepository"),
-        ):
-            mock_svc.generate.return_value = {"cached": True, "data": doc}
-            response = client.post("/generate-skeleton", json={"layout_name": "One pager"})
-
-        body = response.json()
-        assert "cached" in body
-        assert "data" in body
-
-    def test_cache_hit_returns_cached_true(self):
-        doc = {"skeleton_hash": "h", "layout_name": "l", "slides": [], "file_path": "f", "created_at": "d", "_id": "i"}
-        with (
-            patch("api.routes._service") as mock_svc,
-            patch("api.routes.SkeletonRepository"),
-        ):
-            mock_svc.generate.return_value = {"cached": True, "data": doc}
-            response = client.post("/generate-skeleton", json={"layout_name": "One pager"})
-
-        assert response.json()["cached"] is True
+        assert response.json()["data"]["slides"] == ["Front slide", "Summary"]
 
     def test_no_fields_returns_422(self):
         response = client.post("/generate-skeleton", json={})
         assert response.status_code == 422
 
-    def test_blank_layout_name_returns_422(self):
-        response = client.post("/generate-skeleton", json={"layout_name": "   "})
-        assert response.status_code == 422
-
     def test_empty_slides_list_returns_422(self):
         response = client.post("/generate-skeleton", json={"slides": []})
         assert response.status_code == 422
-
-    def test_layout_not_found_returns_404(self):
-        from exceptions.custom_exceptions import LayoutNotFoundError
-        with (
-            patch("api.routes._service") as mock_svc,
-            patch("api.routes.SkeletonRepository"),
-        ):
-            mock_svc.generate.side_effect = LayoutNotFoundError("missing layout")
-            response = client.post("/generate-skeleton", json={"layout_name": "missing layout"})
-
-        assert response.status_code == 404
 
     def test_template_not_found_returns_422(self):
         from exceptions.custom_exceptions import TemplateNotFoundError
@@ -181,7 +165,7 @@ class TestGenerateSkeleton:
             patch("api.routes.SkeletonRepository"),
         ):
             mock_svc.generate.side_effect = TemplateNotFoundError("missing.pptx")
-            response = client.post("/generate-skeleton", json={"layout_name": "One pager"})
+            response = client.post("/generate-skeleton", json={"slides": ["missing"]})
 
         assert response.status_code == 422
 
@@ -191,7 +175,7 @@ class TestGenerateSkeleton:
             patch("api.routes.SkeletonRepository"),
         ):
             mock_svc.generate.side_effect = RuntimeError("something broke")
-            response = client.post("/generate-skeleton", json={"layout_name": "One pager"})
+            response = client.post("/generate-skeleton", json={"slides": ["Front slide"]})
 
         assert response.status_code == 500
 
@@ -203,9 +187,6 @@ class TestGenerateSkeleton:
 class TestDownloadSkeleton:
     def test_existing_skeleton_returns_200(self, tmp_path):
         skeleton_hash = "abc123"
-        skeleton_file = tmp_path / f"{skeleton_hash}.pptx"
-        skeleton_file.write_bytes(b"PK fake pptx content")
-
         generated_dir = Path("generated")
         generated_dir.mkdir(parents=True, exist_ok=True)
         real_skeleton = generated_dir / f"{skeleton_hash}.pptx"

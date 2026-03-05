@@ -5,7 +5,6 @@ from fastapi.responses import FileResponse
 
 from exceptions.custom_exceptions import (
     InvalidLayoutError,
-    LayoutNotFoundError,
     TemplateNotFoundError,
 )
 from models.request_models import GenerateSkeletonRequest
@@ -39,30 +38,21 @@ def get_saved_layouts() -> dict:
 def generate_skeleton(body: GenerateSkeletonRequest) -> dict:
     """Generate (or retrieve from cache) a skeleton PPTX.
 
-    Body (at least one field required):
-        layout_name (str):   Name of a saved layout — loads its slide list from YAML.
-        slides (list[str]):  Custom ordered list of slide names — overrides layout_name.
-
-    Both fields may be sent together; 'slides' takes priority.
+    Body:
+        slides (list[str]):  Ordered list of slide names to merge.
 
     Returns:
         {"cached": bool, "data": {skeleton metadata}}
     """
-    logger.info(
-        f"POST /generate-skeleton  layout='{body.layout_name}'  "
-        f"slides={len(body.slides) if body.slides else None}"
-    )
+    logger.info(f"POST /generate-skeleton  slides={len(body.slides)}")
 
     repo = SkeletonRepository()
 
     try:
         result = _service.generate(
             repository=repo,
-            layout_name=body.layout_name,
             slides=body.slides,
         )
-    except LayoutNotFoundError as exc:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
     except TemplateNotFoundError as exc:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
     except (InvalidLayoutError, ValueError) as exc:
