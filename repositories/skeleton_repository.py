@@ -33,5 +33,7 @@ class SkeletonRepository:
             return data
         except DuplicateKeyError:
             logger.warning("[Repo] duplicate key — fetching existing record.")
-            existing = self.collection.find_one({"skeleton_hash": data.get("skeleton_hash")})
+            existing = self.collection.find_one(
+                {"skeleton_hash": data.get("skeleton_hash")}
+            )
             return self._serialize(existing) or data

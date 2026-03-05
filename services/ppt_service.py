@@ -5,6 +5,7 @@ them to GroupDocs cloud storage, triggering a server-side merge, and downloading
 the result. The merged file is saved to a temporary path; the caller is
 responsible for renaming it to its final location.
 """
+
 import os
 import random
 import shutil
@@ -28,6 +29,7 @@ SKELETONS_DIR.mkdir(parents=True, exist_ok=True)
 # ---------------------------------------------------------------------------
 # GroupDocs API helpers  (adapted from reportCreator/__init__.py)
 # ---------------------------------------------------------------------------
+
 
 def _init_groupdocs_api() -> tuple[
     groupdocs_conversion_cloud.FileApi, groupdocs_merger_cloud.DocumentApi
@@ -194,6 +196,7 @@ def _download_merged_presentation(
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
+
 
 def generate_ppt(slide_names: list[str]) -> str:
     """Merge single-slide PPTX templates into one skeleton presentation.
