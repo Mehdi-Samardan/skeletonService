@@ -26,11 +26,6 @@ SKELETONS_DIR = Path("generated")
 SKELETONS_DIR.mkdir(parents=True, exist_ok=True)
 
 
-# ---------------------------------------------------------------------------
-# GroupDocs API helpers  (adapted from reportCreator/__init__.py)
-# ---------------------------------------------------------------------------
-
-
 def _init_groupdocs_api() -> tuple[
     groupdocs_conversion_cloud.FileApi, groupdocs_merger_cloud.DocumentApi
 ]:
@@ -193,11 +188,6 @@ def _download_merged_presentation(
             shutil.copyfileobj(temp_f, f)
 
 
-# ---------------------------------------------------------------------------
-# Public API
-# ---------------------------------------------------------------------------
-
-
 def generate_ppt(slide_names: list[str]) -> str:
     """Merge single-slide PPTX templates into one skeleton presentation.
 
@@ -247,3 +237,8 @@ def generate_ppt(slide_names: list[str]) -> str:
 
     logger.info(f"[ppt_service] Merged skeleton saved to temp: {temp_path}")
     return temp_path
+
+
+# {"slides": ["Front slide"]}
+# {"slides": ["Front slide", "NPS"]}
+# {"slides": ["PPG/Front", "PPG/NPS", "PPG/Gpt summary"]}
