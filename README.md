@@ -127,7 +127,7 @@ GROUPDOCS_CLIENT_SECRET=your-groupdocs-client-secret
 ### 4. Verify the setup
 
 ```bash
-uv run uvicorn app.main:app --reload
+uv run uvicorn app.main:app --app-dir src --reload
 ```
 
 You should see:
