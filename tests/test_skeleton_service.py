@@ -6,6 +6,8 @@ import pytest
 from exceptions.custom_exceptions import InvalidLayoutError, TemplateNotFoundError
 from services.skeleton_service import SkeletonService
 
+FAKE_SLIDE_HASHES = {"Front slide": "hash_front", "Summary": "hash_summary"}
+
 
 @pytest.fixture()
 def tmp_storage(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
@@ -23,7 +25,7 @@ def service(tmp_storage: Path) -> SkeletonService:
 @pytest.fixture()
 def mock_repo() -> MagicMock:
     repo = MagicMock()
-    repo.find_by_hash.return_value = None  # cache miss by default
+    repo.find_by_slide_hashes.return_value = None  # cache miss by default
     repo.insert.side_effect = lambda data: {**data, "_id": "abc123"}
     return repo
 
@@ -41,26 +43,43 @@ class TestGenerateWithCustomSlides:
         cached_doc = {
             "skeleton_hash": "aabbcc",
             "slides": ["Front slide", "Summary"],
+            "slide_hashes": FAKE_SLIDE_HASHES,
             "file_path": "generated/aabbcc.pptx",
             "created_at": "2026-01-01T00:00:00+00:00",
         }
-        mock_repo.find_by_hash.return_value = cached_doc
+        mock_repo.find_by_slide_hashes.return_value = cached_doc
 
-        temp_file = _make_temp_pptx(tmp_storage)
-        with (
-            patch("services.skeleton_service.generate_ppt", return_value=temp_file),
-            patch("services.skeleton_service.hash_pptx_content", return_value="aabbcc"),
-        ):
+        with patch("services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES):
             result = service.generate(repository=mock_repo, slides=["Front slide", "Summary"])
 
         assert result["cached"] is True
         assert result["data"] == cached_doc
+
+    def test_cache_hit_skips_pptx_generation(self, service, mock_repo, tmp_storage):
+        """On cache hit, generate_ppt must NOT be called."""
+        cached_doc = {
+            "skeleton_hash": "aabbcc",
+            "slides": ["Front slide"],
+            "slide_hashes": {"Front slide": "hash_front"},
+            "file_path": "generated/aabbcc.pptx",
+            "created_at": "2026-01-01T00:00:00+00:00",
+        }
+        mock_repo.find_by_slide_hashes.return_value = cached_doc
+
+        with (
+            patch("services.skeleton_service.hash_slides", return_value={"Front slide": "hash_front"}),
+            patch("services.skeleton_service.generate_ppt") as mock_gen,
+        ):
+            service.generate(repository=mock_repo, slides=["Front slide"])
+
+        mock_gen.assert_not_called()
 
     def test_cache_miss_generates_new_skeleton(self, service, mock_repo, tmp_storage):
         temp_file = _make_temp_pptx(tmp_storage)
         content_hash = "deadbeef" * 8
 
         with (
+            patch("services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES),
             patch("services.skeleton_service.generate_ppt", return_value=temp_file),
             patch("services.skeleton_service.hash_pptx_content", return_value=content_hash),
         ):
@@ -69,11 +88,13 @@ class TestGenerateWithCustomSlides:
         assert result["cached"] is False
         assert result["data"]["skeleton_hash"] == content_hash
         assert result["data"]["slides"] == ["Front slide", "Summary"]
+        assert result["data"]["slide_hashes"] == FAKE_SLIDE_HASHES
         assert "file_path" in result["data"]
         assert "created_at" in result["data"]
 
     def test_template_not_found_raises(self, service, mock_repo):
         with (
+            patch("services.skeleton_service.hash_slides", return_value={"missing": "h"}),
             patch("services.skeleton_service.generate_ppt", side_effect=FileNotFoundError("missing.pptx")),
         ):
             with pytest.raises(TemplateNotFoundError):
@@ -97,37 +118,19 @@ class TestGenerateWithCustomSlides:
 
         temp1 = _make_temp_pptx(tmp_storage, b"same content")
         with (
+            patch("services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES),
             patch("services.skeleton_service.generate_ppt", return_value=temp1),
             patch("services.skeleton_service.hash_pptx_content", return_value=content_hash),
         ):
             service.generate(repository=mock_repo, slides=slides)
 
-        mock_repo.find_by_hash.return_value = None
+        mock_repo.find_by_slide_hashes.return_value = None
         temp2 = _make_temp_pptx(tmp_storage, b"same content")
         with (
+            patch("services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES),
             patch("services.skeleton_service.generate_ppt", return_value=temp2),
             patch("services.skeleton_service.hash_pptx_content", return_value=content_hash),
         ):
             service.generate(repository=mock_repo, slides=slides)
 
         assert captured_hashes[0] == captured_hashes[1]
-
-    def test_cache_hit_deletes_temp_file(self, service, mock_repo, tmp_storage):
-        """On cache hit the temp file must be deleted."""
-        cached_doc = {
-            "skeleton_hash": "aabbcc",
-            "slides": ["Front slide"],
-            "file_path": "generated/aabbcc.pptx",
-            "created_at": "2026-01-01T00:00:00+00:00",
-        }
-        mock_repo.find_by_hash.return_value = cached_doc
-
-        temp_file = _make_temp_pptx(tmp_storage)
-        with (
-            patch("services.skeleton_service.generate_ppt", return_value=temp_file),
-            patch("services.skeleton_service.hash_pptx_content", return_value="aabbcc"),
-        ):
-            service.generate(repository=mock_repo, slides=["Front slide"])
-
-        from pathlib import Path
-        assert not Path(temp_file).exists()

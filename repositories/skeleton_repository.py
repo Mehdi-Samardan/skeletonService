@@ -24,6 +24,26 @@ class SkeletonRepository:
             logger.info(f"[Repo] no record for hash: {skeleton_hash[:16]}…")
         return self._serialize(doc)
 
+    def find_by_slide_hashes(
+        self, slides: list[str], slide_hashes: dict[str, str]
+    ) -> dict | None:
+        """Return the skeleton document matching the exact slide order and per-slide hashes, or None.
+
+        Queries by the ordered ``slides`` array (captures sequence) combined with
+        every individual slide hash (captures content changes).  Both must match
+        for a cache hit.
+        """
+        query: dict = {
+            "slides": slides,
+            **{f"slide_hashes.{name}": h for name, h in slide_hashes.items()},
+        }
+        doc = self.collection.find_one(query)
+        if doc:
+            logger.info(f"[Repo] cache hit for slide_hashes: {list(slide_hashes.keys())}")
+        else:
+            logger.info(f"[Repo] no record for slide_hashes: {list(slide_hashes.keys())}")
+        return self._serialize(doc)
+
     def insert(self, data: dict) -> dict:
         """Insert a new skeleton record. Returns the inserted document."""
         try:

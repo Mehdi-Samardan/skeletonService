@@ -1,6 +1,19 @@
 import hashlib
+from pathlib import Path
 
-# TODO: Testintg somr combination of hashing the slide names + the file content, to avoid edge cases where different slide combinations produce the same skeleton hash (e.g. if two different slide combinations coincidentally produce the same merged PPTX binary content, which is unlikely but possible).
+TEMPLATE_DIR = Path("storage/templates")
+
+
+def hash_slide(slide_name: str) -> str:
+    """Compute SHA-256 hash of an individual slide template PPTX binary."""
+    path = TEMPLATE_DIR / f"{slide_name}.pptx"
+    with open(path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
+def hash_slides(slide_names: list[str]) -> dict[str, str]:
+    """Return a dict mapping each slide name to its SHA-256 hash."""
+    return {name: hash_slide(name) for name in slide_names}
 
 
 def hash_pptx_content(file_path: str) -> str:

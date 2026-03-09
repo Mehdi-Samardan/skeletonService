@@ -6,7 +6,7 @@ from exceptions.custom_exceptions import (
     InvalidLayoutError,
     TemplateNotFoundError,
 )
-from services.hash_service import hash_pptx_content
+from services.hash_service import hash_pptx_content, hash_slides
 from services.ppt_service import generate_ppt
 from utils.logger import logger
 from utils.validators import validate_slide_names
@@ -38,6 +38,16 @@ class SkeletonService:
         validate_slide_names(slides)
         logger.info(f"[SkeletonService] generate → {len(slides)} slides")
 
+        # --- Compute per-slide hashes for cache check ---
+        slide_hashes = hash_slides(slides)
+        logger.info(f"[SkeletonService] per-slide hashes computed for {len(slides)} slides")
+
+        # --- Cache check by per-slide hashes ---
+        existing = repository.find_by_slide_hashes(slides, slide_hashes)
+        if existing:
+            logger.info("[SkeletonService] cache hit — returning existing skeleton.")
+            return {"cached": True, "data": existing}
+
         # --- Generate merged PPTX to a temp location ---
         try:
             temp_path = generate_ppt(slides)
@@ -48,13 +58,6 @@ class SkeletonService:
         skeleton_hash = hash_pptx_content(temp_path)
         logger.info(f"[SkeletonService] content_hash={skeleton_hash[:16]}…")
 
-        # --- Cache check ---
-        existing = repository.find_by_hash(skeleton_hash)
-        if existing:
-            logger.info("[SkeletonService] cache hit — returning existing skeleton.")
-            os.remove(temp_path)
-            return {"cached": True, "data": existing}
-
         # --- Move temp file to final hash-named location ---
         final_path = Path("generated") / f"{skeleton_hash}.pptx"
         Path(temp_path).rename(final_path)
@@ -63,6 +66,7 @@ class SkeletonService:
         metadata = {
             "skeleton_hash": skeleton_hash,
             "slides": slides,
+            "slide_hashes": slide_hashes,
             "file_path": str(final_path),
             "created_at": datetime.now(timezone.utc).isoformat(),
         }
