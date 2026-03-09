@@ -3,8 +3,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from exceptions.custom_exceptions import InvalidLayoutError, TemplateNotFoundError
-from services.skeleton_service import SkeletonService
+from app.exceptions.custom_exceptions import InvalidLayoutError, TemplateNotFoundError
+from app.services.skeleton_service import SkeletonService
 
 FAKE_SLIDE_HASHES = {"Front slide": "hash_front", "Summary": "hash_summary"}
 
@@ -49,7 +49,7 @@ class TestGenerateWithCustomSlides:
         }
         mock_repo.find_by_slide_hashes.return_value = cached_doc
 
-        with patch("services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES):
+        with patch("app.services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES):
             result = service.generate(repository=mock_repo, slides=["Front slide", "Summary"])
 
         assert result["cached"] is True
@@ -67,8 +67,8 @@ class TestGenerateWithCustomSlides:
         mock_repo.find_by_slide_hashes.return_value = cached_doc
 
         with (
-            patch("services.skeleton_service.hash_slides", return_value={"Front slide": "hash_front"}),
-            patch("services.skeleton_service.generate_ppt") as mock_gen,
+            patch("app.services.skeleton_service.hash_slides", return_value={"Front slide": "hash_front"}),
+            patch("app.services.skeleton_service.generate_ppt") as mock_gen,
         ):
             service.generate(repository=mock_repo, slides=["Front slide"])
 
@@ -79,9 +79,9 @@ class TestGenerateWithCustomSlides:
         content_hash = "deadbeef" * 8
 
         with (
-            patch("services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES),
-            patch("services.skeleton_service.generate_ppt", return_value=temp_file),
-            patch("services.skeleton_service.hash_pptx_content", return_value=content_hash),
+            patch("app.services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES),
+            patch("app.services.skeleton_service.generate_ppt", return_value=temp_file),
+            patch("app.services.skeleton_service.hash_pptx_content", return_value=content_hash),
         ):
             result = service.generate(repository=mock_repo, slides=["Front slide", "Summary"])
 
@@ -94,8 +94,8 @@ class TestGenerateWithCustomSlides:
 
     def test_template_not_found_raises(self, service, mock_repo):
         with (
-            patch("services.skeleton_service.hash_slides", return_value={"missing": "h"}),
-            patch("services.skeleton_service.generate_ppt", side_effect=FileNotFoundError("missing.pptx")),
+            patch("app.services.skeleton_service.hash_slides", return_value={"missing": "h"}),
+            patch("app.services.skeleton_service.generate_ppt", side_effect=FileNotFoundError("missing.pptx")),
         ):
             with pytest.raises(TemplateNotFoundError):
                 service.generate(repository=mock_repo, slides=["missing"])
@@ -118,18 +118,18 @@ class TestGenerateWithCustomSlides:
 
         temp1 = _make_temp_pptx(tmp_storage, b"same content")
         with (
-            patch("services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES),
-            patch("services.skeleton_service.generate_ppt", return_value=temp1),
-            patch("services.skeleton_service.hash_pptx_content", return_value=content_hash),
+            patch("app.services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES),
+            patch("app.services.skeleton_service.generate_ppt", return_value=temp1),
+            patch("app.services.skeleton_service.hash_pptx_content", return_value=content_hash),
         ):
             service.generate(repository=mock_repo, slides=slides)
 
         mock_repo.find_by_slide_hashes.return_value = None
         temp2 = _make_temp_pptx(tmp_storage, b"same content")
         with (
-            patch("services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES),
-            patch("services.skeleton_service.generate_ppt", return_value=temp2),
-            patch("services.skeleton_service.hash_pptx_content", return_value=content_hash),
+            patch("app.services.skeleton_service.hash_slides", return_value=FAKE_SLIDE_HASHES),
+            patch("app.services.skeleton_service.generate_ppt", return_value=temp2),
+            patch("app.services.skeleton_service.hash_pptx_content", return_value=content_hash),
         ):
             service.generate(repository=mock_repo, slides=slides)
 

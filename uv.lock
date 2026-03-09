@@ -692,8 +692,8 @@ wheels = [
 ]
 
 [[package]]
-name = "skeletonservice"
-version = "0.1.0"
+name = "skeleton-service"
+version = "1.0.0"
 source = { virtual = "." }
 dependencies = [
     { name = "fastapi" },

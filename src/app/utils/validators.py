@@ -1,4 +1,4 @@
-from exceptions.custom_exceptions import InvalidLayoutError
+from app.exceptions.custom_exceptions import InvalidLayoutError
 
 
 def validate_slide_names(slide_names: object, layout_name: str = "") -> list[str]:

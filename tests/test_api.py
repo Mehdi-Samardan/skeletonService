@@ -10,8 +10,8 @@ import pytest
 from fastapi.testclient import TestClient
 
 # Patch MongoDB connection before importing the app
-with patch("database.connect_to_mongo"), patch("database.close_mongo_connection"):
-    from main import app
+with patch("app.core.database.connect_to_mongo"), patch("app.core.database.close_mongo_connection"):
+    from app.main import app
 
 client = TestClient(app, raise_server_exceptions=False)
 
@@ -41,7 +41,7 @@ def _mock_repo(cached_doc=None, insert_result=None):
 
 class TestGetSavedLayouts:
     def test_returns_200(self):
-        with patch("api.routes._loader") as mock_loader:
+        with patch("app.api.routes._loader") as mock_loader:
             mock_loader.get_all_layouts.return_value = [
                 {"name": "One pager", "content": ["One pager - front - cohort - coverage"]}
             ]
@@ -53,7 +53,7 @@ class TestGetSavedLayouts:
         assert response.status_code == 200
 
     def test_response_has_layouts_and_templates_keys(self):
-        with patch("api.routes._loader") as mock_loader:
+        with patch("app.api.routes._loader") as mock_loader:
             mock_loader.get_all_layouts.return_value = []
             mock_loader.get_all_templates.return_value = []
             response = client.get("/saved_layouts")
@@ -63,7 +63,7 @@ class TestGetSavedLayouts:
         assert "templates" in body
 
     def test_layouts_is_list(self):
-        with patch("api.routes._loader") as mock_loader:
+        with patch("app.api.routes._loader") as mock_loader:
             mock_loader.get_all_layouts.return_value = [
                 {"name": "One pager", "content": ["slide1"]}
             ]
@@ -73,7 +73,7 @@ class TestGetSavedLayouts:
         assert isinstance(response.json()["layouts"], list)
 
     def test_file_not_found_returns_500(self):
-        with patch("api.routes._loader") as mock_loader:
+        with patch("app.api.routes._loader") as mock_loader:
             mock_loader.get_all_layouts.side_effect = FileNotFoundError("missing dir")
             response = client.get("/saved_layouts")
 
@@ -94,8 +94,8 @@ class TestGenerateSkeleton:
             "_id": "id1",
         }
         with (
-            patch("api.routes._service") as mock_svc,
-            patch("api.routes.SkeletonRepository"),
+            patch("app.api.routes._service") as mock_svc,
+            patch("app.api.routes.SkeletonRepository"),
         ):
             mock_svc.generate.return_value = {"cached": False, "data": doc}
             response = client.post(
@@ -108,8 +108,8 @@ class TestGenerateSkeleton:
     def test_response_has_cached_and_data_fields(self):
         doc = {"skeleton_hash": "h", "slides": ["s"], "file_path": "f", "created_at": "d", "_id": "i"}
         with (
-            patch("api.routes._service") as mock_svc,
-            patch("api.routes.SkeletonRepository"),
+            patch("app.api.routes._service") as mock_svc,
+            patch("app.api.routes.SkeletonRepository"),
         ):
             mock_svc.generate.return_value = {"cached": True, "data": doc}
             response = client.post("/generate-skeleton", json={"slides": ["Front slide"]})
@@ -121,8 +121,8 @@ class TestGenerateSkeleton:
     def test_cache_hit_returns_cached_true(self):
         doc = {"skeleton_hash": "h", "slides": ["s"], "file_path": "f", "created_at": "d", "_id": "i"}
         with (
-            patch("api.routes._service") as mock_svc,
-            patch("api.routes.SkeletonRepository"),
+            patch("app.api.routes._service") as mock_svc,
+            patch("app.api.routes.SkeletonRepository"),
         ):
             mock_svc.generate.return_value = {"cached": True, "data": doc}
             response = client.post("/generate-skeleton", json={"slides": ["Front slide"]})
@@ -138,8 +138,8 @@ class TestGenerateSkeleton:
             "_id": "id2",
         }
         with (
-            patch("api.routes._service") as mock_svc,
-            patch("api.routes.SkeletonRepository"),
+            patch("app.api.routes._service") as mock_svc,
+            patch("app.api.routes.SkeletonRepository"),
         ):
             mock_svc.generate.return_value = {"cached": False, "data": doc}
             response = client.post(
@@ -159,10 +159,10 @@ class TestGenerateSkeleton:
         assert response.status_code == 422
 
     def test_template_not_found_returns_422(self):
-        from exceptions.custom_exceptions import TemplateNotFoundError
+        from app.exceptions.custom_exceptions import TemplateNotFoundError
         with (
-            patch("api.routes._service") as mock_svc,
-            patch("api.routes.SkeletonRepository"),
+            patch("app.api.routes._service") as mock_svc,
+            patch("app.api.routes.SkeletonRepository"),
         ):
             mock_svc.generate.side_effect = TemplateNotFoundError("missing.pptx")
             response = client.post("/generate-skeleton", json={"slides": ["missing"]})
@@ -171,8 +171,8 @@ class TestGenerateSkeleton:
 
     def test_unexpected_error_returns_500(self):
         with (
-            patch("api.routes._service") as mock_svc,
-            patch("api.routes.SkeletonRepository"),
+            patch("app.api.routes._service") as mock_svc,
+            patch("app.api.routes.SkeletonRepository"),
         ):
             mock_svc.generate.side_effect = RuntimeError("something broke")
             response = client.post("/generate-skeleton", json={"slides": ["Front slide"]})

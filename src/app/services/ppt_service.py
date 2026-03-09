@@ -1,10 +1,4 @@
-"""PPTX skeleton generation via GroupDocs Merger Cloud API.
-
-Merges single-slide PPTX templates into one skeleton presentation by uploading
-them to GroupDocs cloud storage, triggering a server-side merge, and downloading
-the result. The merged file is saved to a temporary path; the caller is
-responsible for renaming it to its final location.
-"""
+"""PPTX skeleton generation via GroupDocs Merger Cloud API."""
 
 import os
 import random
@@ -18,8 +12,8 @@ from pathlib import Path
 import groupdocs_conversion_cloud
 import groupdocs_merger_cloud
 
-from exceptions.custom_exceptions import MissingEnvironmentVariableError, PptxMergeError
-from utils.logger import logger
+from app.exceptions.custom_exceptions import MissingEnvironmentVariableError, PptxMergeError
+from app.utils.logger import logger
 
 TEMPLATE_DIR = Path("storage/templates")
 SKELETONS_DIR = Path("generated")
@@ -29,16 +23,7 @@ SKELETONS_DIR.mkdir(parents=True, exist_ok=True)
 def _init_groupdocs_api() -> tuple[
     groupdocs_conversion_cloud.FileApi, groupdocs_merger_cloud.DocumentApi
 ]:
-    """Initialize GroupDocs API clients with credentials from environment variables.
-
-    Returns:
-        tuple[FileApi, DocumentApi]: Initialized FileApi (for upload/download)
-        and DocumentApi (for merging).
-
-    Raises:
-        MissingEnvironmentVariableError: If GROUPDOCS_CLIENT_ID or
-            GROUPDOCS_CLIENT_SECRET are not set.
-    """
+    """Initialize GroupDocs API clients with credentials."""
     app_sid = os.getenv("GROUPDOCS_CLIENT_ID")
     app_key = os.getenv("GROUPDOCS_CLIENT_SECRET")
     if not app_sid or not app_key:
@@ -56,18 +41,8 @@ def _upload_to_groupdocs(
     file_api: groupdocs_conversion_cloud.FileApi,
     local_path: str,
 ) -> str:
-    """Upload a single file to GroupDocs cloud storage.
-
-    Args:
-        file_api: Initialized FileApi client.
-        local_path: Local path of the file to upload.
-
-    Returns:
-        The cloud path where the file was stored.
-    """
+    """Upload a single file to GroupDocs cloud storage."""
     time.sleep(random.random() * 3)
-
-    # Use the last 3 path components as the cloud path to avoid collisions
     normalized_path = os.path.normpath(local_path)
     path_parts = normalized_path.split(os.sep)
     cloud_path = os.path.join(*path_parts[-3:])
@@ -84,18 +59,7 @@ def _upload_templates_for_merging(
     file_api: groupdocs_conversion_cloud.FileApi,
     templates: list[str],
 ) -> list[groupdocs_merger_cloud.JoinItem]:
-    """Upload all template files in parallel and build JoinItem list.
-
-    Args:
-        file_api: Initialized FileApi client.
-        templates: Local paths to the PPTX template files.
-
-    Returns:
-        List of JoinItem objects ready for the merge request.
-
-    Raises:
-        PptxMergeError: If any upload fails.
-    """
+    """Upload all template files in parallel and build JoinItem list."""
     join_items = []
 
     with ThreadPoolExecutor(max_workers=20) as executor:
@@ -128,18 +92,7 @@ def _execute_merge_operation(
     document_api: groupdocs_merger_cloud.DocumentApi,
     join_items: list[groupdocs_merger_cloud.JoinItem],
 ) -> str:
-    """Execute the server-side merge on GroupDocs.
-
-    Args:
-        document_api: Initialized DocumentApi client.
-        join_items: Slides to merge in order.
-
-    Returns:
-        Cloud path of the merged output file.
-
-    Raises:
-        PptxMergeError: If the GroupDocs merge call fails.
-    """
+    """Execute the server-side merge on GroupDocs."""
     options = groupdocs_merger_cloud.JoinOptions()
     options.join_items = join_items
     options.output_path = f"Output/{dt.now().strftime('%Y%m%d_%H%M%S')}.pptx"
@@ -160,16 +113,7 @@ def _download_merged_presentation(
     cloud_path: str,
     local_path: str,
 ) -> None:
-    """Download the merged presentation from GroupDocs and save it locally.
-
-    Args:
-        file_api: Initialized FileApi client.
-        cloud_path: Cloud path of the merged file.
-        local_path: Local destination path.
-
-    Raises:
-        PptxMergeError: If the download or save fails.
-    """
+    """Download the merged presentation from GroupDocs and save it locally."""
     try:
         download_request = groupdocs_merger_cloud.DownloadFileRequest(cloud_path, None)
         download_path = file_api.download_file(download_request, _request_timeout=180)
@@ -189,25 +133,7 @@ def _download_merged_presentation(
 
 
 def generate_ppt(slide_names: list[str]) -> str:
-    """Merge single-slide PPTX templates into one skeleton presentation.
-
-    Uploads each template to GroupDocs, triggers a server-side merge, and
-    downloads the result to a temporary UUID-named file under `generated/`.
-
-    Args:
-        slide_names: Ordered list of template names (without .pptx extension).
-                     Sub-folder names are supported, e.g. "PPG/Front".
-
-    Returns:
-        Path to the generated temporary PPTX file (str). The caller is
-        responsible for renaming this file to its final hash-based location.
-
-    Raises:
-        ValueError: If slide_names is empty.
-        FileNotFoundError: If a template file does not exist on disk.
-        PptxMergeError: If the GroupDocs merge/upload/download fails.
-        MissingEnvironmentVariableError: If GroupDocs credentials are missing.
-    """
+    """Merge single-slide PPTX templates into one skeleton presentation."""
     if not slide_names:
         raise ValueError("slide_names must not be empty.")
 
@@ -237,8 +163,3 @@ def generate_ppt(slide_names: list[str]) -> str:
 
     logger.info(f"[ppt_service] Merged skeleton saved to temp: {temp_path}")
     return temp_path
-
-
-# {"slides": ["Front slide"]}
-# {"slides": ["Front slide", "NPS"]}
-# {"slides": ["PPG/Front", "PPG/NPS", "PPG/Gpt summary"]}

@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 
 import yaml
-from yaml import YAMLError
 
 
 def load_yaml_file(file_path: str) -> object:
@@ -17,16 +16,7 @@ def load_yaml_file(file_path: str) -> object:
 
 
 def load_all_yaml_from_directory(directory_path: str, recursive: bool = False) -> list[dict]:
-    """Load all YAML files from a directory.
-
-    Args:
-        directory_path: Path to the directory to scan.
-        recursive: When True, also scan subdirectories. Names will include
-                   the relative path, e.g. "PPG/Front" instead of "Front".
-
-    Returns:
-        List of dicts: [{"name": "...", "content": {...}}, ...]
-    """
+    """Load all YAML files from a directory."""
     directory = Path(directory_path)
 
     if not directory.exists():
@@ -40,7 +30,6 @@ def load_all_yaml_from_directory(directory_path: str, recursive: bool = False) -
         try:
             data = load_yaml_file(str(file_path))
         except yaml.YAMLError:
-            # Skip malformed YAML files silently (broken source templates).
             continue
 
         if recursive:

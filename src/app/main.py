@@ -2,8 +2,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from api.routes import router
-from database import close_mongo_connection, connect_to_mongo
+from app.api.routes import router
+from app.core.database import close_mongo_connection, connect_to_mongo
 
 
 @asynccontextmanager

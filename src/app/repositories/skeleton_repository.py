@@ -1,10 +1,8 @@
-from datetime import datetime, timezone
-
 from pymongo.errors import DuplicateKeyError
 
-from database import get_database
-from utils.logger import logger
-from utils.mongo_serializer import serialize_mongo_document
+from app.core.database import get_database
+from app.utils.logger import logger
+from app.utils.mongo_serializer import serialize_mongo_document
 
 
 class SkeletonRepository:
@@ -27,12 +25,7 @@ class SkeletonRepository:
     def find_by_slide_hashes(
         self, slides: list[str], slide_hashes: dict[str, str]
     ) -> dict | None:
-        """Return the skeleton document matching the exact slide order and per-slide hashes, or None.
-
-        Queries by the ordered ``slides`` array (captures sequence) combined with
-        every individual slide hash (captures content changes).  Both must match
-        for a cache hit.
-        """
+        """Return the skeleton document matching the exact slide order and per-slide hashes, or None."""
         query: dict = {
             "slides": slides,
             **{f"slide_hashes.{name}": h for name, h in slide_hashes.items()},

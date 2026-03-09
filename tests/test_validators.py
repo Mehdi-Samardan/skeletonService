@@ -1,7 +1,7 @@
 import pytest
 
-from exceptions.custom_exceptions import InvalidLayoutError
-from utils.validators import validate_slide_names
+from app.exceptions.custom_exceptions import InvalidLayoutError
+from app.utils.validators import validate_slide_names
 
 
 class TestValidateSlideNames:

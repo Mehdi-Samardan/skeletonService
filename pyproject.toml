@@ -1,7 +1,7 @@
 [project]
-name = "skeletonservice"
-version = "0.1.0"
-description = "Add your description here"
+name = "skeleton-service"
+version = "1.0.0"
+description = "FastAPI service for generating and caching merged PowerPoint skeleton presentations"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -24,10 +24,10 @@ dev = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["."]
+pythonpath = [".", "src"]
 
 [tool.coverage.run]
-source = ["."]
+source = ["src"]
 omit = [
     "tests/*",
     ".venv/*",

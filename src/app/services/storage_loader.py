@@ -1,11 +1,9 @@
 from pathlib import Path
 
-
-from utils.yaml_loader import load_all_yaml_from_directory, load_yaml_file
+from app.utils.yaml_loader import load_all_yaml_from_directory, load_yaml_file
 
 
 class StorageLoader:
-    # Global constants for storage paths
     LAYOUTS_DIR = Path("storage/layouts/saved")
     TEMPLATES_DIR = Path("storage/templates")
 
@@ -14,9 +12,7 @@ class StorageLoader:
         return load_all_yaml_from_directory(str(self.LAYOUTS_DIR), recursive=False)
 
     def get_all_templates(self) -> list[dict]:
-        """Return all templates (recursive, includes subdirs like PPG/, APE/).
-        Format: [{"name": "PPG/Front", "content": {...}}, ...]
-        """
+        """Return all templates (recursive, includes subdirs like PPG/, APE/)."""
         return load_all_yaml_from_directory(str(self.TEMPLATES_DIR), recursive=True)
 
     def get_layout(self, layout_name: str) -> dict | None:

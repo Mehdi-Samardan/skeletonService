@@ -2,11 +2,7 @@ from pydantic import BaseModel, field_validator
 
 
 class GenerateSkeletonRequest(BaseModel):
-    """Request body for POST /generate-skeleton.
-
-    Accepts only a list of slide names:
-      - {"slides": ["Front slide", "Summary"]}
-    """
+    """Request body for POST /generate-skeleton."""
 
     slides: list[str]
 

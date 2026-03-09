@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from services.storage_loader import StorageLoader
+from app.services.storage_loader import StorageLoader
 
 
 @pytest.fixture()

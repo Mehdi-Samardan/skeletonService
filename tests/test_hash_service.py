@@ -1,6 +1,6 @@
 import pytest
 
-from services.hash_service import hash_pptx_content
+from app.services.hash_service import hash_pptx_content
 
 
 class TestHashPptxContent:

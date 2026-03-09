@@ -2,8 +2,6 @@
 
 A FastAPI microservice that merges PowerPoint templates into reusable skeleton presentations, with SHA-256 content-based caching via MongoDB Atlas and cloud-based merging via GroupDocs Merger Cloud API.
 
-Built as a standalone component extracted from the [reportCreator](https://github.com/AlphaRainbow/reportCreator) system at AlphaRainbow.
-
 ---
 
 ## What It Does
@@ -14,40 +12,7 @@ Third-party applications use this service to:
 2. **Generate** a merged skeleton PPTX from a chosen list of slides (`POST /generate-skeleton`)
 3. **Download** the resulting file (`GET /skeletons/{hash}`)
 
-If the same combination of slides (producing identical file content) is requested again, the service returns the cached result — no regeneration, no unnecessary API calls.
-
-### Typical Usage Scenario
-
-1. Call `GET /saved_layouts` to browse all available slide templates and pre-defined layouts.
-2. Pick the slides you want (from a saved layout or your own selection).
-3. Call `POST /generate-skeleton` with your slide list.
-4. Receive a `skeleton_hash` in the response.
-5. Call `GET /skeletons/{skeleton_hash}` to download the merged `.pptx` file.
-6. Repeat step 3 with the same slides → get an instant cache hit, no waiting.
-
----
-
-## Architecture
-
-```
-api/routes.py
-    └── services/skeleton_service.py      ← orchestration
-            ├── services/hash_service.py       ← SHA-256 content hashing
-            ├── services/ppt_service.py        ← GroupDocs Merger Cloud integration
-            ├── services/storage_loader.py     ← reads YAML from storage/
-            └── repositories/skeleton_repository.py  ← MongoDB read/write
-```
-
-### How Caching Works
-
-1. Request arrives with a list of slide names.
-2. Templates are merged into a single PPTX via GroupDocs Merger Cloud API.
-3. The **binary content** of the merged file is hashed with SHA-256.
-4. MongoDB is checked for this hash.
-   - **Cache hit** → temp file is deleted, existing record returned immediately.
-   - **Cache miss** → file is saved as `generated/{hash}.pptx`, metadata stored in MongoDB.
-
-This content-based approach means that two different slide lists that happen to produce identical output will correctly share a single cached file.
+If the same combination of slides is requested again, the service returns the cached result instantly — no regeneration, no unnecessary API calls.
 
 ---
 
@@ -55,102 +20,124 @@ This content-based approach means that two different slide lists that happen to 
 
 ```
 skeletonService/
-├── api/
-│   └── routes.py                  # 3 API endpoints
-├── models/
-│   └── request_models.py          # Pydantic request validation
-├── services/
-│   ├── skeleton_service.py        # Main orchestration logic
-│   ├── hash_service.py            # SHA-256 content hash
-│   ├── ppt_service.py             # GroupDocs Merger Cloud integration
-│   └── storage_loader.py          # YAML file reader
-├── repositories/
-│   └── skeleton_repository.py     # MongoDB CRUD
-├── exceptions/
-│   └── custom_exceptions.py       # Domain-specific exceptions
-├── utils/
-│   ├── logger.py                  # Centralized logging
-│   ├── yaml_loader.py             # YAML parsing with error handling
-│   ├── validators.py              # Slide name validation
-│   └── mongo_serializer.py        # MongoDB → JSON serialization
+├── src/
+│   └── app/
+│       ├── api/
+│       │   └── routes.py           # FastAPI router — all HTTP endpoints
+│       ├── core/
+│       │   └── database.py         # MongoDB connection lifecycle
+│       ├── exceptions/
+│       │   └── custom_exceptions.py
+│       ├── models/
+│       │   └── request_models.py   # Pydantic request schemas
+│       ├── repositories/
+│       │   └── skeleton_repository.py  # MongoDB CRUD
+│       ├── services/
+│       │   ├── hash_service.py     # SHA-256 hashing helpers
+│       │   ├── ppt_service.py      # GroupDocs merge + upload/download
+│       │   ├── skeleton_service.py # Orchestration: cache → generate → store
+│       │   └── storage_loader.py   # YAML layout/template loader
+│       ├── utils/
+│       │   ├── logger.py
+│       │   ├── mongo_serializer.py
+│       │   ├── validators.py
+│       │   └── yaml_loader.py
+│       └── main.py                 # FastAPI app entry point
+├── tests/                          # 58 tests, all passing
 ├── storage/
-│   ├── layouts/saved/             # Layout definitions (*.yaml)
-│   └── templates/                 # Template files (*.pptx + *.yaml)
-├── generated/                     # Output: merged skeleton PPTX files
-├── tests/                         # Unit + integration tests
-├── database.py                    # MongoDB connection management
-├── main.py                        # FastAPI app entry point
-├── run_tests.py                   # Test runner with coverage report
-└── pyproject.toml                 # Project config + dependencies
-```
-
----
-
-## Storage Layout
-
-```
-storage/
-├── layouts/
-│   └── saved/
-│       ├── Full report.yaml       # 41 slides
-│       ├── One pager.yaml         # 2 slides
-│       ├── PPG IR report.yaml     # 17 slides
-│       └── PPG report.yaml        # 20 slides
-└── templates/
-    ├── Front slide.pptx + .yaml
-    ├── Summary.pptx + .yaml
-    ├── PPG/
-    │   ├── Front.pptx + .yaml
-    │   └── NPS.pptx + .yaml
-    └── ...                        # 82 templates total
-```
-
-Each template is a **single-slide PPTX** paired with a **YAML** file describing its placeholder fields (English and Dutch).
-
-Generated skeletons are stored in:
-```
-generated/{sha256_hash}.pptx
+│   ├── layouts/
+│   │   ├── saved/                  # Pre-defined layout YAML files
+│   │   └── skeletons/              # Cached merged PPTX files + index
+│   └── templates/                  # Single-slide PPTX + YAML pairs
+│       ├── APE/
+│       ├── KMDA/
+│       ├── NPDHV/
+│       ├── PPG/
+│       └── *.pptx / *.yaml
+├── generated/                      # Output directory for merged PPTX files
+├── .env                            # Local environment variables (never commit)
+├── .env.example                    # Template for required environment variables
+├── pyproject.toml
+└── run_tests.py
 ```
 
 ---
 
 ## Prerequisites
 
-- Python 3.12+
-- `uv` package manager (`pip install uv` or see [uv docs](https://docs.astral.sh/uv/))
-- MongoDB Atlas account (or any MongoDB instance)
-- GroupDocs account with Merger Cloud and Conversion Cloud API access
+| Tool | Version | Purpose |
+|------|---------|---------|
+| Python | 3.12+ | Runtime |
+| [uv](https://docs.astral.sh/uv/) | latest | Package & virtualenv manager |
+| MongoDB Atlas | any | Cache storage (free tier works) |
+| GroupDocs Cloud | any | PPTX merging API (free tier works) |
 
 ---
 
-## Installation
+## Setup From Scratch
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Mehdi-Samardan/skeletonService.git
+git clone https://github.com/your-org/skeletonService.git
 cd skeletonService
+```
+
+### 2. Install dependencies
+
+```bash
 uv sync
 ```
 
-Create a `.env` file in the project root:
+This creates a `.venv` and installs all runtime and dev dependencies from `pyproject.toml`.
+
+### 3. Configure environment variables
+
+Copy the example file and fill in your credentials:
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and set each value:
 
 ```env
-MONGO_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
 DATABASE_NAME=skeleton_db
 GROUPDOCS_CLIENT_ID=your-groupdocs-client-id
 GROUPDOCS_CLIENT_SECRET=your-groupdocs-client-secret
 ```
 
----
+#### Getting MongoDB Atlas credentials
 
-## Running the Service
+1. Go to [https://cloud.mongodb.com](https://cloud.mongodb.com) and create a free account.
+2. Create a new **Project**, then a **Cluster** (M0 free tier is sufficient).
+3. Under **Database Access**, create a database user with read/write privileges. Note the username and password.
+4. Under **Network Access**, add your IP address (or `0.0.0.0/0` for development).
+5. On the cluster overview page, click **Connect → Drivers**, choose Python, and copy the connection string.
+6. Replace `<username>` and `<password>` in the string with your database user credentials.
+7. Set `DATABASE_NAME` to any name you like (e.g. `skeleton_db`). The database is created automatically on first write.
+
+#### Getting GroupDocs Cloud credentials
+
+1. Go to [https://dashboard.groupdocs.cloud](https://dashboard.groupdocs.cloud) and create a free account.
+2. After logging in, navigate to **Applications**.
+3. Your `Client ID` and `Client Secret` are shown on the dashboard. Copy both.
+
+### 4. Verify the setup
 
 ```bash
-uv run uvicorn main:app --reload
+uv run uvicorn app.main:app --reload
 ```
 
-The API will be available at: `http://localhost:8000`
+You should see:
 
-Interactive docs: `http://localhost:8000/docs`
+```
+INFO | skeleton_service | Connected to MongoDB: skeleton_db
+INFO:     Uvicorn running on http://127.0.0.1:8000
+```
+
+Visit [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) for the interactive Swagger UI.
 
 ---
 
@@ -158,71 +145,30 @@ Interactive docs: `http://localhost:8000/docs`
 
 ### `GET /saved_layouts`
 
-Returns all available layouts and templates. Use this to discover which slides exist before building your slide list.
+Returns all available pre-defined layouts and individual templates.
 
 **Response:**
 ```json
 {
   "layouts": [
-    {
-      "name": "Full report",
-      "content": ["Front slide", "Summary", "Contents - 1", "..."]
-    },
-    {
-      "name": "One pager",
-      "content": ["One pager - front - cohort - coverage", "One pager - back - revenue"]
-    }
+    { "name": "Full report", "content": ["Front slide", "Summary", "..."] }
   ],
   "templates": [
-    {
-      "name": "Front slide",
-      "content": { "Texts": { "title": { "English": "...", "Dutch": "..." } } }
-    },
-    {
-      "name": "PPG/Front",
-      "content": { "Texts": { "..." } }
-    }
+    { "name": "PPG/Front", "content": { "Texts": { ... } } }
   ]
 }
 ```
-
-**Error responses:**
-
-| Status | Reason |
-|--------|--------|
-| `500`  | Storage directory is missing or unreadable |
 
 ---
 
 ### `POST /generate-skeleton`
 
-Generates (or retrieves from cache) a merged skeleton PPTX from an ordered list of slide names.
+Generates (or retrieves from cache) a merged skeleton PPTX.
 
 **Request body:**
 ```json
 {
-  "slides": ["Front slide", "Summary", "Final sheet"]
-}
-```
-
-- `slides` — required, non-empty list of template names. Sub-folder names are supported (e.g. `"PPG/Front"`).
-
-**Example — use slides from a saved layout:**
-```bash
-# 1. Get the layout's slide list
-GET /saved_layouts  →  layouts[0].content = ["Front slide", "Summary", "..."]
-
-# 2. Pass it to generate-skeleton
-POST /generate-skeleton
-{
-  "slides": ["Front slide", "Summary", "..."]
-}
-```
-
-**Example — use a custom selection:**
-```json
-{
-  "slides": ["PPG/Front", "Summary", "Final sheet"]
+  "slides": ["Front slide", "PPG/NPS motivation", "Summary"]
 }
 ```
 
@@ -231,112 +177,122 @@ POST /generate-skeleton
 {
   "cached": false,
   "data": {
-    "_id": "507f1f77bcf86cd799439011",
-    "skeleton_hash": "739af880f57e35a8d7fd76a59086e852474f245d7962d1a74aaccab6c2deed6a",
-    "slides": ["Front slide", "Summary", "Final sheet"],
-    "file_path": "generated/739af880...pptx",
-    "created_at": "2026-02-27T15:18:14+00:00"
+    "_id": "...",
+    "skeleton_hash": "abc123...",
+    "slides": ["Front slide", "PPG/NPS motivation", "Summary"],
+    "slide_hashes": { "Front slide": "sha256...", ... },
+    "file_path": "generated/abc123....pptx",
+    "created_at": "2026-01-01T12:00:00+00:00"
   }
 }
 ```
 
-- `cached: true` → returned from cache, no file was regenerated
-- `cached: false` → newly merged and stored
+- `cached: true` means the result was retrieved from MongoDB — no PPTX generation occurred.
+- `cached: false` means a new PPTX was generated, merged via GroupDocs, and stored.
 
-**Error responses:**
-
-| Status | Reason |
-|--------|--------|
-| `400`  | Invalid input (blank slide name, malformed body) |
-| `422`  | A slide name references a template file that does not exist |
-| `500`  | Unexpected server error (e.g. GroupDocs API failure, missing credentials) |
+**Error codes:**
+| Code | Reason |
+|------|--------|
+| 400 | Slide list is empty or malformed |
+| 422 | One or more slide template files not found |
+| 500 | Unexpected server error |
 
 ---
 
 ### `GET /skeletons/{skeleton_hash}`
 
-Downloads the generated skeleton PPTX file by its content hash.
+Downloads the generated `.pptx` file by its SHA-256 hash.
 
-```
-GET /skeletons/739af880f57e35a8d7fd76a59086e852474f245d7962d1a74aaccab6c2deed6a
-```
+**Response:** Binary PPTX file (`application/vnd.openxmlformats-officedocument.presentationml.presentation`)
 
-Returns the `.pptx` file as a binary download (`application/vnd.openxmlformats-officedocument.presentationml.presentation`).
-
-**Error responses:**
-
-| Status | Reason |
-|--------|--------|
-| `404`  | No skeleton found for the given hash |
+**Error codes:**
+| Code | Reason |
+|------|--------|
+| 404 | No file found for the given hash |
 
 ---
 
-## Hashing
+## How Caching Works
 
-The cache key is a **SHA-256 hash of the binary content** of the merged PPTX file:
-
-```python
-with open(merged_file_path, "rb") as f:
-    hash = sha256(f.read()).hexdigest()
+```
+POST /generate-skeleton
+        │
+        ▼
+  hash each slide's PPTX binary (SHA-256)
+        │
+        ▼
+  query MongoDB: slides list + per-slide hashes match?
+        │
+   ┌────┴─────┐
+  YES        NO
+   │          │
+   │     merge via GroupDocs
+   │          │
+   │     hash merged PPTX binary
+   │          │
+   │     save to generated/{hash}.pptx
+   │          │
+   │     insert metadata into MongoDB
+   │          │
+   └────┬─────┘
+        │
+   return { cached, data }
 ```
 
-This means:
-- Same slides in the **same order** producing the **same output** → cache hit
-- Different slides **or** same slides in a **different order** → different file → different hash → new skeleton
-- Two different slide lists that happen to merge into identical binary content → same hash → shared cache entry
+Per-slide hashing means that if any individual template file changes on disk, the cache is automatically invalidated for any skeleton that includes that slide.
 
 ---
 
-## PPTX Merging
+## Storage Layout
 
-Templates are merged using the **GroupDocs Merger Cloud API**:
+```
+storage/
+├── layouts/saved/          # Pre-defined slide collections
+│   ├── Full report.yaml    # List of ~41 slide names
+│   ├── One pager.yaml
+│   ├── PPG IR report.yaml
+│   └── PPG report.yaml
+├── layouts/skeletons/      # Cached merged PPTX files + index YAML
+└── templates/              # Single-slide PPTX + YAML metadata pairs
+    ├── APE/
+    ├── KMDA/
+    ├── NPDHV/
+    ├── PPG/
+    └── *.pptx / *.yaml     # Root-level templates
+```
 
-1. All template PPTX files are uploaded to GroupDocs cloud storage in parallel (up to 20 concurrent uploads).
-2. A server-side merge request is submitted with the slides in order.
-3. The merged file is downloaded and saved to a temporary location.
-4. The file is content-hashed, cache-checked, then either discarded (cache hit) or moved to `generated/{hash}.pptx`.
+Each template consists of two files with the same stem:
+- `<name>.pptx` — the single-slide PowerPoint file
+- `<name>.yaml` — metadata (text fields, placeholders, etc.)
 
-If only a single slide is requested, the merge step is skipped and the template is copied directly.
+Subdirectory templates are referenced using forward-slash notation: `"PPG/Front"`.
 
 ---
 
-## Testing
-
-Run all tests:
+## Running Tests
 
 ```bash
 uv run pytest tests/ -v
 ```
 
-Run with coverage report (HTML output in `coverage_html/`):
+Or with coverage:
 
 ```bash
 python run_tests.py
 ```
 
-**Test files:**
-
-| File | What it tests |
-|------|--------------|
-| `test_hash_service.py` | SHA-256 content hash determinism and uniqueness |
-| `test_validators.py` | Slide name validation edge cases |
-| `test_request_models.py` | Pydantic model validation |
-| `test_storage_loader.py` | YAML loading from storage directories |
-| `test_skeleton_service.py` | Service orchestration with mocked DB and file system |
-| `test_api.py` | All API endpoints (integration tests with mocked dependencies) |
-
-**All external dependencies (MongoDB, GroupDocs API) are fully mocked in tests**, so the test suite runs without any network access or credentials.
+Tests use mocked external dependencies (MongoDB, GroupDocs) so no credentials are needed to run the test suite.
 
 ---
 
-## Environment Variables
+## Environment Variables Reference
 
-| Variable | Description |
-|----------|-------------|
-| `MONGO_URI` | Full MongoDB connection string |
-| `DATABASE_NAME` | Database name (e.g. `skeleton_db`) |
-| `GROUPDOCS_CLIENT_ID` | GroupDocs Cloud application client ID |
-| `GROUPDOCS_CLIENT_SECRET` | GroupDocs Cloud application client secret |
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `MONGO_URI` | Yes | MongoDB Atlas connection string |
+| `DATABASE_NAME` | Yes | MongoDB database name (created automatically) |
+| `GROUPDOCS_CLIENT_ID` | Yes | GroupDocs Cloud API client ID |
+| `GROUPDOCS_CLIENT_SECRET` | Yes | GroupDocs Cloud API client secret |
 
 ---
 
@@ -347,16 +303,11 @@ python run_tests.py
 | `fastapi` | Web framework |
 | `uvicorn` | ASGI server |
 | `pymongo` | MongoDB driver |
-| `groupdocs-merger-cloud` | Server-side PPTX merging via GroupDocs |
-| `groupdocs-conversion-cloud` | File upload/download for GroupDocs |
-| `python-pptx` | PPTX inspection (slide count validation) |
-| `pyyaml` | YAML parsing |
-| `python-dotenv` | `.env` file loading |
-
-Dev dependencies: `pytest`, `pytest-cov`, `httpx`
-
----
-
-## Author
-
-**Mehdi Samardan** — Internship project at AlphaRainbow, supervised by Marco Strijker (2026)
+| `python-dotenv` | Load `.env` file |
+| `python-pptx` | PPTX file inspection |
+| `pyyaml` | YAML layout/template loading |
+| `groupdocs-merger-cloud` | Server-side PPTX merging |
+| `groupdocs-conversion-cloud` | GroupDocs file upload/download |
+| `httpx` *(dev)* | HTTP client for tests |
+| `pytest` *(dev)* | Test runner |
+| `pytest-cov` *(dev)* | Coverage reporting |

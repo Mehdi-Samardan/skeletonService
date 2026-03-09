@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from models.request_models import GenerateSkeletonRequest
+from app.models.request_models import GenerateSkeletonRequest
 
 
 class TestGenerateSkeletonRequest:
