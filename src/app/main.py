@@ -16,3 +16,10 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Skeleton Service", version="1.0.0", lifespan=lifespan)
 
 app.include_router(router)
+
+
+# {
+#   "slides": [
+#     "Contents - 1","Contents - 2", "Contents - 3" ,"Contents - 4","Contents - 5"
+#   ]
+# }
