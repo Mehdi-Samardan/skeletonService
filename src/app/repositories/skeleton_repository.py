@@ -4,11 +4,13 @@ from app.core.database import get_database
 from app.utils.logger import logger
 from app.utils.mongo_serializer import serialize_mongo_document
 
-
+# Repository for managing skeleton PPTX metadata in MongoDB. 
+# Provides methods to find existing skeletons by content hash or slide hashes, and to insert new skeleton records.
 class SkeletonRepository:
     def __init__(self) -> None:
         self.collection = get_database()["skeletons"]
         logger.info("SkeletonRepository initialized.")
+        logger.info("MongoDB collection 'skeletons' ready for queries.")
 
     def _serialize(self, document: dict | None) -> dict | None:
         return serialize_mongo_document(document) if document else None

@@ -23,12 +23,16 @@ def get_saved_layouts() -> dict:
         templates = _loader.get_all_templates()
     except FileNotFoundError as exc:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(exc)) from exc
+    finally:
+        logger.info("Getting saved layouts and templates")
     return {"layouts": layouts, "templates": templates}
 
 
 @router.post("/generate-skeleton", status_code=status.HTTP_200_OK)
 def generate_skeleton(body: GenerateSkeletonRequest) -> dict:
     """Generate (or retrieve from cache) a skeleton PPTX."""
+    
+    print("Starting skeleton generation process...")
     logger.info(f"POST /generate-skeleton  slides={len(body.slides)}")
     repo = SkeletonRepository()
 
@@ -50,10 +54,12 @@ def download_skeleton(skeleton_hash: str) -> FileResponse:
     """Download a generated skeleton PPTX file by its hash."""
     skeleton_path = Path("generated") / f"{skeleton_hash}.pptx"
     if not skeleton_path.exists():
+        logger.warning(f"Skeleton not found for hash: {skeleton_hash}, please check the hash and try again.")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Skeleton not found for hash: {skeleton_hash}",
+            detail=f"Skeleton not found for hash: {skeleton_hash}"
         )
+        
 
     return FileResponse(
         path=str(skeleton_path),

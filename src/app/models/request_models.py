@@ -10,5 +10,6 @@ class GenerateSkeletonRequest(BaseModel):
     @classmethod
     def slides_not_empty(cls, value: list) -> list:
         if len(value) == 0:
+            print("Validation error: slides list is empty. (Must contain at least one slide name.)")
             raise ValueError("slides list must not be empty.")
         return value

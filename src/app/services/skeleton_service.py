@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from pathlib import Path
 
-from app.exceptions.custom_exceptions import InvalidLayoutError, TemplateNotFoundError
+from app.exceptions.custom_exceptions import TemplateNotFoundError
 from app.services.hash_service import hash_pptx_content, hash_slides
 from app.services.ppt_service import generate_ppt
 from app.utils.logger import logger
@@ -43,5 +43,6 @@ class SkeletonService:
 
         saved = repository.insert(metadata)
         logger.info(f"[SkeletonService] new skeleton stored → {final_path}")
+        print(f"Generated skeleton PPTX saved at: {final_path}")
 
         return {"cached": False, "data": saved}

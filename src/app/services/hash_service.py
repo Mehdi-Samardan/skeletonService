@@ -1,6 +1,7 @@
 import hashlib
 from pathlib import Path
 
+# This service provides functions to compute hashes for slide templates and merged PPTX files.
 TEMPLATE_DIR = Path("storage/templates")
 
 

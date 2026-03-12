@@ -21,11 +21,12 @@ def connect_to_mongo() -> None:
     db_name = os.getenv("DATABASE_NAME")
 
     if not mongo_uri or not db_name:
-        raise RuntimeError("Missing MONGO_URI or DATABASE_NAME env variables.")
+        raise RuntimeError("Missing MONGO_URI or DATABASE_NAME env variables. (Check .env file)")
 
     _client = MongoClient(mongo_uri)
     _database = _client[db_name]
     _client.admin.command("ping")
+    # _client.server_info()  # Force connection to check if it's successful
 
     logger.info(f"Connected to MongoDB: {db_name}")
 
@@ -40,4 +41,4 @@ def close_mongo_connection() -> None:
     global _client
     if _client:
         _client.close()
-        logger.info("MongoDB connection closed.")
+        logger.info("MongoDB connection closed. (This may take a few seconds.)")
