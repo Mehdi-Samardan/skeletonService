@@ -46,15 +46,15 @@ skeletonService/
 ├── tests/                          # 58 tests, all passing
 ├── storage/
 │   ├── layouts/
-│   │   ├── saved/                  # Pre-defined layout YAML files
-│   │   └── skeletons/              # Cached merged PPTX files + index
+│   │   └── saved/                  # Pre-defined layout YAML files
 │   └── templates/                  # Single-slide PPTX + YAML pairs
 │       ├── APE/
+│       ├── BUR/
 │       ├── KMDA/
 │       ├── NPDHV/
 │       ├── PPG/
 │       └── *.pptx / *.yaml
-├── generated/                      # Output directory for merged PPTX files
+├── generated/                      # Merged PPTX output (served by GET /skeletons/{hash})
 ├── .env                            # Local environment variables (never commit)
 ├── .env.example                    # Template for required environment variables
 ├── pyproject.toml
@@ -252,13 +252,15 @@ storage/
 │   ├── One pager.yaml
 │   ├── PPG IR report.yaml
 │   └── PPG report.yaml
-├── layouts/skeletons/      # Cached merged PPTX files + index YAML
 └── templates/              # Single-slide PPTX + YAML metadata pairs
     ├── APE/
+    ├── BUR/
     ├── KMDA/
     ├── NPDHV/
     ├── PPG/
     └── *.pptx / *.yaml     # Root-level templates
+
+generated/                  # Merged PPTX files served by GET /skeletons/{hash}
 ```
 
 Each template consists of two files with the same stem:
