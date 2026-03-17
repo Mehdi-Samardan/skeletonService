@@ -24,4 +24,3 @@ if __name__ == "__main__":
     )
     sys.exit(result.returncode)
 
-# uv run pytest tests/ -v
